@@ -90,3 +90,11 @@ and still am not, but it makes much more sense now going over my code for the
 Flask project. The next step will be to use the same process of creating an 
 env file that sets an env variable and a if...exists conditional as well as
 adding my key to the Config Vars in Heroku.
+
+"os" was already imported at the top of the project settings, so the 
+conditional to check the path for the env file was added. Env file was created
+with the secret key set to a token hex created in the Python shell using the
+"secrets" module. After checking on the local server and commenting out the
+secret key assignment to check it fails otherwise, I then added the secret key
+to the Heroku project. 
+

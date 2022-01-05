@@ -98,3 +98,6 @@ with the secret key set to a token hex created in the Python shell using the
 secret key assignment to check it fails otherwise, I then added the secret key
 to the Heroku project. 
 
+After pushing the code to GitHub, it was clear the setup was working and now
+secure. It was worth it to try a different approach to an env var, using a 
+txt file, but lesson learned. 

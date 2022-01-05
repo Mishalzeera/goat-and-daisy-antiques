@@ -1,6 +1,6 @@
 ## Introduction and basic features
 
-An online antique store that also provides restoral and repair services, 
+An online antique store that provides restoral and repair services, 
 built using Django. The store uses custom CMS for seperate sales and repair
 departments. A user who wishes to buy does not need to create an account, but
 can if she so wishes. A user who wishes to have repairs or restorals done, on

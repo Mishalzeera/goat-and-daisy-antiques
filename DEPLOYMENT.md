@@ -64,10 +64,10 @@ showing.
 After doing some research, it looks like Sqlite3 isn't supported by Heroku,
 at least according to their docs. 
 
-24 hours later, still not deployment. 
+24 hours later, still no deployment. 
 
-I created a new app, following the same procedures in a streamlined way, the 
-new app deployed once the new Heroku url was added to "Allowed Hosts". The 
+I created a new project, following the same procedures in a streamlined way,  
+the app deployed once the new Heroku url was added to "Allowed Hosts". The 
 same code snippet for the static files management was necessary as well. It 
 is clear that using SQLite, while probably causing issues down the
 road, is not the obstacle to deployment.

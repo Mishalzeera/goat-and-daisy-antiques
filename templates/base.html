@@ -14,7 +14,6 @@
     <!-- Extra CSS -->
     {% block extra_css %}
     {% endblock %}
-
     <title>Goat And Daisy</title>
   </head>
   <body>
@@ -46,6 +45,8 @@
                 <li><a class="dropdown-item" href="#">Why Create An Account?</a></li> -->
               </ul>
             </li>
+
+          <!-- Extra nav block -->
             {% block extra_nav %}
             {% endblock%}
            
@@ -59,9 +60,10 @@
       </div>
     </nav>
     <h1>Goat And Daisy</h1>
-
+    <main>
     {% block content %}
     {% endblock %}
+    </main>
   
   
   

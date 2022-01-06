@@ -104,6 +104,12 @@ txt file, but lesson learned.
 
 ----------
 
+## Static Files and White Noise
+
 Adding Bootstrap and pushing to Heroku worked well, but the static files didn't
 load. After attempting to add a new path in the Static Urls directory in 
 project settings, got another error. 
+
+Installing White Noise, adding it to the middleware and pushing to Heroku
+solved the issue.
+

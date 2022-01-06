@@ -1,9 +1,18 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import View
 
 
-class ShopFront(ListView):
+class ShopFront(View):
     '''
     A view to return all the antiques for sale
     '''
-    pass
+    def get(self, request, *args, **kwargs):
+        return render(request, 'shop/shop.html')
+
+
+class ShopItem(View):
+    ''' 
+    A view to return a specific item with options to buy
+    '''
+    def get(self, request, *args, **kwargs):
+        return render(request, 'shop/product_detail.html')

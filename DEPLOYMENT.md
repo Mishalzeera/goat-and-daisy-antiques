@@ -101,3 +101,8 @@ to the Heroku project.
 After pushing the code to GitHub, it was clear the setup was working and now
 secure. It was worth it to try a different approach to an env var, using a 
 txt file, but lesson learned. 
+
+----------
+
+Adding Bootstrap and pushing to Heroku worked well, but the static files didn't
+load. 

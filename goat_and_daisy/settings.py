@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'site_layout',
+    'shop',
+    'repairs_restorals',
 ]
 
 MIDDLEWARE = [

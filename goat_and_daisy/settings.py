@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'site_layout',
     'shop',
     'repairs_restorals',
+    'profiles',
+
 ]
 
 MIDDLEWARE = [

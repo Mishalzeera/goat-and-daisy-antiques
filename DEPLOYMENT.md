@@ -105,4 +105,5 @@ txt file, but lesson learned.
 ----------
 
 Adding Bootstrap and pushing to Heroku worked well, but the static files didn't
-load. 
+load. After attempting to add a new path in the Static Urls directory in 
+project settings, got another error. 

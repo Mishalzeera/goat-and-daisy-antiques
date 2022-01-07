@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h1>I am Different.</h1>
 <form method="POST" action="{% url 'login_user' %}">
     {% csrf_token %}
     <div class="mb-3">

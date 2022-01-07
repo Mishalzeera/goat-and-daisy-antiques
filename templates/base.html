@@ -39,7 +39,7 @@
                 Customer Account
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Login</a></li>
+                <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                 <li><a class="dropdown-item" href="#">Register</a></li>
                 <!-- <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Why Create An Account?</a></li> -->
@@ -60,6 +60,13 @@
       </div>
     </nav>
     <h1>Goat And Daisy</h1>
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-warning" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
     <main>
     {% block content %}
     {% endblock %}

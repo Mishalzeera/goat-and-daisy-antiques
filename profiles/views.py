@@ -1,6 +1,15 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from django.views.generic import View
 
+
+class LoginUser(LoginView):
+
+    def get(self, request, *args, **kwargs):
+        messages.success(request, ("Login User"))
+        pass
 
 class UserProfilePage(View):
     '''

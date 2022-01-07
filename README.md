@@ -33,3 +33,44 @@ codebase and its complex testing mechanics, having some confidence with the
 way testing works will help. I can imagine the amount of stress it would be
 to interact with a large, sensitive body of code and not be sure if my
 additions are having unintended consequences. 
+
+
+## The User(s)
+
+### The Customer
+
+The average G&D customer is someone who is relatively tech savvy, in the sense
+of having social media accounts. They are confident enough with apps that have 
+food delivered to the house and apps like Uber and Spotify. This gives them
+the confidence to interact with the hybrid online/real-life service that
+G&D offers them. They have good taste and an eye for good design. 
+
+### The Staff Member
+
+The small staff at G&D are split into two camps, broadly speaking. Those to do 
+with the shop and those to do with the repairs and restorals. They have limited
+permissions to interact with the site functionality depending on their roles.
+
+
+## The Shop
+
+A small online store that sells antique furniture and curiousities. The small
+size of the inventory reinforces a boutique feel. Customers can buy things 
+without creating an account. Creating an account allows the customer to save 
+delivery information etc. 
+
+
+## The Workshop
+
+The workshop is designed for close collaboration with the staff and customers.
+There is also a mutual accountability between staff and customers. Customers
+are obligated to create an account, which allows the staff to refer to 
+style guides that the customer supplies. Staff creates records of changes that
+customers sign off on. Materials to be ordered, a running account of extra 
+costs and a dynamic total cost that is updated whenever anything changes. The
+idea is not to replace an in-person experience, but to provide the customer 
+with a creative opportunity to collaborate more deeply and have more peace of
+mind. 
+
+
+

@@ -1,0 +1,15 @@
+## Heroku deployment
+
+-Deploy early with minimal apps and views. 
+-Ensure secret key is set as an env variable in a os.path.exists("env.py") file.
+-Use the code snippet from Heroku to create a separate staticfiles dir that 
+-Heroku can use to copy files to.
+-Install whitenoise to allow Heroku to directly serve your static files at least
+during production.
+
+
+## Using built in Django Auth module
+
+-Make sure the template path in settings is added to the project level, and 
+create a templates>registration>login.html for login etc. Log out is called
+logged_out.html.

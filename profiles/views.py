@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.views.generic import View
+from .forms import CustomerSignupForm, StaffMemberRegistrationForm, OverlordStaffManagementForm
 
 
 class LoginUser(LoginView):
@@ -18,3 +19,9 @@ class UserProfilePage(View):
     pass
 
 
+def show_form(request):
+    form = CustomerSignupForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'formtest.html', context)

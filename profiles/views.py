@@ -19,9 +19,3 @@ class UserProfilePage(View):
     pass
 
 
-def show_form(request):
-    form = CustomerSignupForm()
-    context = {
-        'form': form,
-    }
-    return render(request, 'formtest.html', context)

@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.views.generic import View
-from .forms import CustomerSignupForm, StaffMemberRegistrationForm, OverlordStaffManagementForm
+from .forms import AdminStaffManagementForm, CustomerSignupForm, StaffMemberRegistrationForm
 
 
 class LoginUser(LoginView):
@@ -19,3 +19,21 @@ class UserProfilePage(View):
     pass
 
 
+class UserSignupPage(View):
+
+    def get(self, request, *args, **kwargs):
+
+        form = CustomerSignupForm()
+
+        context = {
+            "form": form,
+        }
+
+        return render(request, 'registration/signup.html', context)
+
+    
+    def post(self, request, *args, **kwargs):
+
+        messages.success(request, ("POST REQUEST MADE"))
+        print(request.post)
+        pass

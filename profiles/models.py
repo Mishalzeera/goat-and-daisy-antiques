@@ -8,16 +8,16 @@ class Customer(models.Model):
 
     '''
     user_auth_account = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    full_name = models.CharField(max_length=100, default="startname")
+    username = models.CharField(max_length=100, default="startname", unique=True)
     email = models.EmailField(unique=True, default="start@domain.dj")
     address1 = models.CharField(max_length=100, null=True, blank=True)
     address2 = models.CharField(max_length=100, null=True, blank=True)
     postcode = models.CharField(max_length=40, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    staff_notes = models.TextField(null=True, blank=True)
     has_active_shop_orders = models.BooleanField(default=False)
     has_active_repairs = models.BooleanField(default=False)
 
-    # pass
 
 
 
@@ -32,7 +32,7 @@ class StaffMember(models.Model):
     email = models.EmailField(unique=True, default="start@domain.dj")
     shop_staff = models.BooleanField(default=False)
     workshop_staff = models.BooleanField(default=False)
-    overlord_permission = models.BooleanField(default=False)
+    admin_access_permission = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
+    admin_notes = models.TextField(null=True, blank=True)
 
-    # pass

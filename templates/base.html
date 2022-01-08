@@ -40,7 +40,7 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Register</a></li>
+                <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
                 <!-- <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Why Create An Account?</a></li> -->
               </ul>
@@ -67,7 +67,7 @@
             </div>
           {% endfor %}
         {% endif %}
-    <main>
+    <main class="container">
     {% block content %}
     {% endblock %}
     </main>

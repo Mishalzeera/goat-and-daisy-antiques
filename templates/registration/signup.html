@@ -2,8 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-{{ form | crispy }}
+<form action="{% url 'signup' %}" method="POST">
+    {% csrf_token %}  
+    {{ form | crispy }}
+    <input type="submit" value="Signup">
+</form>
 
-<input type="submit" value="Signup">
 
 {% endblock %}

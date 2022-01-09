@@ -35,5 +35,5 @@ class UserSignupPage(View):
     def post(self, request, *args, **kwargs):
 
         messages.success(request, ("POST REQUEST MADE"))
-        print(request.post)
-        pass
+        return render(request, 'site_layout/index.html')
+        

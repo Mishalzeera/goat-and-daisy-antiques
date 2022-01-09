@@ -20,7 +20,6 @@ class CustomerSignupForm(forms.ModelForm):
 
 
 
-
 class StaffMemberRegistrationForm(forms.ModelForm):
 
     full_name = forms.CharField(initial=None, widget=forms.TextInput(attrs={'placeholder': 'Enter full name'}))

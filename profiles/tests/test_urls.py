@@ -1,9 +1,19 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve 
 from profiles.views import UserProfilePage, UserSignupPage, AdminUserManagement
+from django.contrib.auth.views import LoginView, LogoutView
 
 
 class TestUrls(SimpleTestCase):
+
+    def test_login_url_is_resolved(self):
+        url = reverse('login')
+        self.assertEquals(resolve(url).func.view_class, LoginView)
+
+
+    def test_logout_url_is_resolved(self):
+        url = reverse('logout')
+        self.assertEquals(resolve(url).func.view_class, LogoutView)
 
     def test_profiles_url_is_resolved(self):
         url = reverse('profile')

@@ -3,6 +3,9 @@ from .models import Customer, StaffMember
 
 
 class CustomerSignupForm(forms.ModelForm):
+    '''
+    A form that allows a new user to signup for an account. The username and email fields were showing the defaults in the live server, so a way was found to replace the placeholder text using a widget. From Stack Overflow.
+    '''
 
     username = forms.CharField(
         initial=None,
@@ -20,7 +23,10 @@ class CustomerSignupForm(forms.ModelForm):
 
 
 
-class StaffMemberRegistrationForm(forms.ModelForm):
+class StaffUserManagementForm(forms.ModelForm):
+    '''
+    This form may be inappropriate - there may be no case use for a member registration other than by the admin, who will set the individual permissions. Placeholders also needed to be interjected, see previous class for more.
+    '''
 
     full_name = forms.CharField(initial=None, widget=forms.TextInput(attrs={'placeholder': 'Enter full name'}))
 
@@ -30,11 +36,15 @@ class StaffMemberRegistrationForm(forms.ModelForm):
     )
 
     class Meta:
-        model = StaffMember
+        model = Customer
         fields = ['full_name', 'email','notes']
 
 
 class AdminStaffManagementForm(forms.ModelForm):
+    '''
+    The boss's main portal to entering in a new employee and manage employee 
+    permissions. 
+    '''
 
     full_name = forms.CharField(initial=None, widget=forms.TextInput(attrs={'placeholder': 'Enter full name'}))
 

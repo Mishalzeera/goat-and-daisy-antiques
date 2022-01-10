@@ -17,7 +17,10 @@ class UserProfilePage(View):
     '''
     Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings 
     '''
-    pass
+    def get(self, request, *args, **kwargs):
+
+        return redirect('index')
+    
 
 
 class UserSignupPage(View):

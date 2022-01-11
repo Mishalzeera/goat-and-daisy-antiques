@@ -13,3 +13,5 @@ during production.
 -Make sure the template path in settings is added to the project level, and 
 create a templates>registration>login.html for login etc. Log out is called
 logged_out.html.
+
+

@@ -7,11 +7,6 @@ class CustomerSignupForm(forms.ModelForm):
     A form that allows a new user to signup for an account. The username and email fields were showing the defaults in the live server, so a way was found to replace the placeholder text using a widget. From Stack Overflow.
     '''
 
-    username = forms.CharField(
-        initial=None,
-        widget=forms.TextInput(attrs={'placeholder': 'Enter a username'})
-    )
-
     email = forms.EmailField(
         initial=None,
         widget = forms.TextInput(attrs={'placeholder': 'Enter a unique email address'})
@@ -19,7 +14,7 @@ class CustomerSignupForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ['username', 'email', 'address1', 'address2', 'postcode',]
+        fields = ['email', 'address1', 'address2', 'postcode',]
 
 
 

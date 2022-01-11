@@ -6,25 +6,25 @@ from django.contrib.auth.views import LoginView, LogoutView
 
 class TestUrls(SimpleTestCase):
 
-    def test_login_url_is_resolved(self):
+    def test_login_url_resolves(self):
         url = reverse('login')
         self.assertEquals(resolve(url).func.view_class, LoginView)
 
 
-    def test_logout_url_is_resolved(self):
+    def test_logout_url_resolves(self):
         url = reverse('logout')
         self.assertEquals(resolve(url).func.view_class, LogoutView)
 
-    def test_profiles_url_is_resolved(self):
+    def test_profiles_url_resolves(self):
         url = reverse('profile')
         self.assertEquals(resolve(url).func.view_class, UserProfilePage)
 
     
-    def test_signup_url_is_working(self):
+    def test_signup_url_resolves(self):
         url = reverse('signup')
         self.assertEquals(resolve(url).func.view_class, UserSignupPage)
 
     
-    def test_admin_user_management_url_is_working(self):
+    def test_admin_user_management_url_resolves(self):
         url = reverse('admin_overview')
         self.assertEquals(resolve(url).func.view_class, AdminUserManagement)

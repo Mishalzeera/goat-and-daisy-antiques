@@ -4,9 +4,8 @@
 {% block content %}
 <form action="{% url 'signup' %}" method="POST">
     {% csrf_token %}  
-    {{ form1 | crispy }}
-    {{ form2 | crispy }}
-    <input type="submit" value="Signup">
+    {{ form | crispy }}
+    <input type="submit" value="Next - Set Up Your Profile">
 </form>
 
 

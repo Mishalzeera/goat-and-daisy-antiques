@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
-from django.views.generic import View
-from .forms import AdminStaffManagementForm, CustomerSignupForm
+from django.views.generic import View, CreateView
+from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm
 from .models import Customer
 
 
@@ -30,12 +29,10 @@ class UserSignupPage(View):
 
     def get(self, request, *args, **kwargs):
 
-        form1 = UserCreationForm()
-        form2 = CustomerSignupForm()
+        form = UserAuthAccountCreationForm()
 
         context = {
-            "form1": form1,
-            "form2": form2,
+            "form": form,
 
         }
 
@@ -47,26 +44,28 @@ class UserSignupPage(View):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password1']
-        address1 = request.POST['address1']
-        address2 = request.POST['address2']
-        postcode = request.POST['postcode']
         
-        user = User.objects.create_user(username, email, password)
-        user.save()
-
-        profile = Customer.objects.create({
-            'username': user.username,
-            'email': email,
-            'address1': address1,
-            'address2': address2,
-            'postcode': postcode,
-
-        })
-
-        # profile.save()
-
-        return render(request, 'site_layout/index.html')
+        newuser = User.objects.create_user(username, email, password)
+        newuser.save()
         
+        login(request, newuser)
+
+        return redirect('create_profile')
+        
+
+class CreateProfilePage(CreateView):
+    model = Customer
+    # form_class = ... then no 'fields'.. form Class Meta has model, fields
+    template_name = "registration/create_customer_profile.html"
+    fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country', 'notes']
+
+    def form_valid(self, form):
+        print(self.request.user)
+        form.instance.username = self.request.user
+        return super().form_valid(form)
+
+
+
 
 class AdminUserManagement(View):
     

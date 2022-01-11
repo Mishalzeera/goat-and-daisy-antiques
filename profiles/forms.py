@@ -1,5 +1,14 @@
 from django import forms
 from .models import Customer, StaffMember
+from django.contrib.auth.forms import UserCreationForm
+
+
+class UserAuthAccountCreationForm(UserCreationForm):
+
+    email = forms.EmailField(
+        initial=None,
+        widget = forms.TextInput(attrs={'placeholder': 'Enter a unique email address'})
+    )
 
 
 class CustomerSignupForm(forms.ModelForm):
@@ -7,14 +16,9 @@ class CustomerSignupForm(forms.ModelForm):
     A form that allows a new user to signup for an account. The username and email fields were showing the defaults in the live server, so a way was found to replace the placeholder text using a widget. From Stack Overflow.
     '''
 
-    email = forms.EmailField(
-        initial=None,
-        widget = forms.TextInput(attrs={'placeholder': 'Enter a unique email address'})
-    )
-
     class Meta:
         model = Customer
-        fields = ['email', 'address1', 'address2', 'postcode',]
+        fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country']
 
 
 

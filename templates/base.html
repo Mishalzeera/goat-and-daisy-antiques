@@ -39,8 +39,12 @@
                 Customer Account
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                {% if user.is_authenticated %}
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
                 <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                 <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
+                {% endif %}
                 <!-- <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Why Create An Account?</a></li> -->
               </ul>
@@ -60,6 +64,9 @@
       </div>
     </nav>
     <h1>Goat And Daisy</h1>
+    {% if user.is_authenticated %}
+    <p class="small text-muted">Welcome {{ user.username | title }}</p>
+    {% endif %}
         {% if messages %}
           {% for message in messages %}
             <div class="alert alert-warning" role="alert">

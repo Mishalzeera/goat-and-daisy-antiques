@@ -6,7 +6,7 @@ from django.urls import reverse
 
 class Customer(models.Model):
     ''' 
-    Any account created is basically an instance of this model with a one to one relationship with a User in the built in Django auth. 
+    Any  customer account created is basically an instance of this model with a one to one relationship with a User in the built in Django auth. 
 
     '''
     username = models.OneToOneField(User, on_delete=models.CASCADE, null=True, editable=False)

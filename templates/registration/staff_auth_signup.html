@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h1>Add Staff Member</h1>
+
+<form action="{% url 'staff_signup' %}" method="POST">
+    {% csrf_token %}  
+    {{ form | crispy }}
+    <input type="submit" value="Next - Set Up Staff Permissions">
+</form>
+
+
+{% endblock %}

@@ -45,9 +45,22 @@
                 <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                 <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
                 {% endif %}
+                
                 <!-- <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Why Create An Account?</a></li> -->
+
               </ul>
+              {% if user.is_superuser %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Admin
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{% url 'staff_signup' %}">Add Staff Member</a></li>
+                </li>
+                <li><a class="dropdown-item" href="{% url 'create_staff_profile' %}">Add Staff Profile</a></li>
+                </ul></li>
+                {% endif %}
             </li>
 
           <!-- Extra nav block -->

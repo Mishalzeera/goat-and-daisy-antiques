@@ -37,9 +37,9 @@ class StaffMember(models.Model):
 
     '''
 
-    user_auth_account = models.OneToOneField(User, on_delete=models.CASCADE, null=True, editable=False)
-    full_name = models.CharField(max_length=100, default="startname")
+    username = models.OneToOneField(User, on_delete=models.CASCADE, null=True, editable=False)
     email = models.EmailField(unique=True, default="start@domain.dj")
+    full_name = models.CharField(max_length=100, default="startname")
     shop_staff = models.BooleanField(default=False)
     workshop_staff = models.BooleanField(default=False)
     admin_access_permission = models.BooleanField(default=False)
@@ -48,5 +48,7 @@ class StaffMember(models.Model):
 
 
     def __str__(self) -> str:
-        return self.full_name
+        return str(self.username)
 
+    def get_absolute_url(self):
+        return reverse('index')

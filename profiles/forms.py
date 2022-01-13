@@ -21,6 +21,21 @@ class CustomerSignupForm(forms.ModelForm):
         fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country']
 
 
+class StaffMemberRegistrationForm(forms.ModelForm):
+    '''
+    A form for admin to allow permissions for staff members.
+    '''
+
+    full_name = forms.CharField(
+    initial=None,
+    widget = forms.TextInput(attrs={'placeholder': 'Enter staff members full name.'})
+    )
+
+    class Meta:
+        model = StaffMember
+        readonly_fields = ['username']
+        fields = ['full_name', 'shop_staff', 'workshop_staff', 'admin_access_permission', 'notes', 'admin_notes']
+
 
 class StaffUserManagementForm(forms.ModelForm):
     '''

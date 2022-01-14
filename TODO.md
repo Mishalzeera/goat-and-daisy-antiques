@@ -1,8 +1,7 @@
 ## Profiles
 
--Figure out the Django auth thingie.
--Look up example profile fields
--Create profile view 
+- work out the if form.is_valid() for the user auth registration. 
+- check out any tutorials on permission mixins
 
 ## Site Layout
 

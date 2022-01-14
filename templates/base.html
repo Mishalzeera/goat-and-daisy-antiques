@@ -34,33 +34,54 @@
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{% url 'workshop' %}">Repairs/Restorals</a>
             </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Customer Account
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                {% if user.is_authenticated %}
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
-                <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
-                {% endif %}
-                
-                <!-- <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Why Create An Account?</a></li> -->
-
-              </ul>
+            
               {% if user.is_superuser %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Admin
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'staff_signup' %}">Add Staff Member</a></li>
-                </li>
-                <li><a class="dropdown-item" href="{% url 'create_staff_profile' %}">Add Staff Profile</a></li>
+                  <li><a class="dropdown-item" href="{% url 'all_staff' %}">View Staff</a></li>
+                  <li><a class="dropdown-item" href="{% url 'staff_signup' %}">Add Staff Member</a></li>
+                  </li>
                 </ul></li>
                 {% endif %}
+                {% if user.username == 'shop_staff' %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Shop Staff
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Customers</a></li>
+                  
+                  </li>
+                </ul></li>
+                {% endif %}
+                {% if user.username == 'workshop_staff' %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Workshop Staff
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Customers</a></li>
+                  
+                  </li>
+                </ul></li>
+                {% endif %}
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Accounts
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    {% if user.is_authenticated %}
+                    <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
+                    <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
+                    {% endif %}
+                    
+                   
+                  </ul>
             </li>
 
           <!-- Extra nav block -->

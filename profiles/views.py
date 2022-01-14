@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
-from django.views.generic import View, CreateView, UpdateView
+from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
 from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm
 from .models import Customer, StaffMember
 
@@ -14,15 +14,28 @@ class LoginAUser(LoginView):
     '''
     pass
 
-class UserProfilePage(View):
+
+# def get_customer_profile(request, pk):
+#     customer = Customer.objects.get(id=pk)
+#     context = {
+#         'customer': customer,
+#     }
+#     return render(request, 'customer_profile.html', context)
+
+class CustomerProfilePage(View):
     '''
     Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings 
     '''
+
     def get(self, request, *args, **kwargs):
+        customer = Customer.objects.get(pk=4)
 
-        return redirect('index')
+        context = {
+            'customer': customer,
+        }
+
+        return render(request, 'registration/customer_profile.html', context)
     
-
 
 class UserSignupPage(View):
     '''
@@ -54,8 +67,6 @@ class UserSignupPage(View):
         return redirect('create_profile')
 
 
-        
-
 class CreateProfilePage(CreateView):
     '''
     Extends the built in CreateView model, creates a users profile containing specifics not related to authentication.
@@ -83,39 +94,31 @@ class StaffMemberSignupPage(View):
     Returns an auth account signup page using a form which extends the built-in
     Django user creation form. See forms.py in this module.
     '''
-
     def get(self, request, *args, **kwargs):
         # shows the form in the correct URL
         form = UserAuthAccountCreationForm()
         context = {
             "form": form,
         }
-
         return render(request, 'registration/staff_auth_signup.html', context)
 
     
     def post(self, request, *args, **kwargs):
         # get the new account details from the request object, use them to 
         # create a new user.
-       
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password1']
+        # username value is passed into a session cookie
+        # which allows the admin to create the linked staff member profile
+        # page (next view)
         request.session['username_cookie'] = username
-        request.session['email_cookie'] = email
-
-        
-
-        
         newuser = User.objects.create_user(username, email, password)
         newuser.save()
-        # login(request, newuser)
-        # site then redirects to the create profile view
+        # site then redirects to the create staff profile view
         return redirect('create_staff_profile')
 
 
-
- 
 class CreateStaffProfilePage(CreateView):
     '''
     Extends the built in CreateView model, creates staff profile containing specifics not related to authentication.
@@ -125,41 +128,54 @@ class CreateStaffProfilePage(CreateView):
     template_name = "registration/create_staff_profile.html"
 
 
-
     def form_valid(self, form):
         # this method is to ensure that 1. the username used to create the
         # auth account is automatically added to the new profile, linking the
-        # two in a one-to-one relationship. No chance for the user to make
-        # a mess by using a different username at this point in the process.
-        # 2. the same email address is used as well, which requires 
-        # a different process than the username.
+        # two in a one-to-one relationship. No chance for the admin to make
+        # a mess by using the wrong username at this point in the process.
+        # 2. this time the session cookie is used as a filter param for the 
+        # objects.get() method. 
         user = User.objects.get(username=self.request.session['username_cookie'])
         form.instance.username = user
         form.instance.email = user.email
-        print(user.email)
         return super().form_valid(form)
    
 
-class AdminUserManagement(View):
-    
-    def get(self, request, *args, **kwargs):
-
-        form = AdminStaffManagementForm()
-
-        context = {
-            'form': form,
-        }
-
-        return render(request, 'registration/admin_overview.html', context)
+class AdminStaffList(ListView):
+    '''
+    This view allows the admin to manage all users in the database.
+    '''
+    queryset = StaffMember.objects.all()
+    template_name = 'registration/all_users.html'
+    context_object_name = 'users'
 
 
-    def post(self, request, *args, **kwargs):
-
-        messages.success(request, ("POSTPOSTPOSTPOST"))
-
-        return redirect('index')
+class AllCustomers(ListView):
+    model = Customer
+    template_name = 'registration/all_customers.html'
+    context_object_name = 'customers'
 
 
 class AdminStaffUpdate(UpdateView):
+    '''
+    This view allows the admin to set broad permissions for staff members.
+    '''
     model = StaffMember
     form_class = StaffMemberRegistrationForm
+    context_object_name = 'staff_member'
+    template_name = "registration/admin_staff_update.html"
+
+
+class CustomerAccountUpdate(UpdateView):
+    '''
+    This view allows staff to modify customer accounts.
+    '''
+    model = Customer
+    form_class = CustomerSignupForm
+    context_object_name = 'customer'
+    template_name = "registration/customer_account_update.html"
+
+
+
+
+

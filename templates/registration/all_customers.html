@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for customer in customers%}
+    <p>{{customer.full_name | title}}</p>
+{% endfor %}
+{% endblock %}

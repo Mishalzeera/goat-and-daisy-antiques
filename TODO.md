@@ -2,6 +2,7 @@
 
 - work out the if form.is_valid() for the user auth registration. 
 - check out any tutorials on permission mixins
+- find programmatic way to automatically add staff members to correct groups
 
 ## Site Layout
 

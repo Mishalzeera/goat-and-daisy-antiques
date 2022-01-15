@@ -1,4 +1,6 @@
 {% load static %}
+{% load user_in_group_tag %}
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -46,24 +48,35 @@
                   </li>
                 </ul></li>
                 {% endif %}
-                {% if user.username == 'shop_staff' %}
+                {% if request.user|has_group:"Shop Staff" %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Shop Staff
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Customers</a></li>
+                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Shop Customers</a></li>
                   
                   </li>
                 </ul></li>
                 {% endif %}
-                {% if user.username == 'workshop_staff' %}
+                {% if request.user|has_group:"Workshop Staff" %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Workshop Staff
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Customers</a></li>
+                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Workshop Customers</a></li>
+                  
+                  </li>
+                </ul></li>
+                {% endif %}
+                {% if request.user|has_group:"General Staff" %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  General Staff
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">View All Customers</a></li>
                   
                   </li>
                 </ul></li>

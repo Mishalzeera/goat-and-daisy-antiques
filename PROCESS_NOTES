@@ -15,3 +15,25 @@ create a templates>registration>login.html for login etc. Log out is called
 logged_out.html.
 
 
+## Using Django's Class Based Views
+
+-Make sure you use each one correctly, View has "get" and "post" methods, for 
+example, while many others don't. Overriding attributes and methods is the key
+to using them correctly. In template forms, setting the "action" attribute to
+a fullstop "." is the correct way to use something like a Create or Update view
+which needs only the model, form and fields to auto-generate the form and data
+pathways. Very handy and quick but only once you understand it.
+
+-With permissions, you can use mixins as well as decorators. The decorators go
+in the urls.py file, and decorate the view reference in the "path" structure.
+eg. path('', permission_required('appname.can_add_etc')(MyCBView.as_view())), 
+importing permission_required from contrib.auth.decorators. 
+
+
+## Custom tag filters
+
+-In the relevant app, a folder must be called 'templatetags' and contain an
+__init__.py file. Another file must be created, the tag registered within, then
+the filename is referenced in the template as load 'filename'. Then any tags
+named in that file will be accessible. Be sure to restart the server.
+

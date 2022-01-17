@@ -1,3 +1,4 @@
+from tabnanny import verbose
 from django.db import models
 
 
@@ -10,11 +11,17 @@ class ShopItems(models.Model):
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=12)
 
+    def __str__(self) -> str:
+        return self.title
 
-class ShopItemPhoto(models.Model):
+    class Meta:
+        verbose_name_plural = "Shop Items"
+
+
+class ShopItemImage(models.Model):
     '''
     Photos linked to an instance of ShopItem class
     '''
-    linked_item = models.ForeignKey(ShopItems, on_delete=models.CASCADE)
-    image = models.ImageField()
+    product = models.ForeignKey(ShopItems, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='shop/images')
 

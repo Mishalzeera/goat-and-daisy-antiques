@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
-from .models import ShopItems, ShopItemPhoto
-from .forms import StaffCreateItemForm
+from .models import ShopItems, ShopItemImage
+from .forms import StaffCreateItemForm, StaffImageUploadForm
 
 
 class ShopFront(ListView):
@@ -60,4 +60,14 @@ class StaffDeleteItem(DeleteView):
     '''
     model = ShopItems
     template_name = 'shop/staff_confirm_delete.html'
+    success_url = reverse_lazy('staff_manage_items')
+
+
+class StaffAddImage(CreateView):
+    '''
+    Allows a staff member to add images to a product
+    '''
+    model = ShopItemImage
+    form_class = StaffImageUploadForm
+    template_name = 'shop/staff_add_image.html'
     success_url = reverse_lazy('staff_manage_items')

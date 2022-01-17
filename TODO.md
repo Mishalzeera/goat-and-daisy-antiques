@@ -12,11 +12,17 @@ process Code With Mosh Django2 Designing and Building Api 11
 
 ## Shop
 
--Create CMS 
+- work out the images
 
 ## Repairs/Restorals
 
 -Create CMS
+- determine if a customer has a ticket, then provide that customer with a nav
+link to a ListView tickets page, then a ticket to modify
+- for staff, a dropdown menu to a list of tickets as well as one to active 
+workshop customers
+- ticket list leads to customer profile
+- customer list leads to valid tickets
 
 ## General
 

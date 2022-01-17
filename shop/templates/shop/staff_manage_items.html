@@ -7,6 +7,10 @@
     <h2>Add New Item</h2>
 </a>
 <br>
+<a href="{% url 'staff_add_image' %}">
+    <h2>Add An Image</h2>
+</a>
+<br>
 {% for product in products %}
     
     <a href="{% url 'staff_update_item' pk=product.id %}">

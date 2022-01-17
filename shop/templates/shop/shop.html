@@ -2,4 +2,9 @@
 
 {% block content %}
 <h1>Shop</h1>
+{% for product in products %}
+    <p><a href="{% url 'shop_item' pk=product.id %}"><p>{{ product.title }}</p></a></p>
+    <p>{{ product.description }}</p>
+    <p>{{ product.price }}</p>
+{% endfor %}
 {% endblock %}

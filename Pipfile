@@ -9,6 +9,7 @@ gunicorn = "*"
 django-heroku = "*"
 whitenoise = "*"
 crispy-bootstrap5 = "*"
+pillow = "*"
 
 [dev-packages]
 

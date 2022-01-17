@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content%}
+
+<h1>Add To The Shop Collection</h1>
+<form action="." method="POST">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" value="Add To Our Inventory">
+</form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Inventory Management</h1>
+<br>
+<a href="{% url 'staff_add_item' %}">
+    <h2>Add New Item</h2>
+</a>
+<br>
+{% for product in products %}
+    
+    <a href="{% url 'staff_update_item' pk=product.id %}">
+        <p>{{ product.title }}<span class="text-muted small"> Edit</span></p> 
+    </a>
+    <p>{{ product.description }}</p>
+    <p>{{ product.price }}</p>
+    <a href="{% url 'staff_delete_item' pk=product.id %}" class="text-danger">
+        <p>Delete This Item</p>
+    </a>
+    <br>
+
+{% endfor %}
+
+{% endblock %}

@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import View, ListView, DetailView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from .models import ShopItems, ShopItemPhoto
+from .forms import StaffCreateItemForm
 
 
 class ShopFront(ListView):
@@ -12,9 +14,6 @@ class ShopFront(ListView):
     template_name = 'shop/shop.html'
     context_object_name = "products"
 
-    # def get(self, request, *args, **kwargs):
-    #     return render(request, 'shop/shop.html')
-
 
 class ShopItem(DetailView):
     ''' 
@@ -24,5 +23,41 @@ class ShopItem(DetailView):
     template_name = 'shop/product_detail.html'
     context_object_name = 'item'
 
-    # def get(self, request, *args, **kwargs):
-    #     return render(request, 'shop/product_detail.html')
+
+class StaffManageItems(ListView):
+    '''
+    Allows a shop staff member to have an overview of inventory with
+    CRUD functionality
+    '''
+    model = ShopItems
+    template_name = 'shop/staff_manage_items.html'
+    context_object_name = "products"
+
+
+class StaffUpdateItem(UpdateView):
+    '''
+    Allows a shop staff member to change a particular inventory item
+    '''
+    model = ShopItems
+    form_class = StaffCreateItemForm
+    template_name = 'shop/staff_update_item.html'
+    success_url = reverse_lazy('staff_manage_items')
+
+
+class StaffAddItem(CreateView):
+    '''
+    Allows a shop staff member to add an item to the shop inventory
+    '''
+    model = ShopItems
+    form_class = StaffCreateItemForm
+    template_name = 'shop/staff_add_item.html'
+    success_url = reverse_lazy('shop')
+
+
+class StaffDeleteItem(DeleteView):
+    '''
+    Allows a shop staff member to delete a shop item from the inventory
+    '''
+    model = ShopItems
+    template_name = 'shop/staff_confirm_delete.html'
+    success_url = reverse_lazy('staff_manage_items')

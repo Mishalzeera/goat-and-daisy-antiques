@@ -1,6 +1,8 @@
 ## Heroku deployment
 
 -Deploy early with minimal apps and views. 
+-pipenv install django-heroku
+-pipenv install gunicorn (Check Deployment.md for more)
 -Ensure secret key is set as an env variable in a os.path.exists("env.py") file.
 -Use the code snippet from Heroku to create a separate staticfiles dir that 
 -Heroku can use to copy files to.
@@ -36,4 +38,25 @@ importing permission_required from contrib.auth.decorators.
 __init__.py file. Another file must be created, the tag registered within, then
 the filename is referenced in the template as load 'filename'. Then any tags
 named in that file will be accessible. Be sure to restart the server.
+
+
+## Adding images
+
+- Using Media since there is changing CMS content used by staff without admin
+privileges. MEDIA_URL = "/media" MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+Add a context processor 'django.template.context_processors.media', in templates
+everything uploaded there will be available as 
+
+<img src="{{ MEDIA_URL }}example.jpg">
+
+- In main project directory urls.py, from django.conf import settings, from 
+django.conf.urls.static import static, then 
+
+if settings.DEBUG:
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+- In models, an image model with a 'product' field, ForeignKey, related_name=
+images, return def __str as str(self.product) + str(self.id) for now.
+ - image = models.ImageField(upload_to="name of what directory you want to add
+ to the media root automatically")
 

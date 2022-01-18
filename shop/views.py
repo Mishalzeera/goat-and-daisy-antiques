@@ -12,6 +12,7 @@ class ShopFront(ListView):
     '''
     model = ShopItems
     template_name = 'shop/shop.html'
+    queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
 
 
@@ -31,6 +32,7 @@ class StaffManageItems(ListView):
     '''
     model = ShopItems
     template_name = 'shop/staff_manage_items.html'
+    queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
 
 

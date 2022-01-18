@@ -18,6 +18,9 @@
     </a>
     <p>{{ product.description }}</p>
     <p>{{ product.price }}</p>
+    {% for image in product.images.all %}
+        <img src="{{image.image.url}}" alt="" style="width:300px;">
+    {% endfor %}
     <a href="{% url 'staff_delete_item' pk=product.id %}" class="text-danger">
         <p>Delete This Item</p>
     </a>

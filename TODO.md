@@ -12,7 +12,8 @@ process Code With Mosh Django2 Designing and Building Api 11
 
 ## Shop
 
-- work out the images
+- work out the images from templates
+
 
 ## Repairs/Restorals
 

@@ -6,5 +6,8 @@
     <p><a href="{% url 'shop_item' pk=product.id %}"><p>{{ product.title }}</p></a></p>
     <p>{{ product.description }}</p>
     <p>{{ product.price }}</p>
+    {% for image in product.images.all %}
+        <img src="{{ image.image.url }}" alt="" style="width:300px;">
+    {% endfor %}
 {% endfor %}
 {% endblock %}

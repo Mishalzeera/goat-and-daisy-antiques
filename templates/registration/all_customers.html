@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% block content %}
 {% for customer in customers%}
-    <p>{{customer.full_name | title}}</p>
+
+    <h2 class=>{{customer.full_name | title}}</h2>
+    <a href="{% url 'customer_account_update' pk=customer.id%}">
+        <p>View/Update Profile Details</p>
+    </a>
+    {% if customer.has_active_shop_orders %}
+    <a href="#">
+        <p>View Active Shop Orders</p>
+    </a>
+    {% endif %}
+    <br>
 {% endfor %}
 {% endblock %}

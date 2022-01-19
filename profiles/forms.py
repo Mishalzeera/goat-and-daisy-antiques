@@ -21,6 +21,19 @@ class CustomerSignupForm(forms.ModelForm):
         fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country']
 
 
+class CustomerUpdateForm(forms.ModelForm):
+    '''
+    A form that allows shop admin staff to update customer information, 
+    including the notes field which is kept secret from the client. 
+    '''
+
+    class Meta:
+        model = Customer
+        fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country', 'notes']
+
+
+
+
 class StaffMemberRegistrationForm(forms.ModelForm):
     '''
     A form for admin to allow permissions for staff members.

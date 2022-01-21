@@ -15,9 +15,9 @@ class ServiceTicket(models.Model):
     date_created = models.DateField(auto_now_add=True, editable=False)
     last_updated = models.DateField(auto_now=True, editable=False)
     service_description = models.TextField()
-    link_to_desired_materials_1 = models.CharField(max_length=255, null=True, blank=True)
-    link_to_desired_materials_2 = models.CharField(max_length=255,null=True, blank=True)
-    link_to_desired_materials_3 = models.CharField(max_length=255,null=True, blank=True)
+    link_to_desired_materials_1 = models.URLField(null=True, blank=True)
+    link_to_desired_materials_2 = models.URLField(null=True, blank=True)
+    link_to_desired_materials_3 = models.URLField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
 
     def __str__(self) -> str:

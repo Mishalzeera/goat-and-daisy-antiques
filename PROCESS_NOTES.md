@@ -67,4 +67,5 @@ images, return def __str as str(self.product) + str(self.id) for now.
 
 - In the model form, exclude the fields you don't want the user to tamper with.
 
-
+- Sometimes function based views are just a lot better and easier if you want
+  to write custom logic

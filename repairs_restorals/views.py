@@ -17,20 +17,6 @@ class Workshop(View):
         return render(request, 'repairs_restorals/workshop.html')
 
 
-# class CreateServiceTicket(CreateView):
-#     model = ServiceTicket
-#     form_class = CustomerCreateServiceTicketForm
-#     success_url = reverse_lazy('workshop')
-#     template_name = 'repairs_restorals/create_service_ticket.html'
-
-#     def form_valid(self, form):
-#         customer = get_object_or_404(Customer, username=self.request.user)
-#         workshop_staff_responsible = StaffMember.objects.get(pk=8)
-#         form.instance.customer = customer
-#         form.instance.workshop_staff_responsible = workshop_staff_responsible
-#         return super().form_valid(form)
-
-
 def create_service_ticket(request):
 
     if request.method == 'GET':

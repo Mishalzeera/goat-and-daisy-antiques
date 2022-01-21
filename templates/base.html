@@ -70,6 +70,9 @@
                   <li><a class="dropdown-item" href="{% url 'all_customers' %}">View Workshop Customers</a></li>
                   
                   </li>
+                  <li><a class="dropdown-item" href="{% url 'all_customers' %}">All tickets</a></li>
+                  
+                  </li>
                 </ul></li>
                 {% endif %}
                 {% if request.user|has_group:"General Staff" %}

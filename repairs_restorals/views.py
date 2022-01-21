@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView
 from django.views.generic.detail import DetailView
@@ -24,7 +24,7 @@ class CreateServiceTicket(CreateView):
     template_name = 'repairs_restorals/create_service_ticket.html'
 
     def form_valid(self, form):
-        customer = Customer.objects.get(username=self.request.user)
+        customer = get_object_or_404(Customer, username=self.request.user)
         workshop_staff_responsible = StaffMember.objects.get(pk=8)
         form.instance.customer = customer
         form.instance.workshop_staff_responsible = workshop_staff_responsible
@@ -39,6 +39,10 @@ class CustomerWorkbench(ListView):
     template_name = 'repairs_restorals/customer_workbench.html'
     context_object_name = 'tickets'
 
-    # def get_context_data(self, **kwargs):
-    #     context = ServiceTicket.objects.get(customer_id=self.request.user.id)
-    #     return context
+    def get_context_data(self, **kwargs):
+        customer = get_object_or_404(Customer, username=self.request.user)
+        # You have to create an empty dictionary first, then add iterable
+        # context objects
+        context = dict()
+        context['tickets'] = ServiceTicket.objects.filter(customer=customer)
+        return context

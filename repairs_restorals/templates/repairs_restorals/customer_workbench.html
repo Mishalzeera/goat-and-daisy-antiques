@@ -2,10 +2,26 @@
 
 {% block content %}
 
-<h1>Customer Workbench</h1>
+<h1>{{request.user | title }}'s Workbench</h1>
+<a href="{% url 'create_service_ticket' %}"><p>Create Ticket</p></a>
 
-{% for ticket in tickets %}
-    {{ ticket }}
+
+<h2>Current Tickets</h2>
+{% for ticket in tickets%}
+    {% if not ticket.is_completed %}
+    <a href="#">
+        <p>{{ ticket.title }}</p>
+    </a>
+    {% endif %}
 {% endfor %}
 
+
+<h2>Completed Tickets</h2>
+{% for ticket in tickets%}
+    {% if ticket.is_completed %}
+    <a href="#">
+        <p>{{ ticket.title }}</p>
+    </a>
+    {% endif %}
+{% endfor %}
 {% endblock %}

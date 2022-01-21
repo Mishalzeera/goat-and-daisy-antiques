@@ -1,4 +1,3 @@
-from tabnanny import verbose
 from django.db import models
 
 
@@ -22,9 +21,9 @@ class ShopItemImage(models.Model):
     '''
     Photos linked to an instance of ShopItem class
     '''
-    product = models.ForeignKey(ShopItems, on_delete=models.CASCADE, related_name='images')
+    product = models.ForeignKey(
+        ShopItems, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='shop/images')
 
     def __str__(self) -> str:
         return str(self.product) + str(self.id)
-

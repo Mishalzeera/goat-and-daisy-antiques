@@ -5,4 +5,3 @@ from .models import Customer, StaffMember
 
 admin.site.register(Customer)
 admin.site.register(StaffMember)
-

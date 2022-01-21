@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
-from .forms import AdminStaffManagementForm, CustomerSignupForm,UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm
+from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm
 from .models import Customer, StaffMember
 
 
@@ -35,7 +35,7 @@ class CustomerProfilePage(View):
         }
 
         return render(request, 'registration/customer_profile.html', context)
-    
+
 
 class UserSignupPage(View):
     '''
@@ -52,14 +52,13 @@ class UserSignupPage(View):
 
         return render(request, 'registration/signup.html', context)
 
-    
     def post(self, request, *args, **kwargs):
-        # get the new account details from the request object, use them to 
+        # get the new account details from the request object, use them to
         # create a new user.
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password1']
-        
+
         newuser = User.objects.create_user(username, email, password)
         newuser.save()
         login(request, newuser)
@@ -74,14 +73,15 @@ class CreateProfilePage(CreateView):
     model = Customer
     # form_class = ... then no 'fields'.. form Class Meta has model, fields
     template_name = "registration/create_customer_profile.html"
-    fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country', 'notes']
+    fields = ['full_name', 'address1', 'address2',
+              'postcode', 'town_or_city', 'country', 'notes']
 
     def form_valid(self, form):
         # this method is to ensure that 1. the username used to create the
         # auth account is automatically added to the new profile, linking the
         # two in a one-to-one relationship. No chance for the user to make
         # a mess by using a different username at this point in the process.
-        # 2. the same email address is used as well, which requires 
+        # 2. the same email address is used as well, which requires
         # a different process than the username.
         form.instance.username = self.request.user
         user = User.objects.get(username=self.request.user)
@@ -94,6 +94,7 @@ class StaffMemberSignupPage(View):
     Returns an auth account signup page using a form which extends the built-in
     Django user creation form. See forms.py in this module.
     '''
+
     def get(self, request, *args, **kwargs):
         # shows the form in the correct URL
         form = UserAuthAccountCreationForm()
@@ -102,9 +103,8 @@ class StaffMemberSignupPage(View):
         }
         return render(request, 'registration/staff_auth_signup.html', context)
 
-    
     def post(self, request, *args, **kwargs):
-        # get the new account details from the request object, use them to 
+        # get the new account details from the request object, use them to
         # create a new user.
         username = request.POST['username']
         email = request.POST['email']
@@ -127,19 +127,19 @@ class CreateStaffProfilePage(CreateView):
     form_class = StaffMemberRegistrationForm
     template_name = "registration/create_staff_profile.html"
 
-
     def form_valid(self, form):
         # this method is to ensure that 1. the username used to create the
         # auth account is automatically added to the new profile, linking the
         # two in a one-to-one relationship. No chance for the admin to make
         # a mess by using the wrong username at this point in the process.
-        # 2. this time the session cookie is used as a filter param for the 
-        # objects.get() method. 
-        user = User.objects.get(username=self.request.session['username_cookie'])
+        # 2. this time the session cookie is used as a filter param for the
+        # objects.get() method.
+        user = User.objects.get(
+            username=self.request.session['username_cookie'])
         form.instance.username = user
         form.instance.email = user.email
         return super().form_valid(form)
-   
+
 
 class AdminStaffList(ListView):
     '''
@@ -174,8 +174,3 @@ class CustomerAccountUpdate(UpdateView):
     form_class = CustomerUpdateForm
     context_object_name = 'customer'
     template_name = "registration/customer_account_update.html"
-
-
-
-
-

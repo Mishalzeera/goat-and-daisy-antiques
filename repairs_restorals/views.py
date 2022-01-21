@@ -1,8 +1,10 @@
 from django.shortcuts import render
-from django.views.generic import View, ListView
+from django.urls import reverse_lazy
+from django.views.generic import View, ListView, CreateView
 from django.views.generic.detail import DetailView
-
-
+from profiles.models import Customer, StaffMember
+from .models import ServiceTicket, TicketImage
+from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm
 
 
 class Workshop(View):
@@ -15,17 +17,28 @@ class Workshop(View):
         return render(request, 'repairs_restorals/workshop.html')
 
 
+class CreateServiceTicket(CreateView):
+    model = ServiceTicket
+    form_class = CustomerCreateServiceTicketForm
+    success_url = reverse_lazy('workshop')
+    template_name = 'repairs_restorals/create_service_ticket.html'
+
+    def form_valid(self, form):
+        customer = Customer.objects.get(username=self.request.user)
+        workshop_staff_responsible = StaffMember.objects.get(pk=8)
+        form.instance.customer = customer
+        form.instance.workshop_staff_responsible = workshop_staff_responsible
+        return super().form_valid(form)
+
+
 class CustomerWorkbench(ListView):
     ''' 
     A view that displays the Customers current Service Tickets, previous completed projects. 
     '''
-    pass
+    model = ServiceTicket
+    template_name = 'repairs_restorals/customer_workbench.html'
+    context_object_name = 'tickets'
 
-
-class ServiceTicket(DetailView):
-    '''
-    A view that allows the Customer to see a current Service Ticket, create/edit/delete a Service Ticket
-    '''
-    pass
-
-
+    # def get_context_data(self, **kwargs):
+    #     context = ServiceTicket.objects.get(customer_id=self.request.user.id)
+    #     return context

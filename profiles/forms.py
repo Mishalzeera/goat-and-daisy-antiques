@@ -7,7 +7,8 @@ class UserAuthAccountCreationForm(UserCreationForm):
 
     email = forms.EmailField(
         initial=None,
-        widget = forms.TextInput(attrs={'placeholder': 'Enter a unique email address'})
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Enter a unique email address'})
     )
 
 
@@ -18,7 +19,8 @@ class CustomerSignupForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country']
+        fields = ['full_name', 'address1', 'address2',
+                  'postcode', 'town_or_city', 'country']
 
 
 class CustomerUpdateForm(forms.ModelForm):
@@ -29,9 +31,8 @@ class CustomerUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ['full_name', 'address1', 'address2', 'postcode', 'town_or_city', 'country', 'notes']
-
-
+        fields = ['full_name', 'address1', 'address2',
+                  'postcode', 'town_or_city', 'country', 'notes']
 
 
 class StaffMemberRegistrationForm(forms.ModelForm):
@@ -40,14 +41,16 @@ class StaffMemberRegistrationForm(forms.ModelForm):
     '''
 
     full_name = forms.CharField(
-    initial=None,
-    widget = forms.TextInput(attrs={'placeholder': 'Enter staff members full name.'})
+        initial=None,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Enter staff members full name.'})
     )
 
     class Meta:
         model = StaffMember
         readonly_fields = ['username']
-        fields = ['full_name', 'shop_staff', 'workshop_staff', 'admin_access_permission', 'notes', 'admin_notes']
+        fields = ['full_name', 'shop_staff', 'workshop_staff',
+                  'admin_access_permission', 'notes', 'admin_notes']
 
 
 class StaffUserManagementForm(forms.ModelForm):
@@ -55,16 +58,18 @@ class StaffUserManagementForm(forms.ModelForm):
     This form may be inappropriate - there may be no case use for a member registration other than by the admin, who will set the individual permissions. Placeholders also needed to be interjected, see previous class for more.
     '''
 
-    full_name = forms.CharField(initial=None, widget=forms.TextInput(attrs={'placeholder': 'Enter full name'}))
+    full_name = forms.CharField(initial=None, widget=forms.TextInput(
+        attrs={'placeholder': 'Enter full name'}))
 
     email = forms.EmailField(
-    initial=None,
-    widget = forms.TextInput(attrs={'placeholder': 'Enter a unique email address'})
+        initial=None,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Enter a unique email address'})
     )
 
     class Meta:
         model = Customer
-        fields = ['full_name', 'email','notes']
+        fields = ['full_name', 'email', 'notes']
 
 
 class AdminStaffManagementForm(forms.ModelForm):
@@ -73,14 +78,15 @@ class AdminStaffManagementForm(forms.ModelForm):
     permissions. 
     '''
 
-    full_name = forms.CharField(initial=None, widget=forms.TextInput(attrs={'placeholder': 'Enter full name'}))
+    full_name = forms.CharField(initial=None, widget=forms.TextInput(
+        attrs={'placeholder': 'Enter full name'}))
 
     email = forms.EmailField(
-    initial=None,
-    widget = forms.TextInput(attrs={'placeholder': 'Enter a unique email address'})
+        initial=None,
+        widget=forms.TextInput(
+            attrs={'placeholder': 'Enter a unique email address'})
     )
 
     class Meta:
         model = StaffMember
         exclude = ["user_auth_account"]
-        

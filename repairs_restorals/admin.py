@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import ServiceTicket, TicketImage
 
-# Register your models here.
+admin.site.register(ServiceTicket)
+admin.site.register(TicketImage)

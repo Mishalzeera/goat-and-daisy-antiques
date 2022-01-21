@@ -60,3 +60,11 @@ images, return def __str as str(self.product) + str(self.id) for now.
  - image = models.ImageField(upload_to="name of what directory you want to add
  to the media root automatically")
 
+## Using CreateView to post a form with hidden username/email etc
+
+- In the view, use def form_valid to assign 'form.instance.key' = 'value', 
+ setting any queried values before hand eg 'customer = Customer.objects...'
+
+- In the model form, exclude the fields you don't want the user to tamper with.
+
+

@@ -5,10 +5,10 @@ from .models import ShopItemImage, ShopItems
 class StaffCreateItemForm(ModelForm):
     class Meta:
         model = ShopItems
-        fields =  ['title', 'description', 'price']
+        fields = ['title', 'description', 'price']
 
 
 class StaffImageUploadForm(ModelForm):
     class Meta:
         model = ShopItemImage
-        fields = ['product', 'image',]
+        fields = ['product', 'image', ]

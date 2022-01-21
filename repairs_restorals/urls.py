@@ -4,8 +4,10 @@ from . import views
 urlpatterns = [
 
     path('', views.Workshop.as_view(), name='workshop'),
-    path('workbench/<customer_pk>', views.CustomerWorkbench.as_view, name='workbench'),
-    path('workbench/ticket/<ticket_pk>', views.ServiceTicket.as_view(), name='ticket')
+    path('workbench/<int:pk>',
+         views.CustomerWorkbench.as_view(), name='customer_workbench'),
+    path('create-service-ticket/', views.CreateServiceTicket.as_view(),
+         name='create_service_ticket')
 
 
 ]

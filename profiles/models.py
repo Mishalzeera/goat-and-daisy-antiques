@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.fields import related 
+from django.db.models.fields import related
 from django.urls import reverse
 
 
@@ -9,7 +9,8 @@ class Customer(models.Model):
     Any  customer account created is basically an instance of this model with a one to one relationship with a User in the built in Django auth. 
 
     '''
-    username = models.OneToOneField(User, on_delete=models.CASCADE, null=True, editable=False)
+    username = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, editable=False)
     email = models.EmailField(unique=True, default="start@domain.dj")
     full_name = models.CharField(max_length=100, null=True, blank=True)
     address1 = models.CharField(max_length=100, null=True, blank=True)
@@ -24,11 +25,9 @@ class Customer(models.Model):
 
     def __str__(self) -> str:
         return str(self.username)
-    
+
     def get_absolute_url(self):
         return reverse('index')
-
-
 
 
 class StaffMember(models.Model):
@@ -37,7 +36,8 @@ class StaffMember(models.Model):
 
     '''
 
-    username = models.OneToOneField(User, on_delete=models.CASCADE, null=True, editable=False)
+    username = models.OneToOneField(
+        User, on_delete=models.CASCADE, null=True, editable=False)
     email = models.EmailField(unique=True, default="start@domain.dj")
     full_name = models.CharField(max_length=100, default="startname")
     shop_staff = models.BooleanField(default=False)
@@ -45,7 +45,6 @@ class StaffMember(models.Model):
     admin_access_permission = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
     admin_notes = models.TextField(null=True, blank=True)
-
 
     def __str__(self) -> str:
         return str(self.username)

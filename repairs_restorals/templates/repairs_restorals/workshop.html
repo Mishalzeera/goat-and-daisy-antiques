@@ -1,9 +1,8 @@
-{% extends 'base.html' %}
-
-{% block extra_nav %}
-
-{% endblock %}
-
+{% extends 'base.html' %} {% block extra_nav %} {% endblock %} 
 {% block content %}
 <h1>Workshop</h1>
+<a href="{% url 'create_service_ticket' %}"><h2>Create Ticket</h2></a>
+<a href="{% url 'customer_workbench' pk=request.user.id %}">
+  <h2>Customer Workbench</h2>
+</a>
 {% endblock %}

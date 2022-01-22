@@ -69,3 +69,18 @@ images, return def __str as str(self.product) + str(self.id) for now.
 
 - Sometimes function based views are just a lot better and easier if you want
   to write custom logic
+
+  ## Limiting a Model Form set of options to request.user's
+
+  - Very tricky, if using CBV's then get_form_kwargs needs to be rewritten..
+  https://medium.com/analytics-vidhya/django-how-to-pass-the-user-object-into-
+  form-classes-ee322f02948c
+
+  - Also an __init__ override method which was too complicated in accessing
+  request.user
+
+  - Finally, using form.fields['field'].queryset = ... in the views did it. Not
+  so tricky in the end but finding the solution was about four hours of 
+  trial and error. 
+
+  

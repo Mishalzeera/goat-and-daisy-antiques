@@ -18,6 +18,16 @@ class CustomerCreateServiceTicketForm(ModelForm):
 
 
 class CustomerUploadImageForm(ModelForm):
+
+    # def __init__(self, request, *args, **kwargs):
+    #     # Since access to the request user is required, the init method
+    #     # has to be overriden
+    #     super(CustomerUploadImageForm, self).__init__(*args, **kwargs)
+    #     # Now set the queryset...
+    #     self.fields['service_ticket'].queryset = ServiceTicket.objects.filter(customer=request.user)
+
+    # service_ticket = forms.ModelChoiceField(queryset=None)
+
     class Meta:
         model = TicketImage
         fields = ['service_ticket', 'image']

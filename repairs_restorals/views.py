@@ -48,6 +48,28 @@ def create_service_ticket(request):
         return render(request, 'repairs_restorals/workshop.html')
 
 
+def customer_add_image(request):
+
+    if request.method == 'GET':
+        '''
+        The GET method must return an image upload form with two fields. One 
+        field is a list of request.users tickets. Once a ticket is selected, 
+        the user can upload an image which will be linked to that ticket.
+        '''
+
+        form = CustomerUploadImageForm()
+        customer = get_object_or_404(Customer, username=request.user)
+        form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
+            customer=customer)
+        context = {
+            'form': form,
+        }
+        return render(request, 'repairs_restorals/add_image.html', context)
+
+    if request.method == 'POST':
+        return render(request, 'repairs_restorals/add_image.html')
+
+
 class CustomerWorkbench(ListView):
     ''' 
     A view that displays the Customers current Service Tickets, previous completed projects. 

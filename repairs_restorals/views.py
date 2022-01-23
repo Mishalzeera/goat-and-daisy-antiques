@@ -48,26 +48,54 @@ def create_service_ticket(request):
         return render(request, 'repairs_restorals/workshop.html')
 
 
-def customer_add_image(request):
+# def customer_add_image(request):
 
-    if request.method == 'GET':
-        '''
-        The GET method must return an image upload form with two fields. One 
-        field is a list of request.users tickets. Once a ticket is selected, 
-        the user can upload an image which will be linked to that ticket.
-        '''
+#     if request.method == 'GET':
+#         '''
+#         The GET method must return an image upload form with two fields. One 
+#         field is a list of request.users tickets. Once a ticket is selected, 
+#         the user can upload an image which will be linked to that ticket
+#         '''
 
-        form = CustomerUploadImageForm()
-        customer = get_object_or_404(Customer, username=request.user)
-        form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
-            customer=customer)
-        context = {
-            'form': form,
-        }
-        return render(request, 'repairs_restorals/add_image.html', context)
+#         form = CustomerUploadImageForm()
+#         customer = get_object_or_404(Customer, username=request.user)
+#         form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
+#             customer=customer)
+#         context = {
+#             'form': form,
+#         }
+#         return render(request, 'repairs_restorals/add_image.html', context)
 
-    if request.method == 'POST':
-        return render(request, 'repairs_restorals/add_image.html')
+#     if request.method == 'POST':
+#         '''The POST method creates an instance of a TicketImage via the
+#         upload form and saves it'''
+
+#         form = CustomerUploadImageForm(request.POST, request.FILES)
+
+#         if form.is_valid:
+#             form.save()
+
+#         return render(request, 'repairs_restorals/add_image.html')
+
+class CustomerAddImage(CreateView):
+    '''
+    Allows a staff member to add images to a product
+    '''
+    model = TicketImage
+    form_class = CustomerUploadImageForm
+    template_name = 'repairs_restorals/add_image.html'
+    success_url = reverse_lazy('workshop')
+
+    def get_form_kwargs(self):
+        """ 
+        Passes the request object to the form class.
+        This is necessary to only display tickets that belong to a given 
+        user
+        """
+
+        kwargs = super(CustomerAddImage, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
 
 
 class CustomerWorkbench(ListView):

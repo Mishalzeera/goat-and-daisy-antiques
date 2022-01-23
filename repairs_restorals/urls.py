@@ -8,7 +8,9 @@ urlpatterns = [
          views.CustomerWorkbench.as_view(), name='customer_workbench'),
     path('create-service-ticket/', views.create_service_ticket,
          name='create_service_ticket'),
-    path('add-image', views.customer_add_image, name='add_image')
+    #     path('add-image/', views.customer_add_image, name='add_image'),
+
+    path('add-image/', views.CustomerAddImage.as_view(), name='add_image'),
 
 
 

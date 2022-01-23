@@ -83,4 +83,66 @@ images, return def __str as str(self.product) + str(self.id) for now.
   so tricky in the end but finding the solution was about four hours of 
   trial and error. 
 
-  
+  ## Images, function based views..
+
+  - enctype="multi..." must be in template form tag
+
+  - form = MyForm(request.POST, request.FILES) in order for it to upload
+
+  ## Empty screen on redirect from function view
+
+  - The following code caused an error that I could not debug after many hours,
+  in the interest of saving time I have reverted to using Class Based View but
+  will ask someone:
+
+  views.py> 
+
+  # def customer_add_image(request):
+
+#     if request.method == 'GET':
+#         '''
+#         The GET method must return an image upload form with two fields. One 
+#         field is a list of request.users tickets. Once a ticket is selected, 
+#         the user can upload an image which will be linked to that ticket
+#         '''
+
+#         form = CustomerUploadImageForm()
+#         customer = get_object_or_404(Customer, username=request.user)
+#         form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
+#             customer=customer)
+#         context = {
+#             'form': form,
+#         }
+#         return render(request, 'repairs_restorals/add_image.html', context)
+
+#     if request.method == 'POST':
+#         '''The POST method creates an instance of a TicketImage via the
+#         upload form and saves it'''
+
+#         form = CustomerUploadImageForm(request.POST, request.FILES)
+
+#         if form.is_valid:
+#             form.save()
+
+#         return render(request, 'repairs_restorals/add_image.html')
+
+urls.py>
+
+#     path('add-image/', views.customer_add_image, name='add_image'),
+
+add_image.html>
+
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %} 
+
+{% block content %}
+
+<h1>Add Images To Your Tickets</h1>
+
+<form action="." method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form | crispy }}
+    <input type="submit" value="Add Image">
+</form>
+
+{% endblock %}

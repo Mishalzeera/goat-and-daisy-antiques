@@ -1,7 +1,7 @@
 from django import forms
 from django.shortcuts import get_object_or_404
-from .models import ServiceTicket, TicketImage
 from profiles.models import Customer
+from .models import ServiceTicket, TicketImage
 
 
 class CustomerCreateServiceTicketForm(forms.ModelForm):
@@ -29,12 +29,12 @@ class CustomerUploadImageForm(forms.ModelForm):
     from a list of current projects (a queryset sent from views.customer_add_
     image) and then upload a linked image
     '''
-    
+
     def __init__(self, *args, **kwargs):
-        """ 
-        Ensures only the service tickets belonging to the current user are
-        displayed as options in the form dropdown box
-        """
+        
+        # Ensures only the service tickets belonging to the current user are
+        # displayed as options in the form dropdown box
+        
 
         self.request = kwargs.pop('request')
         super(CustomerUploadImageForm, self).__init__(*args, **kwargs)

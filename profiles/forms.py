@@ -4,7 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class UserAuthAccountCreationForm(UserCreationForm):
-
+    '''
+    Extends the built-in Django User Creation Form, updating the email field
+    with some placeholder text.
+    '''
     email = forms.EmailField(
         initial=None,
         widget=forms.TextInput(
@@ -16,7 +19,7 @@ class CustomerSignupForm(forms.ModelForm):
     '''
     A form that allows a new user to signup for an account. The username and email fields were showing the defaults in the live server, so a way was found to replace the placeholder text using a widget. From Stack Overflow.
     '''
-
+    
     class Meta:
         model = Customer
         fields = ['full_name', 'address1', 'address2',

@@ -3,8 +3,7 @@ from django.db import models
 
 class ShopItems(models.Model):
     '''
-    Models the items for sale in the shop. Fields are image, name, description,
-    price, is_available, image_url 
+    Models the items for sale in the shop. 
     '''
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -19,7 +18,7 @@ class ShopItems(models.Model):
 
 class ShopItemImage(models.Model):
     '''
-    Photos linked to an instance of ShopItem class
+    Photos linked to an instance of ShopItem class.
     '''
     product = models.ForeignKey(
         ShopItems, on_delete=models.CASCADE, related_name='images')

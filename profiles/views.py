@@ -10,21 +10,14 @@ from .models import Customer, StaffMember
 
 class LoginAUser(LoginView):
     '''
-    A view to customize the login process
+    A view to customize the login process.
     '''
     pass
 
 
-# def get_customer_profile(request, pk):
-#     customer = Customer.objects.get(id=pk)
-#     context = {
-#         'customer': customer,
-#     }
-#     return render(request, 'customer_profile.html', context)
-
 class CustomerProfilePage(View):
     '''
-    Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings 
+    Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings.
     '''
 
     def get(self, request, *args, **kwargs):
@@ -44,8 +37,9 @@ class UserSignupPage(View):
     '''
 
     def get(self, request, *args, **kwargs):
-        # shows the form in the correct URL
+        # Send an instance of the account creation form to the template
         form = UserAuthAccountCreationForm()
+
         context = {
             "form": form,
         }
@@ -53,25 +47,25 @@ class UserSignupPage(View):
         return render(request, 'registration/signup.html', context)
 
     def post(self, request, *args, **kwargs):
-        # get the new account details from the request object, use them to
-        # create a new user.
+        # Get the new account details from the request object 
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password1']
 
+        # ...use them to create a new user and save
         newuser = User.objects.create_user(username, email, password)
         newuser.save()
+        # Explicitly log in the user
         login(request, newuser)
-        # site then redirects to the create profile view
+        # Then redirect to the create profile view
         return redirect('create_profile')
 
 
 class CreateProfilePage(CreateView):
     '''
-    Extends the built in CreateView model, creates a users profile containing specifics not related to authentication.
+    Creates a users profile containing specifics not related to authentication.
     '''
     model = Customer
-    # form_class = ... then no 'fields'.. form Class Meta has model, fields
     template_name = "registration/create_customer_profile.html"
     fields = ['full_name', 'address1', 'address2',
               'postcode', 'town_or_city', 'country', 'notes']
@@ -92,30 +86,34 @@ class CreateProfilePage(CreateView):
 class StaffMemberSignupPage(View):
     '''
     Returns an auth account signup page using a form which extends the built-in
-    Django user creation form. See forms.py in this module.
+    Django user creation form. 
     '''
 
     def get(self, request, *args, **kwargs):
-        # shows the form in the correct URL
+        # Send a blank form to the template
         form = UserAuthAccountCreationForm()
+
         context = {
             "form": form,
         }
         return render(request, 'registration/staff_auth_signup.html', context)
 
     def post(self, request, *args, **kwargs):
-        # get the new account details from the request object, use them to
+        # Get the new account details from the request object, use them to
         # create a new user.
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password1']
-        # username value is passed into a session cookie
+
+        # The username value is passed into a session cookie
         # which allows the admin to create the linked staff member profile
         # page (next view)
         request.session['username_cookie'] = username
+
+        # New user is created and saved
         newuser = User.objects.create_user(username, email, password)
         newuser.save()
-        # site then redirects to the create staff profile view
+        # Then redirect to the create staff profile view
         return redirect('create_staff_profile')
 
 
@@ -132,10 +130,12 @@ class CreateStaffProfilePage(CreateView):
         # auth account is automatically added to the new profile, linking the
         # two in a one-to-one relationship. No chance for the admin to make
         # a mess by using the wrong username at this point in the process.
-        # 2. this time the session cookie is used as a filter param for the
+        # 2. this time the session cookie is used as to filter the
         # objects.get() method.
         user = User.objects.get(
             username=self.request.session['username_cookie'])
+
+        # The form instance is assigned the correct values
         form.instance.username = user
         form.instance.email = user.email
         return super().form_valid(form)

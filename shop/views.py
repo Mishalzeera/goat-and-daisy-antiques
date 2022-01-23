@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
-from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from .models import ShopItems, ShopItemImage
 from .forms import StaffCreateItemForm, StaffImageUploadForm
@@ -8,7 +8,7 @@ from .forms import StaffCreateItemForm, StaffImageUploadForm
 
 class ShopFront(ListView):
     '''
-    A view to return all the antiques for sale
+    A view to return all the antiques for sale.
     '''
     model = ShopItems
     template_name = 'shop/shop.html'
@@ -18,7 +18,7 @@ class ShopFront(ListView):
 
 class ShopItem(DetailView):
     ''' 
-    A view to return a specific item with options to buy
+    A view to return a specific item with options to buy.
     '''
     model = ShopItems
     template_name = 'shop/product_detail.html'
@@ -28,7 +28,7 @@ class ShopItem(DetailView):
 class StaffManageItems(ListView):
     '''
     Allows a shop staff member to have an overview of inventory with
-    CRUD functionality
+    CRUD functionality.
     '''
     model = ShopItems
     template_name = 'shop/staff_manage_items.html'
@@ -38,7 +38,7 @@ class StaffManageItems(ListView):
 
 class StaffUpdateItem(UpdateView):
     '''
-    Allows a shop staff member to change a particular inventory item
+    Allows a shop staff member to change a particular inventory item.
     '''
     model = ShopItems
     form_class = StaffCreateItemForm
@@ -48,7 +48,7 @@ class StaffUpdateItem(UpdateView):
 
 class StaffAddItem(CreateView):
     '''
-    Allows a shop staff member to add an item to the shop inventory
+    Allows a shop staff member to add an item to the shop inventory.
     '''
     model = ShopItems
     form_class = StaffCreateItemForm
@@ -58,7 +58,7 @@ class StaffAddItem(CreateView):
 
 class StaffDeleteItem(DeleteView):
     '''
-    Allows a shop staff member to delete a shop item from the inventory
+    Allows a shop staff member to delete a shop item from the inventory.
     '''
     model = ShopItems
     template_name = 'shop/staff_confirm_delete.html'
@@ -67,7 +67,7 @@ class StaffDeleteItem(DeleteView):
 
 class StaffAddImage(CreateView):
     '''
-    Allows a staff member to add images to a product
+    Allows a staff member to add images to a product.
     '''
     model = ShopItemImage
     form_class = StaffImageUploadForm

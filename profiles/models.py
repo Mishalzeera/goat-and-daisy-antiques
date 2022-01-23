@@ -32,7 +32,7 @@ class Customer(models.Model):
 
 class StaffMember(models.Model):
     '''
-    Every member of staff can be described by this model, which determines their permissions within the custom CMS interfaces.
+    Every member of staff can be described by this model, which determines their permissions within the custom CMS interfaces. 
 
     '''
 

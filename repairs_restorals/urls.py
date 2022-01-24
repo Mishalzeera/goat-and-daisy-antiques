@@ -11,6 +11,13 @@ urlpatterns = [
     #     path('add-image/', views.customer_add_image, name='add_image'),
 
     path('add-image/', views.CustomerAddImage.as_view(), name='add_image'),
+    path('ticket/<int:pk>/',
+         views.ServiceTicketDetail.as_view(), name='service_ticket'),
+    path('ticket/<int:pk>/update/',
+         views.ServiceTicketUpdate.as_view(), name="update_service_ticket"),
+    path('ticket-overview/', views.WorkshopStaffTicketOverview.as_view(),
+         name="ticket_overview"),
+    path('confirm-delete/<int:pk>/', views.TicketDelete.as_view(), name="ticket_delete"),
 
 
 

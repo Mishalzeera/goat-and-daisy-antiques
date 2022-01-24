@@ -8,19 +8,24 @@
 
 
 <h2>Current Tickets</h2>
+
 {% for ticket in tickets%}
     {% if not ticket.is_completed %}
-    <a href="#">
+    <a href="{% url 'service_ticket' pk=ticket.id %}">
         <p>{{ ticket.title }}</p>
+    </a>
+    <a href="{% url 'update_service_ticket' pk=ticket.id%}">
+        <p class='text-success'>Update</p>
     </a>
     {% endif %}
 {% endfor %}
 
 
 <h2>Completed Tickets</h2>
+
 {% for ticket in tickets%}
     {% if ticket.is_completed %}
-    <a href="#">
+    <a href="{% url 'service_ticket' pk=ticket.id%}">
         <p>{{ ticket.title }}</p>
     </a>
     {% endif %}

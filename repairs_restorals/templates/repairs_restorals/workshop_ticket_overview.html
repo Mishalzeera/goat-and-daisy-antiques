@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+Workshop Ticket Overview
+
+{% for customer in customers %}
+
+    <a href="{% url 'customer_account_update' pk=customer.id %}">
+        <p class="display-6">{{ customer.full_name }}</p>
+    </a>
+
+    {% for ticket in customer.service_ticket.all %}
+    <p class="lead">{{ ticket.title }}</p>
+
+    <a href="{% url 'service_ticket' pk=ticket.id %}">
+        <p>View</p>
+    </a>    
+    <a href="{% url 'update_service_ticket' pk=ticket.id %}" class="text-success">
+        <p>Update</p>
+    </a>
+    <a href="{% url 'ticket_delete' pk=ticket.id %}" class="text-danger">
+        <p>Delete</p>
+    </a>
+    <br>
+
+    {% endfor %}
+
+{% endfor %}
+
+{% endblock %}

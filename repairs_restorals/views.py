@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import View, ListView, CreateView
+from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from profiles.models import Customer, StaffMember
 from .models import ServiceTicket, TicketImage
@@ -93,7 +93,7 @@ def create_service_ticket(request):
 
 class CustomerAddImage(CreateView):
     '''
-    Allows a staff member to add images to a product.
+    Allows a customer to add images to service tickets.
     '''
     model = TicketImage
     form_class = CustomerUploadImageForm
@@ -129,5 +129,47 @@ class CustomerWorkbench(ListView):
 
         # ...then add iterable context objects
         context['tickets'] = ServiceTicket.objects.filter(customer=customer)
-        
+
         return context
+
+
+class ServiceTicketDetail(DetailView):
+    '''
+    Allows a customer to view a specific service ticket.
+    '''
+    model = ServiceTicket
+    template_name = 'repairs_restorals/service_ticket.html'
+    context_object_name = 'ticket'
+
+
+class ServiceTicketUpdate(UpdateView):
+    '''
+    Allows a user to update a current service ticket, most fields restricted
+    so that any fundamental changes to a project will have to involve a staff
+    member.
+    '''
+    model = ServiceTicket
+    fields = ['title', 'service_description', 'link_to_desired_materials_1',
+              'link_to_desired_materials_2', 'link_to_desired_materials_3']
+    template_name = 'repairs_restorals/update_service_ticket.html'
+    success_url = reverse_lazy('workshop')
+
+
+class WorkshopStaffTicketOverview(ListView):
+    '''
+    Allows workshop staff to view all current tickets, with CRUD options.
+    '''
+ 
+    queryset = Customer.objects.prefetch_related(
+        'service_ticket').filter(has_active_repairs=True)
+    template_name = 'repairs_restorals/workshop_ticket_overview.html'
+    context_object_name = 'customers'
+
+
+class TicketDelete(DeleteView):
+    '''
+    Allows workshop staff to delete a ticket.
+    '''
+    model = ServiceTicket
+    template_name = 'repairs_restorals/ticket_confirm_delete.html'
+    success_url = reverse_lazy('workshop')

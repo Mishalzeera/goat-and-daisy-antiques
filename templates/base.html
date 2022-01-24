@@ -101,6 +101,7 @@
                    
                   </ul>
             </li>
+            
 
           <!-- Extra nav block -->
             {% block extra_nav %}
@@ -108,13 +109,11 @@
            
             
           </ul>
-          <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          <small><input class="text-muted btn btn-sm btn-outline-dark" type=button value="Previous Page" onClick="javascript:history.go(-1);"></small>
         </div>
       </div>
     </nav>
+
     <h1>Goat And Daisy</h1>
     {% if user.is_authenticated %}
     <p class="small text-muted">Welcome {{ user.username | title }}</p>
@@ -129,6 +128,7 @@
     <main class="container">
     {% block content %}
     {% endblock %}
+
     </main>
   
   

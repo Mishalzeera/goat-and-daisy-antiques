@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<p>{{ ticket.title }}</p>
+<p>Created on: {{ ticket.date_created }}</p>
+<p>Last updated on: {{ ticket.last_updated }}</p>
+<p>{{ ticket.service_description }}</p>
+{% for image in ticket.images.all %}
+<img src="{{ image.image.url }}" alt="" style="width:300px;">
+{% endfor %}
+
+{%if ticket.is_completed %}
+<p>Ticket is completed</p>
+{% endif %}
+{% endblock %}

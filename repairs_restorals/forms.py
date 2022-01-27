@@ -1,7 +1,7 @@
 from django import forms
 from django.shortcuts import get_object_or_404
 from profiles.models import Customer
-from .models import ServiceTicket, TicketImage
+from .models import ServiceTicket, TicketImage, TodoList, TodoItem
 
 
 class CustomerCreateServiceTicketForm(forms.ModelForm):
@@ -31,10 +31,9 @@ class CustomerUploadImageForm(forms.ModelForm):
     '''
 
     def __init__(self, *args, **kwargs):
-        
+
         # Ensures only the service tickets belonging to the current user are
         # displayed as options in the form dropdown box
-        
 
         self.request = kwargs.pop('request')
         super(CustomerUploadImageForm, self).__init__(*args, **kwargs)
@@ -45,3 +44,21 @@ class CustomerUploadImageForm(forms.ModelForm):
     class Meta:
         model = TicketImage
         fields = ['service_ticket', 'image']
+
+
+class CreateTodoListForm(forms.ModelForm):
+    '''
+    A form to create a Todo List.
+    '''
+    class Meta:
+        model = TodoList
+        fields = ['subject']
+
+
+class CreateTodoListItemForm(forms.ModelForm):
+    '''
+    A form to create Todo List Items.
+    '''
+    class Meta:
+        model = TodoItem
+        fields = ['title', 'is_completed']

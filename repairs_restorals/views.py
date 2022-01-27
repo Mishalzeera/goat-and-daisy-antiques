@@ -1,10 +1,11 @@
+from re import T
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
 from profiles.models import Customer, StaffMember
-from .models import ServiceTicket, TicketImage
-from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm
+from .models import ServiceTicket, TicketImage, TodoList, TodoItem
+from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CreateTodoListForm, CreateTodoListItemForm
 
 
 class Workshop(View):
@@ -159,7 +160,7 @@ class WorkshopStaffTicketOverview(ListView):
     '''
     Allows workshop staff to view all current tickets, with CRUD options.
     '''
- 
+
     queryset = Customer.objects.prefetch_related(
         'service_ticket').filter(has_active_repairs=True)
     template_name = 'repairs_restorals/workshop_ticket_overview.html'
@@ -173,3 +174,88 @@ class TicketDelete(DeleteView):
     model = ServiceTicket
     template_name = 'repairs_restorals/ticket_confirm_delete.html'
     success_url = reverse_lazy('workshop')
+
+
+class TaskManager(View):
+    '''
+    Shows a list of todo items for each workshop staff member, allowing
+    all CRUD functions on the same page for convenience. 
+    '''
+
+    def get(self, request, *args, **kwargs):
+        # Get a staff member
+        staff_member = get_object_or_404(
+            StaffMember, username=self.request.user)
+
+        # Get a todo list filtered by staff member
+        todo_list = TodoList.objects.prefetch_related(
+            'items').filter(staff_member=staff_member)
+        
+        # Create a todo list form
+        todo_list_form = CreateTodoListForm()
+
+        # Create a todo list item form
+        todo_list_item_form = CreateTodoListItemForm()
+
+        # Put them in the context
+        context = {
+            'todo_list': todo_list,
+            'todo_list_form': todo_list_form,
+            'todo_list_item_form': todo_list_item_form,
+
+        }
+
+        # Send them to the template
+        return render(request, 'repairs_restorals/todo_list.html', context)
+
+    def post(self, request, *args, **kwargs):
+        # Awkward but it works
+
+        # Create a list form for refreshed page
+        todo_list_form_instance = CreateTodoListForm(request.POST)
+
+        # Get the staff member by the request object
+        staff_member = get_object_or_404(
+            StaffMember, username=self.request.user)
+
+        # Assign the staff member to the instance of the form
+        todo_list_form_instance.instance.staff_member = staff_member
+
+        # Check validity and save
+        if todo_list_form_instance.is_valid():
+            todo_list_form_instance.save()
+
+        # If there is a custom name sent from the template
+        if 'todo_list_item' in request.POST:
+
+            # The instance is intialised from the POST data (custom form in
+            # template - its not a model form instance, in order to be
+            # able to use the List id in the for loop. In the template.)
+            todo_item_form_instance = CreateTodoListItemForm(request.POST)
+
+            # The foreign key relationship is set for the unique instance,
+            # so that list items and lists are coherently linked
+            related_todo = TodoList.objects.get(pk=request.POST['todo_list_item'])
+            todo_item_form_instance.instance.todo_list_id = related_todo.id
+
+            # The todo list item is validated and saved
+            if todo_item_form_instance.is_valid():
+                todo_item_form_instance.save()
+
+        # The todo list is fetched again, filtered by staff member
+        todo_list = TodoList.objects.filter(staff_member=staff_member)
+
+        # New forms are sent
+        todo_list_form = CreateTodoListForm()
+        todo_list_item_form = CreateTodoListItemForm()
+
+        # Context is filled in again
+        context = {
+            'todo_list': todo_list,
+            'todo_list_form': todo_list_form,
+            'todo_list_item_form': todo_list_item_form,
+
+        }
+
+        # ...and sent to the template
+        return render(request, 'repairs_restorals/todo_list.html', context)

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Todo list</h1>
+<form action="." method="POST">
+    {% csrf_token %}
+    {{ todo_list_form | crispy }}
+    <input type="submit" value="Create A New List">
+</form>
+
+
+
+
+
+{% for list in todo_list %}
+
+<div class="task" style="padding-top: 1rem;">
+
+    <p class="display-5">{{list.subject}}</p>
+
+    <ul>
+        {% for item in list.items.all %}
+            <li>{{ item.title }}</li>
+        {%endfor %}
+    </ul>
+
+
+    <form action="." method=POST>
+        {% csrf_token %}
+        <input type="hidden" name="todo_list_item" value="{{ list.id }}">
+        <input type="text" name="title" id="title">
+        <input type="submit" value="Add A Task To This List">
+    </form>
+
+    
+
+    
+
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

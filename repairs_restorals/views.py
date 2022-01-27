@@ -190,7 +190,7 @@ class TaskManager(View):
         # Get a todo list filtered by staff member
         todo_list = TodoList.objects.prefetch_related(
             'items').filter(staff_member=staff_member)
-        
+
         # Create a todo list form
         todo_list_form = CreateTodoListForm()
 
@@ -235,7 +235,8 @@ class TaskManager(View):
 
             # The foreign key relationship is set for the unique instance,
             # so that list items and lists are coherently linked
-            related_todo = TodoList.objects.get(pk=request.POST['todo_list_item'])
+            related_todo = TodoList.objects.get(
+                pk=request.POST['todo_list_item'])
             todo_item_form_instance.instance.todo_list_id = related_todo.id
 
             # The todo list item is validated and saved
@@ -259,3 +260,67 @@ class TaskManager(View):
 
         # ...and sent to the template
         return render(request, 'repairs_restorals/todo_list.html', context)
+
+
+def delete_or_update_item_in_todo(request, pk):
+    '''
+    A function that allows a list item to be deleted in the 
+    workshop todo list app, bypassing "are you sure" stage.
+    '''
+    # Get the item by the pk sent from the template and delete
+    if 'delete_list_item' in request.GET:
+        item = TodoItem.objects.get(pk=pk)
+        item.delete()
+
+    # Get the list by the pk sent from the template and delete
+    if 'delete_list' in request.GET:
+
+        item = TodoList.objects.get(pk=pk)
+        item.delete()
+
+    # Get the list item by the pk from the template and toggle
+    if 'toggle_item' in request.GET:
+            
+        item = TodoItem.objects.get(pk=pk)
+
+        # Toggle the is_completed status
+        if item.is_completed == False:
+            item.is_completed = True
+        elif item.is_completed:
+            item.is_completed = False
+
+        item.save()
+
+    # Get the staff member by the request object
+    staff_member = get_object_or_404(
+        StaffMember, username=request.user)
+
+    # The todo list is fetched again, filtered by staff member
+    todo_list = TodoList.objects.filter(staff_member=staff_member)
+
+    # New forms are sent
+    todo_list_form = CreateTodoListForm()
+    todo_list_item_form = CreateTodoListItemForm()
+
+    # Context is filled in again
+    context = {
+        'todo_list': todo_list,
+        'todo_list_form': todo_list_form,
+        'todo_list_item_form': todo_list_item_form,
+
+    }
+
+    # ...and sent to the template
+    return render(request, 'repairs_restorals/todo_list.html', context)
+
+
+def toggle_todo_item_status(request, pk):
+
+    # Get the item by the pk sent from the template
+    item = TodoItem.objects.get(pk=pk)
+
+    # Toggle the is_completed status
+    if item.is_completed == False:
+        item.is_completed = True
+    elif item.is_completed:
+        item.is_completed = False

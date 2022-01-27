@@ -18,11 +18,37 @@
 
 <div class="task" style="padding-top: 1rem;">
 
-    <p class="display-5">{{list.subject}}</p>
+    <div class="list-flex" style="display: flex; align-items: center; gap:2rem;">
+        <p class="display-5">{{list.subject}}</p>
+        <form action="{% url 'manage_item' pk=list.id %}" method="GET">
+            {% csrf_token %}
+            <input type="submit" name="delete_list" value="Delete List" style="font-size: 1rem; padding: 0;" class="text-danger">
+        </form>
+
+    </div>
 
     <ul>
         {% for item in list.items.all %}
-            <li>{{ item.title }}</li>
+
+            <div class="list-item-flex" style="display:flex; gap: 2rem;">
+                {% if item.is_completed %}
+                <li><s>{{ item.title }}</s></li>
+                {% else %}
+                <li>{{ item.title }}</li>
+                {% endif %}
+                <form action="{% url 'manage_item' pk=item.id %}" method="GET">
+                    {% csrf_token %}
+                    <input type="submit" name="delete_list_item" value="Del" style="font-size: .5rem; padding: 0;" class="text-danger"> 
+                </form>
+                <form action="{% url 'manage_item' pk=item.id %}" method="GET">
+                    {% csrf_token %}
+                    {% if item.is_completed %}
+                    <input type="submit" name="toggle_item" value="Mark As Incomplete" style="font-size: .8rem; padding: 0;" class="text-alert">
+                    {% else %}
+                    <input type="submit" name="toggle_item" value="Mark As Complete" style="font-size: .8rem; padding: 0;" class="text-success">
+                    {% endif %}
+                </form>
+            </div>
         {%endfor %}
     </ul>
 

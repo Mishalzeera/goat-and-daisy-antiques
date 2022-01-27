@@ -21,10 +21,10 @@ class CustomerProfilePage(View):
     '''
 
     def get(self, request, *args, **kwargs):
-        customer = Customer.objects.get(pk=4)
+        profile = User.objects.get(pk=request.user.id)
 
         context = {
-            'customer': customer,
+            'profile': profile,
         }
 
         return render(request, 'registration/customer_profile.html', context)

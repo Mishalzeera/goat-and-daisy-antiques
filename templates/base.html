@@ -67,10 +67,10 @@
                   Workshop Staff
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{% url 'all_shop_customers' %}">View Workshop Customers</a></li>
+                  <li><a class="dropdown-item" href="{% url 'ticket_overview' %}">View Customers And Tickets</a></li>
                   
                   </li>
-                  <li><a class="dropdown-item" href="{% url 'all_shop_customers' %}">All tickets</a></li>
+                  <li><a class="dropdown-item" href="{% url 'ticket_overview' %}">Task Manager</a></li>
                   
                   </li>
                 </ul></li>
@@ -116,7 +116,12 @@
 
     <h1>Goat And Daisy</h1>
     {% if user.is_authenticated %}
-    <p class="small text-muted">Welcome {{ user.username | title }}</p>
+    <div class="profile-link-flex" style="display: flex; gap: 2rem;">
+      <p class="small text-muted">Welcome {{ user.username | title }}</p>
+      <a href="{% url 'customer_profile' pk=user.id%}">
+        <p class="small text-muted">View Profile</p>
+      </a>
+    </div>
     {% endif %}
         {% if messages %}
           {% for message in messages %}

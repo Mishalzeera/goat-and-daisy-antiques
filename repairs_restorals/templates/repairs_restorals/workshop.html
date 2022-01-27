@@ -3,12 +3,9 @@
 {% block extra_nav %} {% endblock %} 
 {% block content %}
 <h1>Workshop</h1>
-{% if request.user.is_superuser or request.user|has_group:'Workshop Staff' %}
-<a href="{% url 'ticket_overview' %}">
-  <p>Workshop Staff Overview</p>
-</a>
-{% endif %}
-{% if request.user.is_authenticated  %}
+
+{% if request.user.is_authenticated %}
+
 <a href="{% url 'customer_workbench' pk=request.user.id %}">
   <p>Customer Workbench</p>
 </a>

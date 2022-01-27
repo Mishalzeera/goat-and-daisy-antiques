@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<h1>Log In, Cabrone.</h1>
+<h1>Log In</h1>
 <form method="POST" action="{% url 'login_user' %}">
     {% csrf_token %}
     {{ form | crispy }}

@@ -10,7 +10,7 @@ urlpatterns = [
     path('staff-signup/', views.StaffMemberSignupPage.as_view(), name='staff_signup'),
     path('create-staff-profile/', views.CreateStaffProfilePage.as_view(),
          name='create_staff_profile'),
-    path('all-customers/', views.AllCustomers.as_view(), name="all_customers"),
+
     path('all-staff/', views.AdminStaffList.as_view(), name="all_staff"),
     path('staff-update/<int:pk>/', views.AdminStaffUpdate.as_view(),
          name="admin_staff_update"),

@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from .models import ShopItems, ShopItemImage
+from profiles.models import Customer
 from .forms import StaffCreateItemForm, StaffImageUploadForm
 
 
@@ -14,6 +15,15 @@ class ShopFront(ListView):
     template_name = 'shop/shop.html'
     queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
+
+
+class AllShopCustomers(ListView):
+    '''
+    A view to return all shop customers with active shop orders.
+    '''
+    queryset = Customer.objects.filter(has_active_shop_orders=True)
+    template_name = 'shop/all_customers.html'
+    context_object_name = 'customers'
 
 
 class ShopItem(DetailView):

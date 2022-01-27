@@ -3,6 +3,8 @@ from . import views
 
 urlpatterns = [
     path('', views.ShopFront.as_view(), name="shop"),
+    path('all-shop-customers/', views.AllShopCustomers.as_view(),
+         name="all_shop_customers"),
     path('<int:pk>/', views.ShopItem.as_view(), name="shop_item"),
     path('staff-manage-items/', views.StaffManageItems.as_view(),
          name="staff_manage_items"),

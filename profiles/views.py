@@ -150,9 +150,9 @@ class AdminStaffList(ListView):
     context_object_name = 'members'
 
 
-class AllCustomers(ListView):
+class AllShopCustomers(ListView):
     queryset = Customer.objects.filter(has_active_shop_orders=True)
-    template_name = 'registration/all_customers.html'
+    template_name = 'shop/all_customers.html'
     context_object_name = 'customers'
 
 

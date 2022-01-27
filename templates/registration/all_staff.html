@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for member in members%}
+    <p class='display-6'>{{member.username | title}}</p>
+    <a href="{% url 'view_staff_member' pk=member.id%}">
+        <p>View</p>
+    </a>
+    <a href="{% url 'admin_staff_update' pk=member.id %}">
+        <p class="text-success">Edit</p>
+    </a>
+{% endfor %}
+{% endblock %}

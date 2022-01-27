@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     'profiles',
-    'chat',
     'site_layout',
     'shop',
     'repairs_restorals',

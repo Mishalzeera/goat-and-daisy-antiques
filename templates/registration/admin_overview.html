@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 
 {% block content %}
-
-<form action="#" method=POST>
-    {% csrf_token %}
-    {{ form | crispy }}
-
-    <input type="submit" value="Complete Your Registration">
-
-</form>
+<h1>Admin Page</h1>
+<p>Please register new employees with this link, as it connects them to the permissions system. Give them a default password which they can change themselves.</p>
+<a href="{% url 'staff_signup' %}">
+    <p>Add New Employee</p>
+</a>
+<br>
+<p>View all staff members here: </p>
+<a href="{% url 'all_staff' %}">
+    <p>View Staff</p>
+</a>
+<br>
+<p>Follow this link if you need to manage other actions:</p>
+<a href="/admin/">
+    <p>Admin Panel</p>
+</a>
 {% endblock %}

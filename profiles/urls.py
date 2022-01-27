@@ -16,5 +16,8 @@ urlpatterns = [
          name="admin_staff_update"),
     path('customer-update/<int:pk>/', views.CustomerAccountUpdate.as_view(),
          name="customer_account_update"),
+    path('admin-overview/', views.AdminOverview.as_view(), name='admin_overview'),
+    path('staff-member/<int:pk>/', views.StaffMemberDetailView.as_view(),
+         name='view_staff_member'),
 
 ]

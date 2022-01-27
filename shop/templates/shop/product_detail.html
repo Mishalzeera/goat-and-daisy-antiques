@@ -5,4 +5,9 @@
 <p>{{ item.title }}</p>
 <p>{{ item.description }}</p>
 <p>{{ item.price }}</p>
+    {% for image in item.images.all %}
+
+    <img src="{{ image.image.url }}" alt="" style="width:300px;">
+
+    {% endfor %}
 {% endblock %}

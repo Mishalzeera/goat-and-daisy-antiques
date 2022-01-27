@@ -47,7 +47,7 @@ class UserSignupPage(View):
         return render(request, 'registration/signup.html', context)
 
     def post(self, request, *args, **kwargs):
-        # Get the new account details from the request object 
+        # Get the new account details from the request object
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password1']
@@ -146,12 +146,12 @@ class AdminStaffList(ListView):
     This view allows the admin to manage all users in the database.
     '''
     queryset = StaffMember.objects.all()
-    template_name = 'registration/all_users.html'
-    context_object_name = 'users'
+    template_name = 'registration/all_staff.html'
+    context_object_name = 'members'
 
 
 class AllCustomers(ListView):
-    model = Customer
+    queryset = Customer.objects.filter(has_active_shop_orders=True)
     template_name = 'registration/all_customers.html'
     context_object_name = 'customers'
 
@@ -174,3 +174,22 @@ class CustomerAccountUpdate(UpdateView):
     form_class = CustomerUpdateForm
     context_object_name = 'customer'
     template_name = "registration/customer_account_update.html"
+
+
+class AdminOverview(View):
+    '''
+    Returns a superuser overview page, ensures that the employee enrollment
+    process is correctly handled - also handy access to employee permissions 
+    '''
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'registration/admin_overview.html')
+
+
+class StaffMemberDetailView(DetailView):
+    '''
+    Returns a superuser-only detail view of staff members
+    '''
+    model = StaffMember
+    template_name = 'registration/staff_member.html'
+    context_object_name = 'member'

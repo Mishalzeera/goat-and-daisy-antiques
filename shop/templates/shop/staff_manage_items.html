@@ -8,18 +8,35 @@
 </a>
 <br>
 <a href="{% url 'staff_add_image' %}">
-    <h2>Add An Image</h2>
+    <h2>Manage Images</h2>
 </a>
+    <p class="small text-muted">Use this link to add images to products. Use the links below each image for replacing or deleting existing images.</p>
 <br>
 {% for product in products %}
+<br>
     
     <a href="{% url 'staff_update_item' pk=product.id %}">
-        <p>{{ product.title }}<span class="text-muted small"> Edit</span></p> 
+        <p class="display-6">{{ product.title }}<small class="text-muted small"> Edit</small></p> 
     </a>
     <p>{{ product.description }}</p>
     <p>{{ product.price }}</p>
     {% for image in product.images.all %}
         <img src="{{image.image.url}}" alt="" style="width:300px;">
+        <div class="image-span-flex" style="display: flex; justify-content: space-evenly">
+            <a href="{% url 'delete_image' pk=image.id %}">
+                <span><small class="text-muted">Delete Above Image.</small></span>
+            </a>
+            <a href="{% url 'update_image' pk=image.id %}">
+                <span><small class="text-muted">Replace Above Image.</small></span>
+            </a>
+        </div>
+
+        
+            
+        </a>
+        <br>
+
+
     {% endfor %}
     <a href="{% url 'staff_delete_item' pk=product.id %}" class="text-danger">
         <p>Delete This Item</p>

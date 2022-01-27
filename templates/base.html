@@ -43,8 +43,8 @@
                   Admin
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="{% url 'all_staff' %}">View Staff</a></li>
-                  <li><a class="dropdown-item" href="{% url 'staff_signup' %}">Add Staff Member</a></li>
+                  <li><a class="dropdown-item" href="{% url 'admin_overview' %}">Staff Management</a></li>
+                  <li><a class="dropdown-item" href="/admin/">Admin Panel</a></li>
                   </li>
                 </ul></li>
                 {% endif %}
@@ -109,7 +109,7 @@
            
             
           </ul>
-          <small><input class="text-muted btn btn-sm btn-outline-dark" type=button value="Previous Page" onClick="javascript:history.go(-1);"></small>
+          <small><input class="text-muted btn btn-sm btn-outline-light" type=button value="Previous Page" onClick="javascript:history.go(-1);"></small>
         </div>
       </div>
     </nav>

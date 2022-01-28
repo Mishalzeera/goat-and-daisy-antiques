@@ -4,11 +4,16 @@
 {% block content %}
 
 <h1>Create A Service Ticket</h1>
+<p class="small text-muted">Choose a title for your service ticket, and 
+  describe in detail what services you would like. Include links to specific 
+  desired materials.
+</p>
 
 <form action="." method="POST">
   {% csrf_token %} 
   {{ form | crispy }}
   <input type="submit" value="Create Ticket" />
 </form>
+<small><input class="text-muted btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);"></small>
 
 {% endblock %}

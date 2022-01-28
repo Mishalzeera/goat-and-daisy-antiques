@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, Permission
 from django.db.models.fields import related
 from django.urls import reverse
 
@@ -51,3 +52,10 @@ class StaffMember(models.Model):
 
     def get_absolute_url(self):
         return reverse('index')
+
+    def get_and_set_permissions(self):
+
+        user = User.objects.get(pk=self.id)
+        return "This Should Be In TERMINAL"
+        # shop_permission = Group.objects.get(name="Shop Staff")
+        # workshop_permission = Group.objects.get(name="Workshop Staff")

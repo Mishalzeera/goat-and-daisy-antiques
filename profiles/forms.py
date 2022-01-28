@@ -19,7 +19,7 @@ class CustomerSignupForm(forms.ModelForm):
     '''
     A form that allows a new user to signup for an account. The username and email fields were showing the defaults in the live server, so a way was found to replace the placeholder text using a widget. From Stack Overflow.
     '''
-    
+
     class Meta:
         model = Customer
         fields = ['full_name', 'address1', 'address2',
@@ -35,7 +35,8 @@ class CustomerUpdateForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['full_name', 'address1', 'address2',
-                  'postcode', 'town_or_city', 'country', 'notes']
+                  'postcode', 'town_or_city', 'country', 'has_active_shop_orders', 'has_active_repairs',
+                  'notes']
 
 
 class StaffMemberRegistrationForm(forms.ModelForm):

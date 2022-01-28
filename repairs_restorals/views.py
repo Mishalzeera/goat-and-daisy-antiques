@@ -62,35 +62,6 @@ def create_service_ticket(request):
         return render(request, 'repairs_restorals/workshop.html')
 
 
-# def customer_add_image(request):
-
-#     if request.method == 'GET':
-#         '''
-#         The GET method must return an image upload form with two fields. One
-#         field is a list of request.users tickets. Once a ticket is selected,
-#         the user can upload an image which will be linked to that ticket
-#         '''
-
-#         form = CustomerUploadImageForm()
-#         customer = get_object_or_404(Customer, username=request.user)
-#         form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
-#             customer=customer)
-#         context = {
-#             'form': form,
-#         }
-#         return render(request, 'repairs_restorals/add_image.html', context)
-
-#     if request.method == 'POST':
-#         '''The POST method creates an instance of a TicketImage via the
-#         upload form and saves it'''
-
-#         form = CustomerUploadImageForm(request.POST, request.FILES)
-
-#         if form.is_valid:
-#             form.save()
-
-#         return render(request, 'repairs_restorals/add_image.html')
-
 class CustomerAddImage(CreateView):
     '''
     Allows a customer to add images to service tickets.
@@ -150,9 +121,9 @@ class ServiceTicketUpdate(UpdateView):
     '''
     model = ServiceTicket
     fields = ['title', 'service_description', 'link_to_desired_materials_1',
-              'link_to_desired_materials_2', 'link_to_desired_materials_3']
+              'link_to_desired_materials_2', 'link_to_desired_materials_3', 'is_completed']
     template_name = 'repairs_restorals/update_service_ticket.html'
-    success_url = reverse_lazy('workshop')
+    success_url = reverse_lazy('ticket_overview')
 
 
 class WorkshopStaffTicketOverview(ListView):
@@ -172,7 +143,26 @@ class TicketDelete(DeleteView):
     '''
     model = ServiceTicket
     template_name = 'repairs_restorals/ticket_confirm_delete.html'
-    success_url = reverse_lazy('workshop')
+    success_url = reverse_lazy('ticket_overview')
+
+
+class WorkshopStaffUpdateImage(UpdateView):
+    '''
+    Allows a workshop staff member to update a specific image.
+    '''
+    model = TicketImage
+    form_class = CustomerUploadImageForm
+    template_name = 'repairs_restorals/update_image.html'
+    success_url = reverse_lazy('ticket_overview')
+
+
+class WorkshopStaffDeleteImage(DeleteView):
+    '''
+    Allows a workshop staff member to delete product images.
+    '''
+    model = TicketImage
+    template_name = 'shop/staff_confirm_delete.html'
+    success_url = reverse_lazy('ticket_overview')
 
 
 class TaskManager(View):
@@ -279,7 +269,7 @@ def delete_or_update_item_in_todo(request, pk):
 
     # Get the list item by the pk from the template and toggle
     if 'toggle_item' in request.GET:
-            
+
         item = TodoItem.objects.get(pk=pk)
 
         # Toggle the is_completed status
@@ -311,5 +301,3 @@ def delete_or_update_item_in_todo(request, pk):
 
     # ...and sent to the template
     return render(request, 'repairs_restorals/todo_list.html', context)
-
-

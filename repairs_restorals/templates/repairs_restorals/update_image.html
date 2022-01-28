@@ -3,16 +3,14 @@
 
 {% block content %}
 
-<h1>Add Images To Your Tickets</h1>
-<p class="small text-muted">Select a service ticket of yours from the 
-    dropdown menu, then browse for an image you would like to upload. Finally
-    click "Add Image" to add. 
+<h1>Update Image</h1>
+<p class="small text-muted">
   </p>
 
 <form action="." method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form | crispy }}
-    <input type="submit" value="Add Image">
+    <input type="submit" value="Update Image">
 </form>
 <br>
 <small><input class="text-muted btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);"></small>

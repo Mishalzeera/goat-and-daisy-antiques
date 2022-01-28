@@ -3,16 +3,17 @@
 {% block content %}
 
 <h1>{{request.user | title }}'s Workbench</h1>
-<a href="{% url 'create_service_ticket' %}"><p>Create Ticket</p></a>
-<a href="{% url 'add_image' %}"><p>Add Images</p></a>
-
+<a href="{% url 'create_service_ticket' %}"><p class="display-6">Create Ticket</p></a>
+<p class="small text-muted">Use above link to create a service ticket.</p>
+<a href="{% url 'add_image' %}"><p class="display-6">Add Images</p></a>
+<p class="small text-muted">Use above link to add images to your tickets.</p>
 
 <h2>Current Tickets</h2>
 
 {% for ticket in tickets%}
     {% if not ticket.is_completed %}
     <a href="{% url 'service_ticket' pk=ticket.id %}">
-        <p class="display-6">{{ ticket.title }}</p>
+        <p class="lead">{{ ticket.title }}</p>
     </a>
     <a href="{% url 'update_service_ticket' pk=ticket.id%}">
         <p class='text-success'>Update</p>
@@ -26,7 +27,7 @@
 {% for ticket in tickets%}
     {% if ticket.is_completed %}
     <a href="{% url 'service_ticket' pk=ticket.id%}">
-        <p>{{ ticket.title }}</p>
+        <p class="small">{{ ticket.title }}</p>
     </a>
     {% endif %}
 {% endfor %}

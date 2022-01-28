@@ -46,25 +46,6 @@ class StaffManageItems(ListView):
     context_object_name = "products"
 
 
-class StaffUpdateItem(UpdateView):
-    '''
-    Allows a shop staff member to change a particular inventory item.
-    '''
-    model = ShopItems
-    form_class = StaffCreateItemForm
-    template_name = 'shop/staff_update_item.html'
-    success_url = reverse_lazy('staff_manage_items')
-
-
-class StaffDeleteImage(DeleteView):
-    '''
-    Allows a shop staff member to delete product images.
-    '''
-    model = ShopItemImage
-    template_name = 'shop/staff_confirm_delete.html'
-    success_url = reverse_lazy('staff_manage_items')
-
-
 class StaffAddItem(CreateView):
     '''
     Allows a shop staff member to add an item to the shop inventory.
@@ -81,6 +62,16 @@ class StaffDeleteItem(DeleteView):
     '''
     model = ShopItems
     template_name = 'shop/staff_confirm_delete.html'
+    success_url = reverse_lazy('staff_manage_items')
+
+
+class StaffUpdateItem(UpdateView):
+    '''
+    Allows a shop staff member to change a particular inventory item.
+    '''
+    model = ShopItems
+    form_class = StaffCreateItemForm
+    template_name = 'shop/staff_update_item.html'
     success_url = reverse_lazy('staff_manage_items')
 
 
@@ -104,3 +95,10 @@ class StaffUpdateImage(UpdateView):
     success_url = reverse_lazy('staff_manage_items')
 
 
+class StaffDeleteImage(DeleteView):
+    '''
+    Allows a shop staff member to delete product images.
+    '''
+    model = ShopItemImage
+    template_name = 'shop/staff_confirm_delete.html'
+    success_url = reverse_lazy('staff_manage_items')

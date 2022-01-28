@@ -39,7 +39,7 @@ class CustomerUploadImageForm(forms.ModelForm):
         super(CustomerUploadImageForm, self).__init__(*args, **kwargs)
         customer = get_object_or_404(Customer, username=self.request.user)
         self.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
-            customer=customer)
+            customer=customer).filter(is_completed=False)
 
     class Meta:
         model = TicketImage

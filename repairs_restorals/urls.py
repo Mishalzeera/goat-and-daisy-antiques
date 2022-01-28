@@ -18,6 +18,10 @@ urlpatterns = [
          name="ticket_overview"),
     path('confirm-delete/<int:pk>/',
          views.TicketDelete.as_view(), name="ticket_delete"),
+    path('update-image/<int:pk>/',
+         views.WorkshopStaffUpdateImage.as_view(), name="update_ticket_image"),
+    path('delete-image/<int:pk>/',
+         views.WorkshopStaffDeleteImage.as_view(), name="delete_ticket_image"),
     path('task-manager/', views.TaskManager.as_view(), name="task_manager"),
     path('manage-todo-item/<int:pk>/',
          views.delete_or_update_item_in_todo, name='manage_item')

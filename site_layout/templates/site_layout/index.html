@@ -2,10 +2,15 @@
 
 {% block content %}
 <h1>Home</h1>
+
+{% if request.user.is_authenticated%}
+<p class="lead">Welcome {{request.user.username}}</p>
+{% else %}
 <a href="{% url 'login' %}">
     <p>Login</p>
 </a>
 <a href="{% url 'signup' %}">
     <p>Register</p>
 </a>
+{% endif %}
 {% endblock %}

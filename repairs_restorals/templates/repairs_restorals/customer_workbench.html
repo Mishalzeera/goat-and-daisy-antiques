@@ -12,7 +12,7 @@
 {% for ticket in tickets%}
     {% if not ticket.is_completed %}
     <a href="{% url 'service_ticket' pk=ticket.id %}">
-        <p>{{ ticket.title }}</p>
+        <p class="display-6">{{ ticket.title }}</p>
     </a>
     <a href="{% url 'update_service_ticket' pk=ticket.id%}">
         <p class='text-success'>Update</p>

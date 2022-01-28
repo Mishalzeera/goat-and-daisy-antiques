@@ -1,4 +1,3 @@
-from re import T
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
@@ -314,13 +313,3 @@ def delete_or_update_item_in_todo(request, pk):
     return render(request, 'repairs_restorals/todo_list.html', context)
 
 
-def toggle_todo_item_status(request, pk):
-
-    # Get the item by the pk sent from the template
-    item = TodoItem.objects.get(pk=pk)
-
-    # Toggle the is_completed status
-    if item.is_completed == False:
-        item.is_completed = True
-    elif item.is_completed:
-        item.is_completed = False

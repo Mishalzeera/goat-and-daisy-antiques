@@ -7,5 +7,7 @@
         {% csrf_token %}
         <input type="submit" value="Confirm Delete ">
     </form>
+    <br>
+    <small><input class="btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);"></small>
 
 {% endblock %}

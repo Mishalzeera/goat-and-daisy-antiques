@@ -1,13 +1,22 @@
 from django.shortcuts import render, redirect
+from django.conf import settings
 from .contexts import shopping_cart
 
 
-def add_to_cart(request):
-
-    cart = request.session.get('shopping_cart', {})
-
+def view_cart(request):
+    '''
+    Shows the users shopping cart, with items and checkout button.
+    '''
     context = {
-        'cart': cart,
+
+        "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
+        "stripe_secret_key": settings.STRIPE_SECRET_KEY,
+
     }
 
     return render(request, 'invoices/shopping_cart.html', context)
+
+
+def add_to_cart(request, item_id):
+
+    pass

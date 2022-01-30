@@ -80,6 +80,7 @@ TEMPLATES = [
                 'django.template.context_processors.media',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'invoices.contexts.shopping_cart',
             ],
         },
     },
@@ -163,4 +164,5 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
+# Invoice settings, Stripe settings
 

@@ -14,6 +14,7 @@
 ## Shop
 
 - work out the images from templates
+- add shipping to ShopItems
 
 ## Repairs/Restorals
 

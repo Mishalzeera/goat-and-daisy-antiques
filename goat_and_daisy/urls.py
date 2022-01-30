@@ -25,6 +25,7 @@ urlpatterns = [
     path('', include('site_layout.urls')),
     path('shop/', include('shop.urls')),
     path('workshop/', include('repairs_restorals.urls')),
+    path('invoices/', include('invoices.urls')),
 ]
 
 admin.site.site_header = "Goat and Daisy"

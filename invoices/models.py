@@ -70,7 +70,7 @@ class WorkshopCustomerInvoice(BaseInvoice):
     installment_paid = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.full_name + "'s Workshop Invoice " + self.order_number
+        return self.service_ticket.title + "'s" + " " + self.payment_type
 
 
 class ShopLineItems(models.Model):

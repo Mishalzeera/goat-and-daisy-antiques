@@ -9,6 +9,7 @@ class ShopItems(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=12)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return self.title
@@ -33,5 +34,3 @@ class ShopItemImage(models.Model):
 #     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 #     item = models.OneToOneField(ShopItems, on_delete=models.PROTECT)
 #     quantity = models.IntegerField(default=1)
-
-

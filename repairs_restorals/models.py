@@ -4,8 +4,7 @@ from profiles.models import Customer, StaffMember
 
 class ServiceTicket(models.Model):
     '''
-    A current, open order for the workshop to complete - fields include customer, date created, service description, links to desired materials,
-    images to show the desired outcome, is_completed.
+    A service order for the workshop to complete.
     '''
     customer = models.ForeignKey(
         Customer, related_name='service_ticket', on_delete=models.PROTECT)
@@ -19,6 +18,15 @@ class ServiceTicket(models.Model):
     link_to_desired_materials_2 = models.URLField(null=True, blank=True)
     link_to_desired_materials_3 = models.URLField(null=True, blank=True)
     is_completed = models.BooleanField(default=False)
+    has_invoice = models.BooleanField(default=False)
+
+    def set_has_invoice_to_true(self):
+        self.has_invoice = True
+
+    # def save(self, *args, **kwargs):
+    #     if not self.has_invoice:
+    #         self._generate_invoice_and_set_has_invoice()
+    #     super().save(self, *args, **kwargs)
 
     def __str__(self) -> str:
         return self.title
@@ -48,13 +56,15 @@ class TodoList(models.Model):
     def __str__(self):
         return self.subject
 
+
 class TodoItem(models.Model):
     '''
     An item in a "todo" list.
     '''
-    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE, related_name="items")
+    todo_list = models.ForeignKey(
+        TodoList, on_delete=models.CASCADE, related_name="items")
     title = models.CharField(max_length=255)
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.title 
+        return self.title

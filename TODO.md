@@ -31,6 +31,7 @@
   CreateServiceTicket views.py
 
 - for todo list, make it for every user
+- make sure that new customers dont see Current and Completed Tickets
 
 ## Invoices
 

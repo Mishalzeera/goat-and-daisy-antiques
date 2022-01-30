@@ -146,3 +146,28 @@ add_image.html>
 </form>
 
 {% endblock %}
+
+
+## Creating custom signal integrated with model methods
+
+Seeing the integration between model methods and signals, and running into
+circular import errors when trying to use only model methods, I decided to try
+using signals to auto-generate an invoice in the case of a Workshop Service
+Ticket being created. 
+
+This was tricky, not least for identifying the request.user, which I did by
+referencing the Customer database with the instance.username. The main issue
+was actually that writing the WorkshopCustomerInvoice.create() directly
+caused it to loop infinitely. 
+
+This made my database populate endlessly with new objects until I cut the
+server. Made worse by the fact that there was no data for the admin panel to
+display, which throws an error when you try and delete them.
+
+Going into the shell, creating a list with objects.all() and iterating through
+them, adding a displayable name and saving per-instance, then going into the
+admin panel and deleting them as normal worked.
+
+The solution in the signals code was to use IF an object with that name didn't
+exist (filtering service_ticket_id with instance.id) then execute the block.
+

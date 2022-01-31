@@ -7,12 +7,28 @@
 <link rel="stylesheet" href="{% static '/css/checkout.css'%}" />
 {% endblock %}
 
+{% block preload_js %}
+<script src="{% static 'js/checkout.js' %}" defer></script>
+{% endblock %}
+
 {% block content%}
 
 
+<form id="payment-form" method=POST>
+{% csrf_token %}
+{{form|crispy}}
+    <div id="payment-element">
+      <!--Stripe.js injects the Payment Element-->
+    </div>
+    <button type="submit" id="submit">
+      <div class="spinner hidden" id="spinner"></div>
+      <span id="button-text">Pay now</span>
+    </button>
+    <div id="payment-message" class="hidden"></div>
+  </form>
 
 
-
+{% csrf_token %}
 
 
 {% endblock %}
@@ -21,6 +37,6 @@
 {{ block.super }}
 
 
-<script src="{% static 'js/checkout.js' %}"></script>
+
 
 {% endblock %}

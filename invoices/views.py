@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from django.http import JsonResponse
 from .contexts import shopping_cart
+from .forms import ShopCheckoutForm
+import stripe
+import json
+import os 
 
 
 def view_cart(request):
@@ -20,3 +25,7 @@ def view_cart(request):
 def add_to_cart(request, item_id):
 
     pass
+
+    
+def checkout(request):
+    return render(request, 'invoices/checkout.html')

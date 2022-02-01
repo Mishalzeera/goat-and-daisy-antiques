@@ -16,7 +16,7 @@
 
 <form id="payment-form" method=POST>
 {% csrf_token %}
-{{form|crispy}}
+
     <div id="payment-element">
       <!--Stripe.js injects the Payment Element-->
     </div>

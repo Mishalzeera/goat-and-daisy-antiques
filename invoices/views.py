@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.http import JsonResponse
 from django.views import View
+from django.views.decorators.http import require_POST
 from shop.models import ShopItems
 from .forms import ShopCheckoutForm
 import stripe
@@ -34,8 +35,8 @@ def checkout(request):
     form = ShopCheckoutForm()
     context = {
         'form': form,
-        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
-        'client_secret': settings.STRIPE_SECRET_KEY,
+        # 'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+        # 'client_secret': settings.STRIPE_SECRET_KEY,
     }
     return render(request, 'invoices/checkout.html', context)
 
@@ -46,10 +47,10 @@ def calculate_order_amount(items):
     # people from directly manipulating the amount on the client
     return 1400
 
-
+@require_POST
 def create_shop_checkout_session(request):
 
-    data = json.loads(request.data)
+    data = json.loads(request.body)
     # Create a PaymentIntent with the order amount and currency
     intent = stripe.PaymentIntent.create(
         amount=calculate_order_amount(data['items']),

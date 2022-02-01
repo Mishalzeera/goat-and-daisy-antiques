@@ -62,4 +62,7 @@ const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 - Then in the initialize function, add 'X-CSRFToken': csrftoken to the 'headers'
 dictionary.
 
+## json.loads(request.data) should be json.loads(request.body)
+
+- The main culprit once the csrf token was fixed. 
 

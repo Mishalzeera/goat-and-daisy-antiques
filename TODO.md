@@ -47,3 +47,9 @@
 
 - when shop customer adds an item to their order, if_available is set to False
   for fifteen minutes
+
+
+- Vacuum house
+- Linked In seminar at 1 Irish time
+- Pay storage and CI bills
+- pay storage and CI bills These things cant wait

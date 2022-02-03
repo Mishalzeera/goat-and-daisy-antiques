@@ -1,10 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
+from django.urls import reverse_lazy, reverse
 from django.views import View
+from django.contrib import messages
 from django.views.decorators.http import require_POST
 from shop.models import ShopItems
+from profiles.models import Customer
 from .forms import ShopCheckoutForm
+from .contexts import shopping_cart
 import stripe
 import json
 import os 
@@ -28,13 +32,35 @@ def view_cart(request):
 
 
 def add_to_cart(request, item_id):
+    
+    item = get_object_or_404(ShopItems, pk=item_id)
+    redirect_url = request.POST.get('redirect_url')
+    id = item.id
+    
+    cart_item = dict(id=id)
 
-    pass
+    cart = request.session.get('cart', {})
+    
+    request.session['cart'] = cart
+    messages.success(request, ("Successfully added to your shopping cart."))
+
+    return redirect(redirect_url)
+
+
 
 def checkout(request):
+
+    if request.user.is_authenticated:
+        customer_profile = get_object_or_404(Customer, username=request.user)
+    else:
+        customer_profile = {"full_name": "Not authenticated"}
+
+    
+
     form = ShopCheckoutForm()
     context = {
         'form': form,
+        'customer_profile': customer_profile,
         # 'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
         # 'client_secret': settings.STRIPE_SECRET_KEY,
     }

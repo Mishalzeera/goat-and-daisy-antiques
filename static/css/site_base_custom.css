@@ -1,3 +1,9 @@
 body {
-    background-color: var(--amber-100);
+  background-color: var(--amber-100);
+}
+
+.flex-between-baseline {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

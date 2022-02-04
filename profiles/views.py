@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
-from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm
+from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
 from .models import Customer, StaffMember
 
 
@@ -22,9 +22,12 @@ class CustomerProfilePage(View):
 
     def get(self, request, *args, **kwargs):
         profile = User.objects.get(pk=request.user.id)
+        customer = Customer.objects.get(username=request.user)
+        
 
         context = {
             'profile': profile,
+            'customer': customer,
         }
 
         return render(request, 'registration/customer_profile.html', context)
@@ -172,6 +175,16 @@ class CustomerAccountUpdate(UpdateView):
     '''
     model = Customer
     form_class = CustomerUpdateForm
+    context_object_name = 'customer'
+    template_name = "registration/customer_account_update.html"
+
+
+class PublicCustomerAccountUpdate(UpdateView):
+    '''
+    This view allows staff to modify customer accounts.
+    '''
+    model = Customer
+    form_class = PublicCustomerUpdateForm
     context_object_name = 'customer'
     template_name = "registration/customer_account_update.html"
 

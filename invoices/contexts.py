@@ -13,7 +13,7 @@ def shopping_cart(request):
 
 
     cart = request.session.get('cart', {})
-
+    # You have to refer to a [key] not a [index_num]
     for item_id, item_data in cart.items():
         if isinstance(item_data, int):
             shop_item = get_object_or_404(ShopItems, pk=item_data)

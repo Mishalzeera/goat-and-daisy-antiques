@@ -1,12 +1,17 @@
-{% extends 'base.html' %}
-
-{% block content %}
-
+{% extends 'base.html' %} {% block content %}
 
 <h1>Shopping Cart</h1>
 
+<p>
+  You have {{products_count }} {% if products_count != '1' %} items {% else %}
+  item {% endif %} in your shopping cart.
+</p>
 
-<p>{{products_count }}</p>
-<p>{{ template_cart }}</p>
-<p>{{order_total}}</p>
+{% for items in template_cart %}
+<p class="lead">{{ items.product.title }}</p>
+{% endfor %}
+
+<a href="{% url 'checkout' %}">
+  <p class="h3">Checkout</p>
+</a>
 {% endblock %}

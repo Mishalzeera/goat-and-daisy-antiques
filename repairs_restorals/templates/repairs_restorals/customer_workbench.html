@@ -15,7 +15,7 @@
     <a href="{% url 'service_ticket' pk=ticket.id %}">
         <p class="lead">{{ ticket.title }}</p>
     </a>
-    <a href="{% url 'update_service_ticket' pk=ticket.id%}">
+    <a href="{% url 'public_update_service_ticket' pk=ticket.id%}">
         <p class='text-success'>Update</p>
     </a>
     {% endif %}

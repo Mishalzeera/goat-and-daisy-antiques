@@ -23,8 +23,8 @@ def view_cart(request):
     '''
     context = {
 
-        "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
-        "stripe_secret_key": settings.STRIPE_SECRET_KEY,
+        # "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
+        # "stripe_secret_key": settings.STRIPE_SECRET_KEY,
 
     }
 
@@ -33,16 +33,16 @@ def view_cart(request):
 
 def add_to_cart(request, item_id):
     
+    
     item = get_object_or_404(ShopItems, pk=item_id)
     redirect_url = request.POST.get('redirect_url')
     id = item.id
-    
-    cart_item = dict(id=id)
-
     cart = request.session.get('cart', {})
     
+    
+    cart = dict(id=item_id)
     request.session['cart'] = cart
-    messages.success(request, ("Successfully added to your shopping cart."))
+    messages.success(request, (f"Successfully added {item.title} to your shopping cart."))
 
     return redirect(redirect_url)
 

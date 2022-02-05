@@ -171,3 +171,27 @@ admin panel and deleting them as normal worked.
 The solution in the signals code was to use IF an object with that name didn't
 exist (filtering service_ticket_id with instance.id) then execute the block.
 
+
+## Shopping cart, request.session, context processor
+
+Create a context processor that returns a context. In the context:
+
+  There is a shopping_cart, which is a list of ShopItems objects. 
+
+  There are order amount, shipping amount and order total figures.
+
+In the logic, the session object 'cart' is gotten or created.
+
+'cart' is a dictionary of ids, when printed reads = 'id': 3.
+
+In the 'add to cart' view:
+
+  'cart' is also gotten or created
+  ShopItems is queried with the item_id pk
+  cart is then set to the query results 'id' field 
+
+I want the list in the context processor to be appended with each addition
+to the cart, but I only get the latest addition.
+
+
+

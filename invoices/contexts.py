@@ -10,24 +10,26 @@ def shopping_cart(request):
     products_count = 0
     order_amount = 0
     shipping = 500
-
-
     cart = request.session.get('cart', {})
+
+
     # You have to refer to a [key] not a [index_num]
     for item_id, item_data in cart.items():
         if isinstance(item_data, int):
             shop_item = get_object_or_404(ShopItems, pk=item_data)
             to_append = {
                 'id': shop_item.id,
-                'title': shop_item.title,
-                'price': float(shop_item.price),
+                'product': shop_item,
             }
+
+            print("BEFORE APPEND", template_cart)
 
             if not to_append in template_cart:
                 template_cart.append(to_append)
                 order_amount += float(shop_item.price)
+                print("IF NEW AFTER APPEND", template_cart)
 
-  
+            print("REGARDLESS AFTER APPEND", template_cart)
     for item in enumerate(template_cart):
         products_count += 1
 

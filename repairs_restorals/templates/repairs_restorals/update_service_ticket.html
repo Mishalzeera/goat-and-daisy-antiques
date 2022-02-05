@@ -5,6 +5,11 @@
 
 <h1>Update Service Ticket</h1>
 
+{% if customer_ticket %}
+  <p class="h3">{{ customer_ticket.title }}</p>
+  <p class="lead">{{ customer_ticket.service_description}}</p>
+{% endif %}
+
 <form action="." method="POST">
   {% csrf_token %} 
   {{ form | crispy }}

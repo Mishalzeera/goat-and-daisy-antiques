@@ -1,5 +1,7 @@
 ## Profiles
 
+- current orders to customer profiles
+
 - check out any tutorials on permission mixins
 - phonenumber
 - find programmatic way to automatically add staff members to correct groups
@@ -7,17 +9,14 @@
 
 ## Site Layout
 
-
 ## Shop
 
-- work out the images from templates
+- signals to is_available, file already in SHOP
 - add shipping to ShopItems
 
 ## Repairs/Restorals
 
 -Make staff service ticket Create view and form
--ticket update for customer restricted to links
-
 
 - do something about the hardcoded workshop_staff in
   CreateServiceTicket views.py
@@ -27,10 +26,11 @@
 
 ## Invoices
 
--customer create order/invoice
--customer view order/invoice
--shop staff create order/invoice
--shop staff view invoices
+- Update Cart/Remove from cart
+  -customer create order/invoice
+  -customer view order/invoice
+  -shop staff create order/invoice
+  -shop staff view invoices
 
 - service ticket on save if not invoice create invoice, default=deposit
 - customer view invoice
@@ -38,6 +38,3 @@
 
 - when shop customer adds an item to their order, is_available is set to False
   for fifteen minutes
-
-
-

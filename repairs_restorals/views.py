@@ -4,7 +4,7 @@ from django.views.generic import View, ListView, CreateView, UpdateView, DeleteV
 from django.views.generic.detail import DetailView
 from profiles.models import Customer, StaffMember
 from .models import ServiceTicket, TicketImage, TodoList, TodoItem
-from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CreateTodoListForm, CreateTodoListItemForm
+from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, CreateTodoListForm, CreateTodoListItemForm
 
 
 class Workshop(View):
@@ -115,15 +115,26 @@ class ServiceTicketDetail(DetailView):
 
 class ServiceTicketUpdate(UpdateView):
     '''
-    Allows a user to update a current service ticket, most fields restricted
-    so that any fundamental changes to a project will have to involve a staff
-    member.
+    Allows staff to update a current service ticket.
     '''
     model = ServiceTicket
     fields = ['title', 'service_description', 'link_to_desired_materials_1',
               'link_to_desired_materials_2', 'link_to_desired_materials_3', 'is_completed']
     template_name = 'repairs_restorals/update_service_ticket.html'
     success_url = reverse_lazy('ticket_overview')
+
+
+class PublicServiceTicketUpdate(UpdateView):
+    '''
+    Allows a customer to update a current service ticket, most fields restricted
+    so that any fundamental changes to a project will have to involve a staff
+    member.
+    '''
+    model = ServiceTicket
+    form_class = CustomerUpdateTicketForm
+    context_object_name = "customer_ticket"
+    template_name = 'repairs_restorals/update_service_ticket.html'
+    success_url = reverse_lazy('workshop')
 
 
 class WorkshopStaffTicketOverview(ListView):

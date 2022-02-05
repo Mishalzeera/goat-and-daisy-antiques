@@ -23,6 +23,25 @@ class CustomerCreateServiceTicketForm(forms.ModelForm):
                   'link_to_desired_materials_2', 'link_to_desired_materials_3', ]
 
 
+class CustomerUpdateTicketForm(forms.ModelForm):
+    '''
+    Form allowing an authenticated customer user to create a service ticket,
+    entering their own titles, descriptions, links
+    '''
+    # The url fields dont give any formatting hints, so help text was needed.
+    link_to_desired_materials_1 = forms.URLField(required=False,
+                                                 help_text="Please include http://www or https://www in your links.")
+    link_to_desired_materials_2 = forms.URLField(required=False,
+                                                 help_text="Please include http://www or https://www in your links.")
+    link_to_desired_materials_3 = forms.URLField(required=False,
+                                                 help_text="Please include http://www or https://www in your links.")
+
+    class Meta:
+        model = ServiceTicket
+        fields = ['link_to_desired_materials_1',
+                  'link_to_desired_materials_2', 'link_to_desired_materials_3', ]
+
+
 class CustomerUploadImageForm(forms.ModelForm):
     '''
     Form that allows a customer to upload an example image - customer selects

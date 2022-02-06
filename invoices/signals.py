@@ -1,6 +1,6 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import WorkshopCustomerInvoice
+from .models import WorkshopCustomerInvoice, ShopCustomerInvoice
 from profiles.models import Customer
 from repairs_restorals.models import ServiceTicket
 
@@ -22,3 +22,5 @@ def generate_invoice_and_set_has_invoice(sender, instance, created, **kwargs):
         )
         instance.set_has_invoice_to_true()
         instance.save()
+
+

@@ -8,6 +8,7 @@ from django.views.decorators.http import require_POST
 from shop.models import ShopItems
 from profiles.models import Customer
 from .forms import ShopCheckoutForm
+from .models import ShopCustomerInvoice
 # from .contexts import shopping_cart
 import stripe
 import json
@@ -66,28 +67,68 @@ def remove_from_cart(request, item_id):
 
 def checkout(request):
 
-    if request.user.is_authenticated:
-        customer_profile = get_object_or_404(Customer, username=request.user)
-    else:
-        customer_profile = {"full_name": "Not authenticated"}
+    if request.method == 'GET':
 
-    
+        if request.user.is_authenticated:
+            customer_profile = get_object_or_404(Customer, username=request.user)
+        else:
+            customer_profile = {"full_name": "Not authenticated"}
 
-    form = ShopCheckoutForm()
-    context = {
-        'form': form,
-        'customer_profile': customer_profile,
-        # 'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
-        # 'client_secret': settings.STRIPE_SECRET_KEY,
-    }
-    return render(request, 'invoices/checkout.html', context)
+        
 
+        form = ShopCheckoutForm()
+        context = {
+            'form': form,
+            'customer_profile': customer_profile,
+            # 'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+            # 'client_secret': settings.STRIPE_SECRET_KEY,
+        }
+        return render(request, 'invoices/checkout.html', context)
+
+    if request.method == 'POST':
+        order_amount = request.POST.get('order_amount')
+        shipping_cost = request.POST.get('shipping')
+        order_total = request.POST.get('order_total')
+        if request.user.is_authenticated:
+
+
+            new_invoice = ShopCustomerInvoice.objects.create(
+                full_name= request.POST.get('full_name'),
+                email= request.POST.get('email'),
+                address1= request.POST.get('address1'),
+                address2= request.POST.get('address2'),
+                postcode= request.POST.get('postcode'),
+                town_or_city= request.POST.get('town_or_city'),
+                country= request.POST.get('country'),
+                order_amount = order_amount,
+                shipping_cost = shipping_cost,
+                order_total = order_total,
+                is_completed = True,
+            )
+            
+            new_invoice.save()
+
+        else:
+            form = ShopCheckoutForm(request.POST)
+            if form.is_valid():
+                form.instance.is_completed = True
+                form.instance.order_amount = order_amount
+                form.instance.shipping_cost = shipping_cost
+                form.instance.order_total = order_total 
+                form.save()
+                messages.success(request, ("You have paid, thank you."))
+            else:
+                messages.error(request, ("Form not filled correctly"))
+
+        
+        
+        return redirect('index')
 
 def calculate_order_amount(items):
     # Replace this constant with a calculation of the order's amount
     # Calculate the order total on the server to prevent
     # people from directly manipulating the amount on the client
-    return 1400
+    return items 
 
 @require_POST
 def create_shop_checkout_session(request):

@@ -37,12 +37,15 @@ class BaseInvoice(models.Model):
     def _generate_timestamp(self):
         return datetime.datetime.now()
 
+    def _calculate_order_total(self):
+        self.order_total = self.shipping_cost + self.order_amount
+
     # If a unique id doesn't exist, create one and save it
     # Add the shipping to the order amount to get the order total
     def save(self, *args, **kwargs):
         if not self.order_number:
             self.order_number = self._generate_order_number()
-        self.order_total = self.shipping_cost + self.order_amount
+        
         super().save(*args, **kwargs)
 
 

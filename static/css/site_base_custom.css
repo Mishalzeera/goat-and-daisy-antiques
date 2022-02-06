@@ -7,3 +7,27 @@ body {
   justify-content: space-between;
   align-items: baseline;
 }
+
+.flex-between-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.flex-between-end {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.margin-0-center {
+  margin: 0 auto;
+}

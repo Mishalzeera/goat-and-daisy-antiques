@@ -8,7 +8,9 @@
 </p>
 
 {% for items in template_cart %}
-<p class="lead">{{ items.product.title }}</p>
+<p >{{ items.product.title }}
+  <a href="{% url 'remove_from_cart' items.product.id %} " class="small">Remove From Cart</a>
+</p>
 {% endfor %}
 
 <a href="{% url 'checkout' %}">

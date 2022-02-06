@@ -1,6 +1,7 @@
 ## Profiles
 
 - current orders to customer profiles
+- no notes to new customer profile setup
 
 - check out any tutorials on permission mixins
 - phonenumber
@@ -11,6 +12,7 @@
 
 ## Shop
 
+- images with set to main
 - signals to is_available, file already in SHOP
 - add shipping to ShopItems
 

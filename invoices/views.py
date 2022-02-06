@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from shop.models import ShopItems
 from profiles.models import Customer
 from .forms import ShopCheckoutForm
-from .contexts import shopping_cart
+# from .contexts import shopping_cart
 import stripe
 import json
 import os 
@@ -40,13 +40,29 @@ def add_to_cart(request, item_id):
     cart = request.session.get('cart', {})
     
     
-    cart = dict(id=item_id)
+    cart[str(item_id)] = dict(id=item_id)
+    
     request.session['cart'] = cart
+
     messages.success(request, (f"Successfully added {item.title} to your shopping cart."))
 
     return redirect(redirect_url)
 
 
+def remove_from_cart(request, item_id):
+        
+    item = get_object_or_404(ShopItems, pk=item_id)
+    id = item.id
+    cart = request.session.get('cart', {})
+    
+    
+    cart.pop(str(item_id))
+    
+    request.session['cart'] = cart
+
+    messages.success(request, (f"Successfully removed {item.title} from your shopping cart."))
+
+    return redirect('view_cart')
 
 def checkout(request):
 

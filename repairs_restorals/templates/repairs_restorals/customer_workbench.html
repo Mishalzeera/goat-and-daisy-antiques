@@ -5,6 +5,9 @@
 <h1>{{request.user | title }}'s Workbench</h1>
 <a href="{% url 'create_service_ticket' %}"><p class="display-6">Create Ticket</p></a>
 <p class="small text-muted">Use above link to create a service ticket.</p>
+
+{% if tickets %}
+
 <a href="{% url 'add_image' %}"><p class="display-6">Add Images</p></a>
 <p class="small text-muted">Use above link to add images to your tickets.</p>
 
@@ -21,7 +24,7 @@
     {% endif %}
 {% endfor %}
 
-
+{% if ticket.is_completed %}
 <h2>Completed Tickets</h2>
 
 {% for ticket in tickets%}
@@ -31,4 +34,7 @@
     </a>
     {% endif %}
 {% endfor %}
+{% endif %}
+
+{% endif %}
 {% endblock %}

@@ -9,7 +9,9 @@
     <p>{{ product.description|truncatewords:15 }}</p>
     <p>{{ product.price }}</p>
     {% for image in product.images.all %}
+        {% if image.is_primary_image %}
         <img src="{{ image.image.url }}" alt="" style="width:300px;">
+        {% endif %}
     {% endfor %}
     {% endif %}
     <form action="{% url 'add_to_cart' product.id %}" method=POST>

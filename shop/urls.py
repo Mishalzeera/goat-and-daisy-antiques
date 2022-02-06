@@ -18,4 +18,5 @@ urlpatterns = [
          views.StaffUpdateImage.as_view(), name="update_image"),
     path('delete-image-confirm/<int:pk>/',
          views.StaffDeleteImage.as_view(), name="delete_image"),
+     path('set-primary-image/<int:product_id>/<int:image_id>/', views.set_primary_image, name='set_primary_image'),
 ]

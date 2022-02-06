@@ -1,25 +1,23 @@
 ## Heroku deployment
 
--Deploy early with minimal apps and views. 
+-Deploy early with minimal apps and views.
 -pipenv install django-heroku
 -pipenv install gunicorn (Check Deployment.md for more)
 -Ensure secret key is set as an env variable in a os.path.exists("env.py") file.
--Use the code snippet from Heroku to create a separate staticfiles dir that 
+-Use the code snippet from Heroku to create a separate staticfiles dir that
 -Heroku can use to copy files to.
 -Install whitenoise to allow Heroku to directly serve your static files at least
 during production.
 
-
 ## Using built in Django Auth module
 
--Make sure the template path in settings is added to the project level, and 
+-Make sure the template path in settings is added to the project level, and
 create a templates>registration>login.html for login etc. Log out is called
 logged_out.html.
 
-
 ## Using Django's Class Based Views
 
--Make sure you use each one correctly, View has "get" and "post" methods, for 
+-Make sure you use each one correctly, View has "get" and "post" methods, for
 example, while many others don't. Overriding attributes and methods is the key
 to using them correctly. In template forms, setting the "action" attribute to
 a fullstop "." is the correct way to use something like a Create or Update view
@@ -28,42 +26,40 @@ pathways. Very handy and quick but only once you understand it.
 
 -With permissions, you can use mixins as well as decorators. The decorators go
 in the urls.py file, and decorate the view reference in the "path" structure.
-eg. path('', permission_required('appname.can_add_etc')(MyCBView.as_view())), 
-importing permission_required from contrib.auth.decorators. 
-
+eg. path('', permission_required('appname.can_add_etc')(MyCBView.as_view())),
+importing permission_required from contrib.auth.decorators.
 
 ## Custom tag filters
 
 -In the relevant app, a folder must be called 'templatetags' and contain an
-__init__.py file. Another file must be created, the tag registered within, then
+**init**.py file. Another file must be created, the tag registered within, then
 the filename is referenced in the template as load 'filename'. Then any tags
 named in that file will be accessible. Be sure to restart the server.
-
 
 ## Adding images
 
 - Using Media since there is changing CMS content used by staff without admin
-privileges. MEDIA_URL = "/media" MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
-Add a context processor 'django.template.context_processors.media', in templates
-everything uploaded there will be available as 
+  privileges. MEDIA_URL = "/media" MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
+  Add a context processor 'django.template.context_processors.media', in templates
+  everything uploaded there will be available as
 
 <img src="{{ MEDIA_URL }}example.jpg">
 
-- In main project directory urls.py, from django.conf import settings, from 
-django.conf.urls.static import static, then 
+- In main project directory urls.py, from django.conf import settings, from
+  django.conf.urls.static import static, then
 
 if settings.DEBUG:
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 - In models, an image model with a 'product' field, ForeignKey, related_name=
-images, return def __str as str(self.product) + str(self.id) for now.
- - image = models.ImageField(upload_to="name of what directory you want to add
- to the media root automatically")
+  images, return def \_\_str as str(self.product) + str(self.id) for now.
+- image = models.ImageField(upload_to="name of what directory you want to add
+  to the media root automatically")
 
 ## Using CreateView to post a form with hidden username/email etc
 
-- In the view, use def form_valid to assign 'form.instance.key' = 'value', 
- setting any queried values before hand eg 'customer = Customer.objects...'
+- In the view, use def form_valid to assign 'form.instance.key' = 'value',
+  setting any queried values before hand eg 'customer = Customer.objects...'
 
 - In the model form, exclude the fields you don't want the user to tamper with.
 
@@ -73,15 +69,15 @@ images, return def __str as str(self.product) + str(self.id) for now.
   ## Limiting a Model Form set of options to request.user's
 
   - Very tricky, if using CBV's then get_form_kwargs needs to be rewritten..
-  https://medium.com/analytics-vidhya/django-how-to-pass-the-user-object-into-
-  form-classes-ee322f02948c
+    https://medium.com/analytics-vidhya/django-how-to-pass-the-user-object-into-
+    form-classes-ee322f02948c
 
-  - Also an __init__ override method which was too complicated in accessing
-  request.user
+  - Also an **init** override method which was too complicated in accessing
+    request.user
 
   - Finally, using form.fields['field'].queryset = ... in the views did it. Not
-  so tricky in the end but finding the solution was about four hours of 
-  trial and error. 
+    so tricky in the end but finding the solution was about four hours of
+    trial and error.
 
   ## Images, function based views..
 
@@ -92,48 +88,63 @@ images, return def __str as str(self.product) + str(self.id) for now.
   ## Empty screen on redirect from function view
 
   - The following code caused an error that I could not debug after many hours,
-  in the interest of saving time I have reverted to using Class Based View but
-  will ask someone:
+    in the interest of saving time I have reverted to using Class Based View but
+    will ask someone:
 
-  views.py> 
+  views.py>
 
   # def customer_add_image(request):
 
-#     if request.method == 'GET':
-#         '''
-#         The GET method must return an image upload form with two fields. One 
-#         field is a list of request.users tickets. Once a ticket is selected, 
-#         the user can upload an image which will be linked to that ticket
-#         '''
+# if request.method == 'GET':
 
-#         form = CustomerUploadImageForm()
-#         customer = get_object_or_404(Customer, username=request.user)
-#         form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
-#             customer=customer)
-#         context = {
-#             'form': form,
-#         }
-#         return render(request, 'repairs_restorals/add_image.html', context)
+# '''
 
-#     if request.method == 'POST':
-#         '''The POST method creates an instance of a TicketImage via the
-#         upload form and saves it'''
+# The GET method must return an image upload form with two fields. One
 
-#         form = CustomerUploadImageForm(request.POST, request.FILES)
+# field is a list of request.users tickets. Once a ticket is selected,
 
-#         if form.is_valid:
-#             form.save()
+# the user can upload an image which will be linked to that ticket
 
-#         return render(request, 'repairs_restorals/add_image.html')
+# '''
+
+# form = CustomerUploadImageForm()
+
+# customer = get_object_or_404(Customer, username=request.user)
+
+# form.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
+
+# customer=customer)
+
+# context = {
+
+# 'form': form,
+
+# }
+
+# return render(request, 'repairs_restorals/add_image.html', context)
+
+# if request.method == 'POST':
+
+# '''The POST method creates an instance of a TicketImage via the
+
+# upload form and saves it'''
+
+# form = CustomerUploadImageForm(request.POST, request.FILES)
+
+# if form.is_valid:
+
+# form.save()
+
+# return render(request, 'repairs_restorals/add_image.html')
 
 urls.py>
 
-#     path('add-image/', views.customer_add_image, name='add_image'),
+# path('add-image/', views.customer_add_image, name='add_image'),
 
 add_image.html>
 
-{% extends 'base.html' %} 
-{% load crispy_forms_tags %} 
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 
@@ -147,18 +158,17 @@ add_image.html>
 
 {% endblock %}
 
-
 ## Creating custom signal integrated with model methods
 
 Seeing the integration between model methods and signals, and running into
 circular import errors when trying to use only model methods, I decided to try
 using signals to auto-generate an invoice in the case of a Workshop Service
-Ticket being created. 
+Ticket being created.
 
 This was tricky, not least for identifying the request.user, which I did by
 referencing the Customer database with the instance.username. The main issue
 was actually that writing the WorkshopCustomerInvoice.create() directly
-caused it to loop infinitely. 
+caused it to loop infinitely.
 
 This made my database populate endlessly with new objects until I cut the
 server. Made worse by the fact that there was no data for the admin panel to
@@ -171,11 +181,17 @@ admin panel and deleting them as normal worked.
 The solution in the signals code was to use IF an object with that name didn't
 exist (filtering service_ticket_id with instance.id) then execute the block.
 
-
 ## Shopping cart, request.session, context processor
 
+Main issue in implementation was in the add_to_bag view, not correctly using
+dictionary syntax. Be sure to add a new dict as a value to a new key, so the
+dictionaries nest properly. Eg.. its not old_dict.append(new_dict) which wont
+work anyway. Its old_dict[a_key_based_on_unique_id] = new_dict. Would have
+saved me three days if I just grasped that a bit better.
 
+Other than that, setting up a context processor, adding it to the context
+processors in SETTINGS>TEMPLATES>OPTIONS>'context_processors'>
+'appname.filename.functionname'.
 
-  
-
-
+Everything is then instantiated immediately upon login or navigation to the
+site, so bear that in mind.

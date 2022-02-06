@@ -31,6 +31,14 @@
             <a href="{% url 'update_image' pk=image.id %}">
                 <span><small class="text-muted">Replace Image.</small></span>
             </a>
+            {% if image.is_primary_image %}
+            <p><small>Is Primary Image</small></p>
+            {% else %}
+            <a href="{% url 'set_primary_image' product_id=product.id image_id=image.id %}">
+                <span><small class="text-muted">Set Primary Image</small></span>
+            </a>
+            {% endif %}
+
         </div>
 
         

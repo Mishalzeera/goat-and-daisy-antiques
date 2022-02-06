@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
@@ -102,3 +102,23 @@ class StaffDeleteImage(DeleteView):
     model = ShopItemImage
     template_name = 'shop/staff_confirm_delete.html'
     success_url = reverse_lazy('staff_manage_items')
+
+
+def set_primary_image(request, product_id, image_id, ):
+    '''
+    Defines an image from a product set as the primary image for display 
+    purposes.
+    '''
+    image_set = ShopItemImage.objects.filter(product__id=product_id)
+    for img in image_set:
+        img.is_primary_image = False
+        img.save()
+    image = ShopItemImage.objects.get(pk=image_id)
+    image.is_primary_image = True
+    image.save()
+
+    print(image_set, image)
+    context = {
+        'image_set': image_set,
+    }
+    return redirect('staff_manage_items')

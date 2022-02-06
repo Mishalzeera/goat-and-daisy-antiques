@@ -24,6 +24,7 @@ class ShopItemImage(models.Model):
     '''
     product = models.ForeignKey(
         ShopItems, on_delete=models.CASCADE, related_name='images')
+    is_primary_image = models.BooleanField(default=False)
     image = models.ImageField(upload_to='shop/images')
 
     def __str__(self) -> str:

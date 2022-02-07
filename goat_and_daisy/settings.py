@@ -164,8 +164,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
-# Invoice settings, Stripe settings
+# Stripe settings
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 
+# Shop sales and invoice settings
+
+# This figure is the amount of time an item is reserved for a customer to
+# purchase as well as how long they have til their session expires. Used
+# in Invoices app views.
+CUSTOMER_SESSION_EXPIRY = 600

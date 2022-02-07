@@ -33,20 +33,20 @@ def view_cart(request):
 
     return render(request, 'invoices/shopping_cart.html', context)
 
+
 def timer(item_id):
     '''
-    Timer for the toggle function below. Occurs in its own thread, which is 
+    Timer for the hold function. Occurs in its own thread, which is 
     instantiated in the toggle function. 
     '''
-    time.sleep(600)
-    toggle_hold_shop_item(item_id)
+    time.sleep(settings.CUSTOMER_SESSION_EXPIRY)
+    release_shop_item(item_id)
 
 
-def toggle_hold_shop_item(item_id):
+def hold_shop_item(item_id):
     '''
-    Function that toggles a 10 minute timer, taking a shop item off the shop
-    for 10 minutes and adding it back in when the customer removes the item
-    from cart.
+    Function that starts a 10 minute timer, taking a shop item off the shop
+    for 10 minutes.
     '''
     
     item = get_object_or_404(ShopItems, pk=item_id)
@@ -56,15 +56,24 @@ def toggle_hold_shop_item(item_id):
         item.save()
         timer_thread = Thread(target=timer, args=(item_id,), daemon=True)
         timer_thread.start()
+   
 
-    elif item.is_available == False:
-            item.is_available = True
-            item.save()
-    
+def release_shop_item(item_id):
+    '''
+    Releases an object back to the shop to be purchased by another customer.
+    '''
+    item = get_object_or_404(ShopItems, pk=item_id)
+
+    if item.is_available == False:
+        item.is_available = True
+        item.save()
+
+
 
 def add_to_cart(request, item_id):
-    
-    
+    '''
+    Adds a shop item to the session shopping cart.
+    '''
     item = get_object_or_404(ShopItems, pk=item_id)
     redirect_url = request.POST.get('redirect_url')
     id = item.id
@@ -73,9 +82,11 @@ def add_to_cart(request, item_id):
     
     cart[str(item_id)] = dict(id=item_id)
     
+    
     request.session['cart'] = cart
+    request.session.set_expiry(settings.CUSTOMER_SESSION_EXPIRY)
+    hold_shop_item(item_id)
 
-    toggle_hold_shop_item(item_id)
 
     messages.success(request, (f"Successfully added {item.title} to your shopping cart."))
 
@@ -83,6 +94,9 @@ def add_to_cart(request, item_id):
 
 
 def remove_from_cart(request, item_id):
+    '''
+    Removes an item from the session shopping cart.
+    '''
         
     item = get_object_or_404(ShopItems, pk=item_id)
     id = item.id
@@ -93,7 +107,7 @@ def remove_from_cart(request, item_id):
     
     request.session['cart'] = cart
 
-    toggle_hold_shop_item(item_id)
+    release_shop_item(item_id)
 
     messages.success(request, (f"Successfully removed {item.title} from your shopping cart."))
 

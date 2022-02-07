@@ -5,21 +5,33 @@
 {% for product in products %}
 
     {% if product.is_available %}
-    <p><a href="{% url 'shop_item' pk=product.id %}"><p>{{ product.title }}</p></a></p>
+    
+    <p class="lead"><a href="{% url 'shop_item' pk=product.id %}">{{ product.title }}</a></p>
+
     <p>{{ product.description|truncatewords:15 }}</p>
+
     <p>{{ product.price }}</p>
+
     {% for image in product.images.all %}
+
         {% if image.is_primary_image %}
+
         <img src="{{ image.image.url }}" alt="" style="width:300px;">
+
         {% endif %}
+    
     {% endfor %}
-    {% endif %}
+    <br><br><br>
     <form action="{% url 'add_to_cart' product.id %}" method=POST>
         {% csrf_token %}
         <input type="hidden" name="redirect_url" value="{{ request.path }}">
-        <input type="submit" value="Add To Cart">
+        <input type="submit" value="Add To Cart" class="btn btn-warning">
     </form>
-    </a>
+    {% endif %}
+
+<br>
+    
 
 {% endfor %}
+
 {% endblock %}

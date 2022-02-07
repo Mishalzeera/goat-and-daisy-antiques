@@ -117,8 +117,9 @@ def set_primary_image(request, product_id, image_id, ):
     image.is_primary_image = True
     image.save()
 
-    print(image_set, image)
-    context = {
-        'image_set': image_set,
-    }
+
     return redirect('staff_manage_items')
+
+
+
+    

@@ -195,3 +195,33 @@ processors in SETTINGS>TEMPLATES>OPTIONS>'context_processors'>
 
 Everything is then instantiated immediately upon login or navigation to the
 site, so bear that in mind.
+
+## Threading: timer going on in the background
+
+When a store item is put in a shopping cart, it should give the customer a 
+period of time where they can purchase with certainty despite maybe having to
+find a credit card or check their address. 
+
+The idea was to create a toggle "is_available" function with a timer. However,
+it wasn't that simple. Doing it that way caused the entire application to 
+freeze for the duration of the timer - bypassing the actual functionality
+I needed it to do in the first place.
+
+There was multiple reference to Celery in the Stack Overflow community. However,
+it seemed like overkill to install yet another package to accomplish just this 
+one thing.
+
+Looking up "async code in Python" on the other hand, introduced me to the 
+concept of threading. Namely, one can create a process that goes on in its own
+context, without messing up the overall flow of the code.
+
+https://realpython.com/intro-to-python-threading/
+
+The link above is full of very thick jargon, but some of the key concepts
+made sense right away, after mucking about with another source's interpretation.
+
+Mainly, args can be sent, and this daemon thing can be set, and the Thread
+can be instantiated within the context of the function concerned. A target 
+function is defined outside the function, that target is the process that is 
+kept apart from the main thread flow of the program.
+

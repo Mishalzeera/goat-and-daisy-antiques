@@ -12,6 +12,8 @@ from .models import ShopCustomerInvoice
 # from .contexts import shopping_cart
 import stripe
 import json
+import time 
+from threading import Thread, Timer
 import os 
 
 
@@ -31,6 +33,34 @@ def view_cart(request):
 
     return render(request, 'invoices/shopping_cart.html', context)
 
+def timer(item_id):
+    '''
+    Timer for the toggle function below. Occurs in its own thread, which is 
+    instantiated in the toggle function. 
+    '''
+    time.sleep(600)
+    toggle_hold_shop_item(item_id)
+
+
+def toggle_hold_shop_item(item_id):
+    '''
+    Function that toggles a 10 minute timer, taking a shop item off the shop
+    for 10 minutes and adding it back in when the customer removes the item
+    from cart.
+    '''
+    
+    item = get_object_or_404(ShopItems, pk=item_id)
+    if item.is_available:
+        
+        item.is_available = False
+        item.save()
+        timer_thread = Thread(target=timer, args=(item_id,), daemon=True)
+        timer_thread.start()
+
+    elif item.is_available == False:
+            item.is_available = True
+            item.save()
+    
 
 def add_to_cart(request, item_id):
     
@@ -44,6 +74,8 @@ def add_to_cart(request, item_id):
     cart[str(item_id)] = dict(id=item_id)
     
     request.session['cart'] = cart
+
+    toggle_hold_shop_item(item_id)
 
     messages.success(request, (f"Successfully added {item.title} to your shopping cart."))
 
@@ -60,6 +92,8 @@ def remove_from_cart(request, item_id):
     cart.pop(str(item_id))
     
     request.session['cart'] = cart
+
+    toggle_hold_shop_item(item_id)
 
     messages.success(request, (f"Successfully removed {item.title} from your shopping cart."))
 

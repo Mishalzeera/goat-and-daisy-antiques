@@ -1,6 +1,6 @@
 {% load static %}
-{% load user_in_group_tag %}
-{% load has_orders_tag %}
+<!-- The following tag source code is in "profiles>templatetags" -->
+{% load user_in_group_tag %} 
 
 <!doctype html>
 <html lang="en">
@@ -140,7 +140,7 @@
             {% endfor %}
           {% endif %}
 
-          {% if request|has_shop_orders %}
+          {% if request.session.cart %}
           <a href="{% url 'view_cart' %}">
             <p class="small text-muted">View Cart</p>
           </a>

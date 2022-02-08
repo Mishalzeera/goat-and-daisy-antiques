@@ -3,7 +3,8 @@
 {% block content %}
 <h1>Outstanding Customer Invoices</h1>
 {% for invoice in invoices %}
-    {% if not invoice.is_completed %}
+    {% if not invoice.installment_paid %}
+
         <p>Title: {{ invoice }}</p>
         <p>Created On: {{ invoice.date_created }}</p>
         <a href="{% url 'workshop_checkout' invoice.id %}">
@@ -16,7 +17,7 @@
 
 {% for invoice in invoices %}
 
-    {% if invoice.is_completed %}
+    {% if invoice.installment_paid %}
         <p>{{ invoice }}</p>
         <p>{{ invoice.paid_on }}</p>
 

@@ -14,7 +14,7 @@ urlpatterns = [
          views.ServiceTicketDetail.as_view(), name='service_ticket'),
     path('ticket-staff-only/<int:pk>/update/',
          views.ServiceTicketUpdate.as_view(), name="update_service_ticket"),
-     path('ticket/<int:pk>/updatePUBLIC/',
+     path('ticket/<int:pk>/update/',
          views.PublicServiceTicketUpdate.as_view(), name="public_update_service_ticket"),
     path('ticket-overview/', views.WorkshopStaffTicketOverview.as_view(),
          name="ticket_overview"),

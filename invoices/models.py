@@ -70,7 +70,7 @@ class WorkshopCustomerInvoice(BaseInvoice):
         ('SPT', 'Single Payment Total'),
         ('SP', 'Supplementary Payment'),
     ]
-    service_ticket = models.ForeignKey(ServiceTicket, on_delete=models.PROTECT)
+    service_ticket = models.ForeignKey(ServiceTicket, on_delete=models.CASCADE)
     payment_type = models.CharField(max_length=25, choices=PAYMENT_CHOICES)
     installment_paid = models.BooleanField(default=False)
     

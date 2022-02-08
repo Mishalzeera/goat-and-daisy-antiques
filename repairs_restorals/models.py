@@ -7,9 +7,9 @@ class ServiceTicket(models.Model):
     A service order for the workshop to complete.
     '''
     customer = models.ForeignKey(
-        Customer, related_name='service_ticket', on_delete=models.PROTECT)
+        Customer, related_name='service_ticket', on_delete=models.CASCADE)
     workshop_staff_responsible = models.ForeignKey(
-        StaffMember, related_name='staff_tickets', on_delete=models.PROTECT)
+        StaffMember, related_name='staff_tickets', on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     date_created = models.DateField(auto_now_add=True, editable=False)
     last_updated = models.DateField(auto_now=True, editable=False)
@@ -38,7 +38,7 @@ class TicketImage(models.Model):
     specifics about the kind of work desired.
     '''
     service_ticket = models.ForeignKey(
-        ServiceTicket, related_name='images', on_delete=models.PROTECT)
+        ServiceTicket, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to="workshop/images/")
 
     def __str__(self) -> str:

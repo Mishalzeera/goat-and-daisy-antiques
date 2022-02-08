@@ -12,6 +12,8 @@
 
 ## Shop
 
+- after order, create completed order invoice saved as paid
+
 - images with set to main
 - signals to is_available, file already in SHOP
 - add shipping to ShopItems
@@ -19,6 +21,10 @@
 ## Repairs/Restorals
 
 -Make staff service ticket Create view and form
+
+- email deposit invoice to customer, if total is 0, its an email
+saying staff is assessing the work and will give a quote and send an invoice
+otherwise an email to customer with everything
 
 - do something about the hardcoded workshop_staff in
   CreateServiceTicket views.py

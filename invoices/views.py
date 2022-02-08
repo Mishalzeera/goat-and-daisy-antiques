@@ -9,6 +9,7 @@ from shop.models import ShopItems
 from profiles.models import Customer
 from .forms import ShopCheckoutForm
 from .models import ShopCustomerInvoice, WorkshopCustomerInvoice
+import datetime
 # from .contexts import shopping_cart
 import stripe
 import json
@@ -175,18 +176,78 @@ def checkout(request):
 
 def workshop_checkout(request, invoice_id):
     '''
-    Allows a workshop client to pay their invoices.
+    Allows a workshop client to pay their invoices. Use the deposit amount
+    to calculate the end payment amount for the newly created object.
     '''
+
+    # The relevant customer and invoice are gotten
+    customer = Customer.objects.get(username=request.user)
+    invoice = WorkshopCustomerInvoice.objects.get(pk=invoice_id)
+
+    # For the GET method, send the invoice and customer objects to the template
     if request.method == "GET":
 
-        customer = Customer.objects.get(username=request.user)
-        invoice = WorkshopCustomerInvoice.objects.get(pk=invoice_id)
         context = {
             'invoice': invoice,
             'customer': customer,
         }        
 
         return render(request, 'invoices/workshop_checkout.html', context)
+
+    # For the POST method, check payment type for actions
+    if request.method == 'POST':
+
+        payment_type = request.POST['payment_type']
+
+        # ...apply the datestamp
+        invoice.paid_on = datetime.datetime.now()
+
+        # If the payment is a deposit (DEP) or supplementary payment(SP)
+        if payment_type == 'DEP' or payment_type == 'SP':
+
+            # ... the payment is counted as a paid installment, but not 
+            # completed
+            invoice.installment_paid = True
+            invoice.save()
+
+        # ... else if it is an endpayment (EP) or single payment total (SPT)
+        elif payment_type == 'EP' or payment_type == 'SPT': 
+
+            # For consistency, is paid as an installment
+            invoice.installment_paid = True
+            invoice.save()
+
+            # All related invoices are set to 'is_completed'
+            related_invoices = WorkshopCustomerInvoice.objects.filter(service_ticket_id = invoice.service_ticket_id)
+
+            for invoice in related_invoices:
+                invoice.is_completed = True
+                invoice.save()
+
+        # If the payment was a deposit, an end payment invoice is created in
+        # the customers account
+        if payment_type == 'DEP':
+            final_invoice = WorkshopCustomerInvoice.objects.create(
+                service_ticket_id = invoice.service_ticket_id,
+                full_name=customer.full_name,
+                email=customer.email,
+                address1=customer.address1,
+                address2=customer.address2,
+                postcode=customer.postcode,
+                town_or_city=customer.town_or_city,
+                country=customer.country,
+                payment_type='EP',
+
+            )
+            final_invoice.save()
+        
+
+
+        
+        
+        messages.success(request, ("Thank you, you have paid."))
+        return redirect('workshop')
+        
 
 def calculate_order_amount(items):
     # Replace this constant with a calculation of the order's amount

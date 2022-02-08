@@ -225,3 +225,9 @@ can be instantiated within the context of the function concerned. A target
 function is defined outside the function, that target is the process that is 
 kept apart from the main thread flow of the program.
 
+Later on, realising that without taking the item out of the customers session
+cookie, multiple purchases might happen of the same item. A settings config
+variable CUSTOMER_SESSION_EXPIRY was created, with a integer defining how many
+seconds. The variable was then used in the add to cart view, both to set the 
+timer for the "is_available" attribute of the reserved shop item as well as 
+the general expiry date of the users session. 

@@ -12,4 +12,4 @@ class ShopCustomerInvoiceAdmin(admin.ModelAdmin):
 
 @admin.register(WorkshopCustomerInvoice)
 class WorkshopCustomerInvoiceAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'installment_paid', 'is_completed', 'payment_type']
+    list_display = ['full_name', 'date_created', 'installment_paid', 'is_completed', 'payment_type']

@@ -1,0 +1,29 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block content %}
+
+<p>Invoice # {{ invoice.order_number}}</p>
+
+<br />
+<p>Service Ticket: {{ invoice.service_ticket }}</p>
+<p>Payment Type: {{ invoice.payment_type }}</p>
+<p>Date Created: {{ invoice.date_created }}</p>
+<br />
+
+<br>
+    <p>Customer Name: {{ invoice.full_name }}</p>
+    <p>Email: {{ invoice.email }}</p>
+    <p>Address Line 1: {{ invoice.address1 }}</p>
+    <p>Address Line 2: {{ invoice.address2 }}</p>
+    <p>Town Or City: {{ invoice.town_or_city }}</p>
+    <p>Postcode: {{ invoice.postcode }}</p>
+    <p>Country: {{ invoice.country }}</p>
+<br>
+
+<p>Amount: {{ invoice.order_amount }}</p>
+{% if invoice.shipping_cost%}
+<p>Shipping: {{ invoice.shipping_cost }}</p>
+{% endif %}
+<p>Order Total: {{ invoice.order_total }}</p>
+
+<p>{{ invoice.notes }}</p>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for invoice in invoices %}
+{{ invoice }}
+<a href="{% url 'customer_invoice_detail' invoice.id %}">
+    <p>View</p>
+</a>
+<a href="{% url 'admin_customer_invoice' invoice.id %}">
+    <p>Manage</p>
+</a>
+
+{% endfor %}
+{% endblock %}

@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 from shop.models import ShopItems
 from profiles.models import Customer
 from .forms import ShopCheckoutForm
-from .models import ShopCustomerInvoice
+from .models import ShopCustomerInvoice, WorkshopCustomerInvoice
 # from .contexts import shopping_cart
 import stripe
 import json
@@ -171,6 +171,22 @@ def checkout(request):
         
         
         return redirect('index')
+
+
+def workshop_checkout(request, invoice_id):
+    '''
+    Allows a workshop client to pay their invoices.
+    '''
+    if request.method == "GET":
+
+        customer = Customer.objects.get(username=request.user)
+        invoice = WorkshopCustomerInvoice.objects.get(pk=invoice_id)
+        context = {
+            'invoice': invoice,
+            'customer': customer,
+        }        
+
+        return render(request, 'invoices/workshop_checkout.html', context)
 
 def calculate_order_amount(items):
     # Replace this constant with a calculation of the order's amount

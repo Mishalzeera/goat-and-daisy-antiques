@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Invoice Update View</h1>
+
+<form action="." method="POST">
+    {% csrf_token %}
+    {{ form|crispy}}
+    <input type="submit" value="Update" class="btn btn-warning">
+</form>
+
+{% endblock %}

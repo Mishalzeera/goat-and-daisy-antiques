@@ -5,7 +5,9 @@
 <h1>{{request.user | title }}'s Workbench</h1>
 <a href="{% url 'create_service_ticket' %}"><p class="display-6">Create Ticket</p></a>
 <p class="small text-muted">Use above link to create a service ticket.</p>
-
+<a href="{% url 'customer_invoices' %}">
+    <p class="small">View/Pay Invoices</p>
+</a>
 {% if tickets %}
 
 <a href="{% url 'add_image' %}"><p class="display-6">Add Images</p></a>

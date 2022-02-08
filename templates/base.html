@@ -1,5 +1,6 @@
 {% load static %}
 {% load user_in_group_tag %}
+{% load has_orders_tag %}
 
 <!doctype html>
 <html lang="en">
@@ -74,6 +75,9 @@
                   <li><a class="dropdown-item" href="{% url 'ticket_overview' %}">View Customers And Tickets</a></li>
                   
                   </li>
+                  <li><a class="dropdown-item" href="{% url 'all_customer_invoices' %}">Manage Invoices</a></li>
+                  
+                  </li>
                   <li><a class="dropdown-item" href="{% url 'task_manager' %}">Task Manager</a></li>
                   
                   </li>
@@ -118,28 +122,31 @@
       </div>
     </nav>
 
-    <h1>Goat And Daisy</h1>
-    {% if user.is_authenticated %}
-    <div class="profile-link-flex" style="display: flex; gap: 2rem;">
-      <p class="small text-muted">Welcome {{ user.username | title }}</p>
-      <a href="{% url 'customer_profile' pk=user.id%}">
-        <p class="small text-muted">View Profile</p>
-      </a>
-
-    </div>
-    {% endif %}
-        {% if messages %}
-          {% for message in messages %}
-            <div class="alert alert-warning" role="alert">
-              {{ message }}
-            </div>
-          {% endfor %}
-        {% endif %}
-        <a href="{% url 'view_cart' %}">
-          <p class="small text-muted">View Cart</p>
+    <section class="container">
+      <h1>Goat And Daisy</h1>
+      {% if user.is_authenticated %}
+      <div class="profile-link-flex" style="display: flex; gap: 2rem;">
+        <p class="small text-muted">Welcome {{ user.username | title }}</p>
+        <a href="{% url 'customer_profile' pk=user.id%}">
+          <p class="small text-muted">View Profile</p>
         </a>
+      </div>
+      {% endif %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-warning" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
 
-        <a href="{% url 'checkout' %}">Checkout</a>
+          {% if request|has_shop_orders %}
+          <a href="{% url 'view_cart' %}">
+            <p class="small text-muted">View Cart</p>
+          </a>
+          <a href="{% url 'checkout' %}">Checkout</a>
+          {% endif %}
+    </section>
     <main class="container">
       
     {% block content %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load crispy_forms_field %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static '/css/checkout.css'%}" />
+{% endblock %}
+
+{% block preload_js %}
+<!-- <script src="{% static 'js/checkout.js' %}" defer></script> -->
+{% endblock %}
+
+{% block content%}
+<p class="display-5">{{ customer.full_name }}</p>
+<p>{{ invoice.service_ticket }}</p>
+<p>{{ invoice.date_created }}</p>
+<p>{{ invoice.email }}</p>
+<p>{{ invoice.payment_type }}</p>
+<br>
+
+<p class="small">These are your current shipping details. Update them <a href="{% url 'public_customer_account_update' customer.id %}">
+    here.
+  </a></p>
+
+<p>{{ invoice.full_name }}</p>
+<p>{{ invoice.address1 }}</p>
+<p>{{ invoice.address2 }}</p>
+<p>{{ invoice.postcode }}</p>
+<p>{{ invoice.town_or_city }}</p>
+<p>{{ invoice.country }}</p>
+<br>
+
+<p>{{ invoice.order_amount }}</p>
+<p>{{ invoice.shipping_cost }}</p>
+<p>{{ invoice.order_total }}</p>
+
+
+
+ 
+
+
+
+
+{% csrf_token %}
+
+
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+
+
+
+
+{% endblock %}

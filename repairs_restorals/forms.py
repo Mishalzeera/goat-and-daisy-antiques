@@ -1,5 +1,6 @@
 from django import forms
 from django.shortcuts import get_object_or_404
+from invoices.models import WorkshopCustomerInvoice
 from profiles.models import Customer
 from .models import ServiceTicket, TicketImage, TodoList, TodoItem
 
@@ -64,7 +65,12 @@ class CustomerUploadImageForm(forms.ModelForm):
         model = TicketImage
         fields = ['service_ticket', 'image']
 
+class CustomerInvoiceUpdateForm(forms.ModelForm):
+    class Meta:
+        model = WorkshopCustomerInvoice
+        fields = '__all__'
 
+    
 class CreateTodoListForm(forms.ModelForm):
     '''
     A form to create a Todo List.

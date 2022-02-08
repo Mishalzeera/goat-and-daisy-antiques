@@ -17,6 +17,12 @@ def generate_invoice_and_set_has_invoice(sender, instance, created, **kwargs):
         WorkshopCustomerInvoice.objects.create(
             service_ticket_id=instance.id,
             full_name=customer.full_name,
+            email=customer.email,
+            address1=customer.address1,
+            address2=customer.address2,
+            postcode=customer.postcode,
+            town_or_city=customer.town_or_city,
+            country=customer.country,
             payment_type='DEP',
 
         )

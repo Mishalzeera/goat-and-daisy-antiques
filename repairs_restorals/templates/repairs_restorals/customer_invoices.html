@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Outstanding Customer Invoices</h1>
+{% for invoice in invoices %}
+    {% if not invoice.is_completed %}
+        <p>Title: {{ invoice }}</p>
+        <p>Created On: {{ invoice.date_created }}</p>
+        <a href="{% url 'workshop_checkout' invoice.id %}">
+            <p>Pay Invoice</p>
+        </a>
+    {% endif %}
+{% endfor %}
+
+<hr>
+
+{% for invoice in invoices %}
+
+    {% if invoice.is_completed %}
+        <p>{{ invoice }}</p>
+        <p>{{ invoice.paid_on }}</p>
+
+    {% endif %}
+    <p>Paid</p>
+{% endfor %}
+
+{% endblock %}

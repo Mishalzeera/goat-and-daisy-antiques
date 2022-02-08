@@ -2,9 +2,10 @@ from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
+from invoices.models import WorkshopCustomerInvoice
 from profiles.models import Customer, StaffMember
 from .models import ServiceTicket, TicketImage, TodoList, TodoItem
-from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, CreateTodoListForm, CreateTodoListItemForm
+from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, CustomerInvoiceUpdateForm, CreateTodoListForm, CreateTodoListItemForm
 
 
 class Workshop(View):
@@ -312,3 +313,52 @@ def delete_or_update_item_in_todo(request, pk):
 
     # ...and sent to the template
     return render(request, 'repairs_restorals/todo_list.html', context)
+
+
+class PublicCustomerInvoices(ListView):
+    '''
+    Customer can view his or her own invoices.
+    '''
+    model = WorkshopCustomerInvoice
+    context_object_name = 'invoices'
+    template_name = 'repairs_restorals/customer_invoices.html'
+
+    def get_context_data(self, **kwargs):
+        # 'customer' is gotten via the request object
+        customer = get_object_or_404(Customer, username=self.request.user)
+
+        # Create an empty dictionary first...
+        context = {}
+
+        # ...then add iterable context objects
+        context['invoices'] = WorkshopCustomerInvoice.objects.filter(service_ticket__customer_id=customer.id)
+
+        return context
+
+
+class AllCustomerInvoices(ListView):
+    '''
+    Shows admin all the invoices in the system.
+    '''
+    model = WorkshopCustomerInvoice
+    template_name = 'repairs_restorals/all_customer_invoices.html'
+    context_object_name = "invoices"
+
+
+class AdminCustomerDetailView(DetailView):
+    '''
+    Allows a workshop staff member to see details of an invoice
+    '''
+    model = WorkshopCustomerInvoice
+    template_name = 'repairs_restorals/customer_invoice_detail.html'
+    context_object_name = 'invoice'
+
+
+class AdminCustomerInvoice(UpdateView):
+    '''
+    Allows a workshop staff member to update a specific invoice.
+    '''
+    model = WorkshopCustomerInvoice
+    form_class = CustomerInvoiceUpdateForm
+    template_name = 'repairs_restorals/admin_customer_invoice.html'
+    success_url = reverse_lazy('all_customer_invoices')

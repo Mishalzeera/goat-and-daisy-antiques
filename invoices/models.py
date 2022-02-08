@@ -1,6 +1,7 @@
 from django.db import models
 from shop.models import ShopItems
 from repairs_restorals.models import ServiceTicket
+from profiles.models import Customer
 import secrets
 import datetime
 
@@ -11,9 +12,10 @@ class BaseInvoice(models.Model):
     '''
     Base class of invoice that Shop Customer Invoice and Workshop Customer Invoice inherit from.
     '''
+    date_created = models.DateField(auto_now_add=True)
     order_number = models.CharField(max_length=100, editable=False)
     full_name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.EmailField(unique=True, null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
     address1 = models.CharField(max_length=100, null=True, blank=True)
     address2 = models.CharField(max_length=100, null=True, blank=True)
     postcode = models.CharField(max_length=40, null=True, blank=True)
@@ -37,11 +39,11 @@ class BaseInvoice(models.Model):
     def _generate_timestamp(self):
         return datetime.datetime.now()
 
+    # Add the shipping to the order amount to get the order total
     def _calculate_order_total(self):
         self.order_total = self.shipping_cost + self.order_amount
 
     # If a unique id doesn't exist, create one and save it
-    # Add the shipping to the order amount to get the order total
     def save(self, *args, **kwargs):
         if not self.order_number:
             self.order_number = self._generate_order_number()
@@ -71,6 +73,11 @@ class WorkshopCustomerInvoice(BaseInvoice):
     service_ticket = models.ForeignKey(ServiceTicket, on_delete=models.PROTECT)
     payment_type = models.CharField(max_length=25, choices=PAYMENT_CHOICES)
     installment_paid = models.BooleanField(default=False)
+    
+    def save(self, *args, **kwargs):
+        self._calculate_order_total()
+        
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.service_ticket.title + "'s" + " " + self.payment_type

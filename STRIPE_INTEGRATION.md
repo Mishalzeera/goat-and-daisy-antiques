@@ -60,9 +60,20 @@ coming back from the server function.
 const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
 - Then in the initialize function, add 'X-CSRFToken': csrftoken to the 'headers'
-dictionary.
+  dictionary.
 
 ## json.loads(request.data) should be json.loads(request.body)
 
-- The main culprit once the csrf token was fixed. 
+- The main culprit once the csrf token was fixed.
 
+## Having it figured out == FALSE
+
+- The JS handles an important part of the payment intent creation. "Items" is
+  a hardcoded variable that is passed into a placeholder function, with some
+  commented out suggestions from Stripe to replace it with your own order total
+  creation.
+
+- The placeholder function is used in the create payment intent function, which
+  I have routed somewhere else. I will keep it that way since its working for now.
+
+-

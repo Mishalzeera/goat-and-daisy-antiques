@@ -1,12 +1,18 @@
 // This is your test publishable API key.
-const stripe = Stripe(
-  "pk_test_51K6Bx2KWJYXuFKtgUfZwgcXCcfckru5waCeztdQuRansWP4uLrc5xg4DYgmtom1avGuEsG8BnLNlu8X4P0wT98rO00YKogWyU2"
-);
+const stripePublicKey = document
+  .querySelector("#id_stripe_public_key")
+  .textContent.slice(1, -1);
+
+const stringTotal = document.querySelector("#id_stripe_total").textContent;
+const cartTotal = parseInt(stringTotal);
+
+
+const stripe = Stripe(stripePublicKey);
 
 const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
-// The items the customer wants to buy
-const items = [{ id: "xl-tshirt" }];
+// The total going to the server side view
+const cart = [{ total: cartTotal }];
 
 let elements;
 
@@ -24,7 +30,8 @@ async function initialize() {
     {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
-      body: JSON.stringify({ items }),
+
+      body: JSON.stringify({ cart }),
     }
   );
   const { clientSecret } = await response.json();

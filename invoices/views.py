@@ -18,7 +18,7 @@ from threading import Thread, Timer
 import os 
 
 
-stripe.api_key = 'sk_test_51K6Bx2KWJYXuFKtg4k8HIZxsniFPJU3ks7vsbHWwwmBVHk8rRpFxEfIsZa3lyA3bPgNVGP5YY6HgYKirtsCy1D51005zVVT0Gv'
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 def view_cart(request):
@@ -27,8 +27,7 @@ def view_cart(request):
     '''
     context = {
 
-        # "stripe_public_key": settings.STRIPE_PUBLIC_KEY,
-        # "stripe_secret_key": settings.STRIPE_SECRET_KEY,
+
 
     }
 
@@ -129,7 +128,7 @@ def checkout(request):
         context = {
             'form': form,
             'customer_profile': customer_profile,
-            # 'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+            'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
             # 'client_secret': settings.STRIPE_SECRET_KEY,
         }
         return render(request, 'invoices/checkout.html', context)
@@ -249,11 +248,10 @@ def workshop_checkout(request, invoice_id):
         return redirect('workshop')
         
 
-def calculate_order_amount(items):
-    # Replace this constant with a calculation of the order's amount
-    # Calculate the order total on the server to prevent
-    # people from directly manipulating the amount on the client
-    return items 
+def calculate_order_amount(cart):
+    # Cart comes from the JS file initialize() function. Sent from a 
+    sum = cart[0]['total']
+    return sum 
 
 @require_POST
 def create_shop_checkout_session(request):
@@ -261,7 +259,7 @@ def create_shop_checkout_session(request):
     data = json.loads(request.body)
     # Create a PaymentIntent with the order amount and currency
     intent = stripe.PaymentIntent.create(
-        amount=calculate_order_amount(data['items']),
+        amount=calculate_order_amount(data['cart']),
         currency='eur',
         automatic_payment_methods={
             'enabled': True,

@@ -31,7 +31,7 @@ def shopping_cart(request):
         products_count += 1
 
     order_total = order_amount + shipping
-    stripe_total = order_total * 100
+    stripe_total = round(order_total * 100)
 
 
 

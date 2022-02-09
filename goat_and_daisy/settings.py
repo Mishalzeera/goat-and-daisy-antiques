@@ -174,4 +174,4 @@ STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 # This figure is the amount of time an item is reserved for a customer to
 # purchase as well as how long they have til their session expires. Used
 # in Invoices app views.
-CUSTOMER_SESSION_EXPIRY = 600
+CUSTOMER_SESSION_EXPIRY = 60

@@ -11,7 +11,8 @@ const stripe = Stripe(stripePublicKey);
 
 const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
-// The total going to the server side view
+// The total going to the server side
+
 const cart = [{ total: cartTotal }];
 
 let elements;

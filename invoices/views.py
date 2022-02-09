@@ -115,62 +115,60 @@ def remove_from_cart(request, item_id):
 
 def checkout(request):
 
-    if request.method == 'GET':
 
-        if request.user.is_authenticated:
-            customer_profile = get_object_or_404(Customer, username=request.user)
-        else:
-            customer_profile = {"full_name": "Not authenticated"}
+    if request.user.is_authenticated:
+        customer_profile = get_object_or_404(Customer, username=request.user)
+    else:
+        customer_profile = {"full_name": "Not authenticated"}
 
-        
+    
 
-        form = ShopCheckoutForm()
-        context = {
-            'form': form,
-            'customer_profile': customer_profile,
-            'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
-            # 'client_secret': settings.STRIPE_SECRET_KEY,
-        }
-        return render(request, 'invoices/checkout.html', context)
+    form = ShopCheckoutForm()
+    context = {
+        'form': form,
+        'customer_profile': customer_profile,
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+    }
+    return render(request, 'invoices/checkout.html', context)
 
-    if request.method == 'POST':
-        order_amount = request.POST.get('order_amount')
-        shipping_cost = request.POST.get('shipping')
-        order_total = request.POST.get('order_total')
-        if request.user.is_authenticated:
+    # For WEBHOOK actions
+    #     order_amount = request.POST.get('order_amount')
+    #     shipping_cost = request.POST.get('shipping')
+    #     order_total = request.POST.get('order_total')
+    #     if request.user.is_authenticated:
 
 
-            new_invoice = ShopCustomerInvoice.objects.create(
-                full_name= request.POST.get('full_name'),
-                email= request.POST.get('email'),
-                address1= request.POST.get('address1'),
-                address2= request.POST.get('address2'),
-                postcode= request.POST.get('postcode'),
-                town_or_city= request.POST.get('town_or_city'),
-                country= request.POST.get('country'),
-                order_amount = order_amount,
-                shipping_cost = shipping_cost,
-                order_total = order_total,
-                is_completed = True,
-            )
+    #         new_invoice = ShopCustomerInvoice.objects.create(
+    #             full_name= request.POST.get('full_name'),
+    #             email= request.POST.get('email'),
+    #             address1= request.POST.get('address1'),
+    #             address2= request.POST.get('address2'),
+    #             postcode= request.POST.get('postcode'),
+    #             town_or_city= request.POST.get('town_or_city'),
+    #             country= request.POST.get('country'),
+    #             order_amount = order_amount,
+    #             shipping_cost = shipping_cost,
+    #             order_total = order_total,
+    #             is_completed = True,
+    #         )
             
-            new_invoice.save()
+    #         new_invoice.save()
 
-        else:
-            form = ShopCheckoutForm(request.POST)
-            if form.is_valid():
-                form.instance.is_completed = True
-                form.instance.order_amount = order_amount
-                form.instance.shipping_cost = shipping_cost
-                form.instance.order_total = order_total 
-                form.save()
-                messages.success(request, ("You have paid, thank you."))
-            else:
-                messages.error(request, ("Form not filled correctly"))
+    #     else:
+    #         form = ShopCheckoutForm(request.POST)
+    #         if form.is_valid():
+    #             form.instance.is_completed = True
+    #             form.instance.order_amount = order_amount
+    #             form.instance.shipping_cost = shipping_cost
+    #             form.instance.order_total = order_total 
+    #             form.save()
+    #             messages.success(request, ("You have paid, thank you."))
+    #         else:
+    #             messages.error(request, ("Form not filled correctly"))
 
         
         
-        return redirect('index')
+    #     return redirect('index')
 
 
 def workshop_checkout(request, invoice_id):
@@ -183,69 +181,71 @@ def workshop_checkout(request, invoice_id):
     customer = Customer.objects.get(username=request.user)
     invoice = WorkshopCustomerInvoice.objects.get(pk=invoice_id)
 
-    # For the GET method, send the invoice and customer objects to the template
-    if request.method == "GET":
+    # ... and sent to the template
+    stripe_order_total = round(invoice.order_total * 100)
 
-        context = {
-            'invoice': invoice,
-            'customer': customer,
-        }        
+    context = {
+        'invoice': invoice,
+        'stripe_order_total': stripe_order_total,
+        'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+        'customer': customer,
+    }        
 
-        return render(request, 'invoices/workshop_checkout.html', context)
+    return render(request, 'invoices/workshop_checkout.html', context)
 
-    # For the POST method, check payment type for actions
-    if request.method == 'POST':
+    # For WEBHOOOK
+    # if request.method == 'POST':
 
-        payment_type = request.POST['payment_type']
+    #     payment_type = request.POST['payment_type']
 
-        # ...apply the datestamp
-        invoice.paid_on = datetime.datetime.now()
+    #     # ...apply the datestamp
+    #     invoice.paid_on = datetime.datetime.now()
 
-        # If the payment is a deposit (DEP) or supplementary payment(SP)
-        if payment_type == 'DEP' or payment_type == 'SP':
+    #     # If the payment is a deposit (DEP) or supplementary payment(SP)
+    #     if payment_type == 'DEP' or payment_type == 'SP':
 
-            # ... the payment is counted as a paid installment, but not 
-            # completed
-            invoice.installment_paid = True
-            invoice.save()
+    #         # ... the payment is counted as a paid installment, but not 
+    #         # completed
+    #         invoice.installment_paid = True
+    #         invoice.save()
 
-        # ... else if it is an endpayment (EP) or single payment total (SPT)
-        elif payment_type == 'EP' or payment_type == 'SPT': 
+    #     # ... else if it is an endpayment (EP) or single payment total (SPT)
+    #     elif payment_type == 'EP' or payment_type == 'SPT': 
 
-            # For consistency, is paid as an installment
-            invoice.installment_paid = True
-            invoice.save()
+    #         # For consistency, is paid as an installment
+    #         invoice.installment_paid = True
+    #         invoice.save()
 
-            # All related invoices are set to 'is_completed'
-            related_invoices = WorkshopCustomerInvoice.objects.filter(service_ticket_id = invoice.service_ticket_id)
+    #         # All related invoices are set to 'is_completed'
+    #         related_invoices = WorkshopCustomerInvoice.objects.filter(service_ticket_id = invoice.service_ticket_id)
 
-            for invoice in related_invoices:
-                invoice.is_completed = True
-                invoice.save()
+    #         for invoice in related_invoices:
+    #             invoice.is_completed = True
+    #             invoice.save()
 
-        # If the payment was a deposit, an end payment invoice is created in
-        # the customers account
-        if payment_type == 'DEP':
-            final_invoice = WorkshopCustomerInvoice.objects.create(
-                service_ticket_id = invoice.service_ticket_id,
-                full_name=customer.full_name,
-                email=customer.email,
-                address1=customer.address1,
-                address2=customer.address2,
-                postcode=customer.postcode,
-                town_or_city=customer.town_or_city,
-                country=customer.country,
-                payment_type='EP',
+    #     # If the payment was a deposit, an end payment invoice is created in
+    #     # the customers account
+    #     if payment_type == 'DEP':
+    #         final_invoice = WorkshopCustomerInvoice.objects.create(
+    #             service_ticket_id = invoice.service_ticket_id,
+    #             full_name=customer.full_name,
+    #             email=customer.email,
+    #             address1=customer.address1,
+    #             address2=customer.address2,
+    #             postcode=customer.postcode,
+    #             town_or_city=customer.town_or_city,
+    #             country=customer.country,
+    #             payment_type='EP',
 
-            )
-            final_invoice.save()
+    #         )
+    #         final_invoice.save()
         
 
 
         
         
-        messages.success(request, ("Thank you, you have paid."))
-        return redirect('workshop')
+    #     messages.success(request, ("Thank you, you have paid."))
+    #     return redirect('workshop')
         
 
 def calculate_order_amount(cart):

@@ -18,6 +18,8 @@
 - signals to is_available, file already in SHOP
 - add shipping to ShopItems
 
+- cookie session expiry for a specific cookie
+
 ## Repairs/Restorals
 
 -Make staff service ticket Create view and form

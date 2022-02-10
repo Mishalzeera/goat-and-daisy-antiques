@@ -170,6 +170,9 @@ STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 
+# The following var is for stripe CLI if needed
+LOCAL_STRIPE_WH_SECRET = os.environ.get('LOCAL_STRIPE_WH_SECRET', '')
+
 # Shop sales and invoice settings
 
 # This figure is the amount of time an item is reserved for a customer to

@@ -74,6 +74,28 @@ const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   creation.
 
 - The placeholder function is used in the create payment intent function, which
-  I have routed somewhere else. I will keep it that way since its working for now.
+  I have routed somewhere else. I will keep it that way since its working for 
+  now.
 
--
+## Webhooks, CLI and troubleshooting
+
+- An important issue with adapting the code from the Stripe website has been
+ensuring that wherever 'data' appears as an attribute, this should be changed
+to 'body'. Its possible this is a Flask vs Django thing. 
+
+- Set up the CLI, you have to navigate to the directory that the downloaded
+file is in, to use it. Easiest with CMD rather than the VS code terminal.
+
+- You need a second window open and navigated to the correct directory.
+
+- In the first one: stripe listen --forward-to localhost:8000/invoices/wh
+(thats the Url of your post only, csrf exempt webhook function)
+
+- In the second one: stripe trigger payment_intent.succeeded (or whichever 
+event you want to trigger)
+
+- For this project, best to have two separate flows for webhook handling,
+one for shop and one for workshop.
+
+- Simply recreated the same setup with different names for now.
+

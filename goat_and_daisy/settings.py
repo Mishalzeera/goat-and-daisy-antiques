@@ -32,6 +32,7 @@ ALLOWED_HOSTS = [
     'goat-and-daisy-antiques.herokuapp.com',
     '127.0.0.1',
     'localhost',
+    '*',
 ]
 
 
@@ -67,7 +68,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ALLOWED_HOSTS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = True
 
 

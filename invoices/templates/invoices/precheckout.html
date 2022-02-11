@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<h1>Please confirm your order details and shipping address </h1>
+
+<form action="." method="POST">
+    {% csrf_token %}
+
+    <fieldset>
+      <legend>Order Details:</legend>
+      {% for item in template_cart %}
+      <div class="cart-items flex-between-baseline">
+        <small>Title:</small>
+        <p class="lead">{{ item.product.title }}</p>
+        <small>Price:</small>
+        <p class="lead">{{ item.product.price }}</p>
+      </div>
+      {% endfor %}
+      <div class="margin-0-center flex-between-end flex-column margin-0-center">
+        <small>Order Amount:</small>
+        <p class="lead">{{ order_amount }}</p>
+        <small>Shipping: </small>
+        <p class="lead">{{ shipping }}</p>
+        <small>Order Total:</small>
+        <p class="display-6"><strong>{{ order_total }}</strong></p>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Shipping Details:</legend>
+      {% if not user.is_authenticated %} {{form|crispy}} {% else %}
+      <p>{{ customer_profile.full_name }}</p>
+      <input
+        type="hidden"
+        name="full_name"
+        value="{{ customer_profile.full_name }}"
+      />
+      <p>{{ customer_profile.address1 }}</p>
+      <input
+        type="hidden"
+        name="address1"
+        value="{{ customer_profile.address1 }}"
+      />
+      <p>{{ customer_profile.address2 }}</p>
+      <input
+        type="hidden"
+        name="address2"
+        value="{{ customer_profile.address2 }}"
+      />
+      <p>{{ customer_profile.town_or_city }}</p>
+      <input
+        type="hidden"
+        name="town_or_city"
+        value="{{ customer_profile.town_or_city }}"
+      />
+      <p>{{ customer_profile.country }}</p>
+      <input
+        type="hidden"
+        name="country"
+        value="{{ customer_profile.country }}"
+      />
+  
+      <a href="{% url 'public_customer_account_update' customer_profile.id %}">
+        <p>Update your shipping information</p>
+      </a>
+  
+      {% endif %}
+      <input type="hidden" name="order_amount" value="{{ order_amount}}" />
+      <input type="hidden" name="shipping" value="{{ shipping}}" /><input
+        type="hidden"
+        name="order_total"
+        value="{{ order_total}}"
+      />
+    </fieldset>
+
+    <input type="submit" value="Checkout">
+  
+</form>
+{% endblock %}

@@ -113,6 +113,69 @@ def remove_from_cart(request, item_id):
 
     return redirect('view_cart')
 
+
+def precheckout(request):
+    '''
+    Creates an invoice in the system for a shop customer, and confirms the 
+    shipping address for the order. 
+    '''
+    if request.method == "GET":
+        if request.user.is_authenticated:
+            customer_profile = get_object_or_404(Customer, username=request.user)
+        else:
+            customer_profile = {"full_name": "Not authenticated"}
+
+        form = ShopCheckoutForm()
+        context = {
+            'form': form,
+            'customer_profile': customer_profile,
+        }
+
+        return render(request, 'invoices/precheckout.html', context)
+    
+    if request.method == "POST":
+
+        order_amount = request.POST.get('order_amount')
+        shipping_cost = request.POST.get('shipping')
+        order_total = request.POST.get('order_total')
+
+        if request.user.is_authenticated:
+
+            new_invoice = ShopCustomerInvoice.objects.create(
+                full_name= request.POST.get('full_name'),
+                email= request.POST.get('email'),
+                address1= request.POST.get('address1'),
+                address2= request.POST.get('address2'),
+                postcode= request.POST.get('postcode'),
+                town_or_city= request.POST.get('town_or_city'),
+                country= request.POST.get('country'),
+                order_amount = order_amount,
+                shipping_cost = shipping_cost,
+                order_total = order_total,
+            )
+            
+            new_invoice.save()
+            request.session['shop_order_number'] = new_invoice.order_number
+
+        else:
+            form = ShopCheckoutForm(request.POST)
+            if form.is_valid():
+                form.instance.order_amount = order_amount
+                form.instance.shipping_cost = shipping_cost
+                form.instance.order_total = order_total 
+                form.instance.notes = "This customer does not have an account."
+                form.save()
+                request.session['shop_order_number'] = form.instance.order_number
+
+            else:
+
+                messages.error(request, ("Form not filled correctly"))
+
+        print(request.session['shop_order_number'])
+
+        return redirect('checkout')
+
+
 def checkout(request):
 
 
@@ -125,7 +188,6 @@ def checkout(request):
 
     form = ShopCheckoutForm()
     context = {
-        'form': form,
         'customer_profile': customer_profile,
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
     }
@@ -184,6 +246,9 @@ def workshop_checkout(request, invoice_id):
     # ... and sent to the template
     stripe_order_total = round(invoice.order_total * 100)
 
+    # storing the order number in a session variable
+    request.session['workshop_order_number'] = invoice.order_number
+    print(request.session['workshop_order_number'])
     context = {
         'invoice': invoice,
         'stripe_order_total': stripe_order_total,

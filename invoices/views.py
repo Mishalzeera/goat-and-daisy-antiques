@@ -45,8 +45,8 @@ def timer(item_id):
 
 def hold_shop_item(item_id):
     '''
-    Function that starts a 10 minute timer, taking a shop item off the shop
-    for 10 minutes.
+    Function that starts a timer, taking a shop item off the shop
+    for length of time specified in settings.CUSTOMER_SESSION_EXPIRY.
     '''
     
     item = get_object_or_404(ShopItems, pk=item_id)

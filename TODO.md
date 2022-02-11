@@ -12,10 +12,17 @@
 
 ## Shop
 
+-precheckout page with shopper information that creates an invoice and then
+redirects to actual checkout page, allowing the shipping info to be saved in an
+invoice, which is then accessed by a webhook handler to create follow up
+
+OR
+
+- embed the shipping info in the metadata which is messier down the line
+
+
 - after order, create completed order invoice saved as paid
 
-- images with set to main
-- signals to is_available, file already in SHOP
 - add shipping to ShopItems
 
 - cookie session expiry for a specific cookie

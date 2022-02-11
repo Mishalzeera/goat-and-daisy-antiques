@@ -11,6 +11,7 @@ whitenoise = "*"
 crispy-bootstrap5 = "*"
 pillow = "*"
 stripe = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 

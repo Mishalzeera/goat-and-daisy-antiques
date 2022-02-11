@@ -16,6 +16,7 @@ def shop_webhook(request):
     endpoint_secret = settings.LOCAL_STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
+
     try:
         event = stripe.Webhook.construct_event(
             payload, sig_header, endpoint_secret
@@ -28,8 +29,19 @@ def shop_webhook(request):
         raise e
     except Exception as e:
         return HttpResponse(content=e, status=400)
+
+
+    # From the webhook metadata, we first get a more handy place to start
+    session = event['data']['object']
+    session_metadata = session['metadata']
+    service_type = session_metadata.shop_or_workshop
     
-    handler = StripeWebhookHandlerSHOP(request)
+    if service_type == "Workshop":      
+        handler = StripeWebhookHandlerWORKSHOP(request)
+    elif service_type == "Shop":
+        handler = StripeWebhookHandlerSHOP(request)
+    
+    
 
     event_map = {
         'payment_intent.succeeded': handler.handle_payment_intent_suceeded,

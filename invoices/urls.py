@@ -9,7 +9,7 @@ urlpatterns = [
     path('confirm-details/', views.precheckout, name="precheckout"),
     path('checkout/', views.checkout, name='checkout'),
     path('workshop-checkout/<int:invoice_id>/', views.workshop_checkout, name='workshop_checkout'),
-    path('checkout/create-payment-intent/', views.create_shop_checkout_session, name='create_payment_intent'),
+    path('checkout/create-payment-intent/', views.create_checkout_session, name='create_payment_intent'),
     path('wh-shop/', shop_webhook, name="shop_webhook"),
-    path('wh-workshop/', workshop_webhook, name="workshop_webhook"),
+    # path('wh-workshop/', workshop_webhook, name="workshop_webhook"),
 ]

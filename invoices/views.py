@@ -156,6 +156,9 @@ def precheckout(request):
             
             new_invoice.save()
             request.session['shop_order_number'] = new_invoice.order_number
+            request.session['shop_or_workshop'] = "Shop"
+
+            print(request.session['shop_order_number'], request.session['shop_or_workshop'])
 
         else:
             form = ShopCheckoutForm(request.POST)
@@ -166,12 +169,14 @@ def precheckout(request):
                 form.instance.notes = "This customer does not have an account."
                 form.save()
                 request.session['shop_order_number'] = form.instance.order_number
+                request.session['shop_or_workshop'] = "Shop"
+
+                print(request.session['shop_order_number'], request.session['shop_or_workshop'])
 
             else:
 
                 messages.error(request, ("Form not filled correctly"))
 
-        print(request.session['shop_order_number'])
 
         return redirect('checkout')
 
@@ -246,8 +251,16 @@ def workshop_checkout(request, invoice_id):
     # ... and sent to the template
     stripe_order_total = round(invoice.order_total * 100)
 
+    if stripe_order_total <= 0:
+        zero_error = "Please contact a staff member to process your invoice before payment."
+
+    # storing the type of service
+    request.session['shop_or_workshop'] = "Workshop"
+    # storing the type of invoice
+    request.session['invoice_type'] = invoice.payment_type
     # storing the order number in a session variable
     request.session['workshop_order_number'] = invoice.order_number
+    
     print(request.session['workshop_order_number'])
     context = {
         'invoice': invoice,
@@ -319,7 +332,23 @@ def calculate_order_amount(cart):
     return sum 
 
 @require_POST
-def create_shop_checkout_session(request):
+def create_checkout_session(request):
+
+    # Check the type of service 
+    if request.session['shop_or_workshop'] == 'Workshop':
+        # create metadata dictionaries to send to Stripe
+        metadata = {
+            'shop_or_workshop': request.session['shop_or_workshop'],
+            'unique_order_number': request.session['workshop_order_number'],
+            'invoice_type': request.session['invoice_type'],
+
+        }
+
+    elif request.session['shop_or_workshop'] =='Shop':
+        metadata = {
+            'shop_or_workshop': request.session['shop_or_workshop'],
+            'unique_order_number': request.session['shop_order_number'],
+        }
 
     data = json.loads(request.body)
     # Create a PaymentIntent with the order amount and currency
@@ -329,6 +358,9 @@ def create_shop_checkout_session(request):
         automatic_payment_methods={
             'enabled': True,
         },
+        # This metadata insertion allows us to access invoice details in the
+        # webhook handler
+        metadata = metadata,
     )
     return JsonResponse({
         'clientSecret': intent['client_secret']

@@ -158,7 +158,7 @@ def precheckout(request):
             request.session['shop_order_number'] = new_invoice.order_number
             request.session['shop_or_workshop'] = "Shop"
 
-            print(request.session['shop_order_number'], request.session['shop_or_workshop'])
+
 
         else:
             form = ShopCheckoutForm(request.POST)
@@ -171,7 +171,7 @@ def precheckout(request):
                 request.session['shop_order_number'] = form.instance.order_number
                 request.session['shop_or_workshop'] = "Shop"
 
-                print(request.session['shop_order_number'], request.session['shop_or_workshop'])
+
 
             else:
 
@@ -198,44 +198,7 @@ def checkout(request):
     }
     return render(request, 'invoices/checkout.html', context)
 
-    # For WEBHOOK actions
-    #     order_amount = request.POST.get('order_amount')
-    #     shipping_cost = request.POST.get('shipping')
-    #     order_total = request.POST.get('order_total')
-    #     if request.user.is_authenticated:
 
-
-    #         new_invoice = ShopCustomerInvoice.objects.create(
-    #             full_name= request.POST.get('full_name'),
-    #             email= request.POST.get('email'),
-    #             address1= request.POST.get('address1'),
-    #             address2= request.POST.get('address2'),
-    #             postcode= request.POST.get('postcode'),
-    #             town_or_city= request.POST.get('town_or_city'),
-    #             country= request.POST.get('country'),
-    #             order_amount = order_amount,
-    #             shipping_cost = shipping_cost,
-    #             order_total = order_total,
-    #             is_completed = True,
-    #         )
-            
-    #         new_invoice.save()
-
-    #     else:
-    #         form = ShopCheckoutForm(request.POST)
-    #         if form.is_valid():
-    #             form.instance.is_completed = True
-    #             form.instance.order_amount = order_amount
-    #             form.instance.shipping_cost = shipping_cost
-    #             form.instance.order_total = order_total 
-    #             form.save()
-    #             messages.success(request, ("You have paid, thank you."))
-    #         else:
-    #             messages.error(request, ("Form not filled correctly"))
-
-        
-        
-    #     return redirect('index')
 
 
 def workshop_checkout(request, invoice_id):
@@ -261,7 +224,6 @@ def workshop_checkout(request, invoice_id):
     # storing the order number in a session variable
     request.session['workshop_order_number'] = invoice.order_number
     
-    print(request.session['workshop_order_number'])
     context = {
         'invoice': invoice,
         'stripe_order_total': stripe_order_total,

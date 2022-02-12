@@ -79,6 +79,10 @@ const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 
 ## Webhooks, CLI and troubleshooting
 
+- Moving your Django development setup to another system, laptop Gitpod etc
+can be a major pain, so best to use the Stripe CLI in the interest of saving
+time. 
+
 - An important issue with adapting the code from the Stripe website has been
 ensuring that wherever 'data' appears as an attribute, this should be changed
 to 'body'. Its possible this is a Flask vs Django thing. 
@@ -86,16 +90,15 @@ to 'body'. Its possible this is a Flask vs Django thing.
 - Set up the CLI, you have to navigate to the directory that the downloaded
 file is in, to use it. Easiest with CMD rather than the VS code terminal.
 
-- You need a second window open and navigated to the correct directory.
-
 - In the first one: stripe listen --forward-to localhost:8000/invoices/wh
 (thats the Url of your post only, csrf exempt webhook function)
 
-- In the second one: stripe trigger payment_intent.succeeded (or whichever 
-event you want to trigger)
+- In a second window: stripe trigger payment_intent.succeeded (or whichever 
+event you want to trigger) - just to test basic signals
 
-- For this project, best to have two separate flows for webhook handling,
-one for shop and one for workshop.
+- You have to log in and have the CLI listening to the correct url - then you 
+can inspect the metadata etc, work on the event handling and all that.
 
-- Simply recreated the same setup with different names for now.
+- It doesn't just work without being set up correctly, including the webhook
+secret key and being logged in. 
 

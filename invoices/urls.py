@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .webhooks import shop_webhook, workshop_webhook
+from .webhooks import shop_webhook
 
 urlpatterns = [
     path('cart/', views.view_cart, name="view_cart"),
@@ -10,6 +10,5 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('workshop-checkout/<int:invoice_id>/', views.workshop_checkout, name='workshop_checkout'),
     path('checkout/create-payment-intent/', views.create_checkout_session, name='create_payment_intent'),
-    path('wh-shop/', shop_webhook, name="shop_webhook"),
-    # path('wh-workshop/', workshop_webhook, name="workshop_webhook"),
+    path('wh/', shop_webhook, name="webhook"),
 ]

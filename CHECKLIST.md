@@ -9,7 +9,4 @@ all checkout links to precheckout
 
 workshop paid invoices show on customer invoice page and back button
 
-session order num var name for shop is shop_order_number
-for workshop is workshop_order_number
-
-get order number in the workshop model str
+get order number in the workshop model str and also the name of the ticket

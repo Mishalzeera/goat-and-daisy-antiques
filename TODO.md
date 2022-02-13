@@ -1,31 +1,12 @@
 ## Profiles
 
-- current orders to customer profiles
-- no notes to new customer profile setup
+- client secret in URL and when/where to clear cart and success 
 
-- check out any tutorials on permission mixins
-- phonenumber
-- find programmatic way to automatically add staff members to correct groups
 - remember on models.py to check/change the get_absolute_url setting
 
 ## Site Layout
 
 ## Shop
-
--precheckout page with shopper information that creates an invoice and then
-redirects to actual checkout page, allowing the shipping info to be saved in an
-invoice, which is then accessed by a webhook handler to create follow up
-
-OR
-
-- embed the shipping info in the metadata which is messier down the line
-
-
-- after order, create completed order invoice saved as paid
-
-- add shipping to ShopItems
-
-- cookie session expiry for a specific cookie
 
 ## Repairs/Restorals
 

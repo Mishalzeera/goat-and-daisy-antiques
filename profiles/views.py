@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
 from django.contrib.auth.models import User
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.contrib import messages
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
 from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
@@ -24,9 +25,10 @@ class CustomerProfilePage(LoginRequiredMixin, View):
     Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings.
     '''
     login_url = "/profiles/login/"
+
     def get(self, request, *args, **kwargs):
-        profile = User.objects.get(pk=request.user.id)
-        customer = Customer.objects.get(username=request.user)
+        profile = get_object_or_404(User, pk=request.user.id)
+        customer = get_object_or_404(Customer, username=request.user)
         
 
         context = {
@@ -36,6 +38,20 @@ class CustomerProfilePage(LoginRequiredMixin, View):
 
         return render(request, 'registration/customer_profile.html', context)
 
+
+# login required
+class ChangePassword(LoginRequiredMixin, PasswordChangeView):
+    '''
+    Allows a user to change their password.
+    '''
+    success_url = reverse_lazy('password_changed')
+
+# redirect page
+def password_changed(request):
+    '''
+    Displays a success message when password is changed.
+    '''
+    return render(request, 'registration/password_changed.html')
 
 # public
 class UserSignupPage(View):
@@ -156,7 +172,7 @@ class CreateStaffProfilePage(GroupRequiredMixin, CreateView):
 # admin only
 class AdminStaffList(GroupRequiredMixin, ListView):
     '''
-    This view allows the admin to manage all users in the database.
+    This view allows the admin to manage all staff in the database.
     '''
     group_required = [u'Admin Only']
     queryset = StaffMember.objects.all()

@@ -212,7 +212,6 @@ def checkout(request):
     else:
         customer_profile = {"full_name": "Not authenticated"}
 
-    # request.session['cart'] = {}
     form = ShopCheckoutForm()
     context = {
         'customer_profile': customer_profile,
@@ -275,6 +274,8 @@ def success(request):
         'email': request.session['customer_email'],
 
     }
+
+    request.session['cart'] = {}
 
     return render(request, 'invoices/success.html', context)
 

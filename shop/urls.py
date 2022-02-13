@@ -18,6 +18,8 @@ urlpatterns = [
     path('staff-add-image/', views.StaffAddImage.as_view(), name="staff_add_image"),
     path('update-image/<int:pk>/',
          views.StaffUpdateImage.as_view(), name="update_image"),
+     path('add-image-in-product/<int:product_id>/',
+         views.add_image_in_product, name="add_image_in_product"),
     path('delete-image-confirm/<int:pk>/',
          views.StaffDeleteImage.as_view(), name="delete_image"),
      path('set-primary-image/<int:product_id>/<int:image_id>/', views.set_primary_image, name='set_primary_image'),

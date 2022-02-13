@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% block content%}
+{% block content %}
 
-<h1>Add Images</h1>
 <form action="." method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form | crispy }}
+    <input type="hidden" name="product" value="product">
     <input type="submit" value="Add Image">
 </form>
-
-<br>
-<small><input class="btn btn-sm btn-info" type=button value="Back" onClick="javascript:history.go(-1);"></small>
 
 {% endblock %}

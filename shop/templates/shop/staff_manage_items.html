@@ -11,7 +11,7 @@
 <a href="{% url 'staff_add_image' %}">
     <h2>Manage Images</h2>
 </a>
-    <p class="small text-muted">Use this link to add images to inventory. Use the links below each image for replacing or deleting existing images.</p>
+    <p class="small text-muted">Use this link to add images to inventory. You can also use the links by each product to add images.</p>
 <br>
 {% for product in products %}
 <br>
@@ -22,6 +22,9 @@
     <p class="small text-muted">Use above link to edit this item.</p>
     <p>{{ product.description }}</p>
     <p>Price: {{ product.price }}</p>
+    <a href="{% url 'add_image_in_product' product.id %}" class="text-info">
+        <p>Add A New Image</p>
+    </a>
     {% for image in product.images.all %}
         <div class="image-span-flex" style="display: flex; justify-content: space-evenly; align-items: center;">
             <img src="{{image.image.url}}" alt="" style="width:300px;">
@@ -48,6 +51,8 @@
 
 
     {% endfor %}
+    
+    
     <a href="{% url 'staff_delete_item' pk=product.id %}" class="text-danger">
         <p>Delete This Item</p>
     </a>

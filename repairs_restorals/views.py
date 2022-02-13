@@ -3,6 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
+from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
 from django.views.generic.detail import DetailView
 from invoices.models import WorkshopCustomerInvoice
 from profiles.models import Customer, StaffMember
@@ -10,6 +11,7 @@ from .models import ServiceTicket, TicketImage, TodoList, TodoItem
 from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, CustomerInvoiceUpdateForm, CreateTodoListForm, CreateTodoListItemForm
 
 
+# public
 class Workshop(View):
     '''
     A view that returns the workshop area, where customers can see the kind of 
@@ -20,6 +22,7 @@ class Workshop(View):
         return render(request, 'repairs_restorals/workshop.html')
 
 
+# login required
 @login_required
 def create_service_ticket(request):
     '''
@@ -66,6 +69,7 @@ def create_service_ticket(request):
         return render(request, 'repairs_restorals/workshop.html')
 
 
+# login required
 class CustomerAddImage(LoginRequiredMixin, CreateView):
     '''
     Allows a customer to add images to service tickets.
@@ -88,6 +92,7 @@ class CustomerAddImage(LoginRequiredMixin, CreateView):
         return kwargs
 
 
+# login required
 class CustomerWorkbench(LoginRequiredMixin, ListView):
     ''' 
     A view that displays the Customers current Service Tickets, previous completed projects. 
@@ -110,6 +115,7 @@ class CustomerWorkbench(LoginRequiredMixin, ListView):
         return context
 
 
+# login required
 class ServiceTicketDetail(LoginRequiredMixin, DetailView):
     '''
     Allows a customer to view a specific service ticket.
@@ -120,10 +126,13 @@ class ServiceTicketDetail(LoginRequiredMixin, DetailView):
     context_object_name = 'ticket'
 
 
-class ServiceTicketUpdate(UpdateView):
+# workshop staff only
+class ServiceTicketUpdate(GroupRequiredMixin, UpdateView):
     '''
     Allows staff to update a current service ticket.
     '''
+    group_required = [u'Workshop Staff']
+
     model = ServiceTicket
     fields = ['title', 'service_description', 'link_to_desired_materials_1',
               'link_to_desired_materials_2', 'link_to_desired_materials_3', 'is_completed']
@@ -131,6 +140,7 @@ class ServiceTicketUpdate(UpdateView):
     success_url = reverse_lazy('ticket_overview')
 
 
+# login required
 class PublicServiceTicketUpdate(LoginRequiredMixin, UpdateView):
     '''
     Allows a customer to update a current service ticket, most fields restricted
@@ -145,51 +155,60 @@ class PublicServiceTicketUpdate(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('workshop')
 
 
-class WorkshopStaffTicketOverview(ListView):
+# workshop staff only
+class WorkshopStaffTicketOverview(GroupRequiredMixin, ListView):
     '''
     Allows workshop staff to view all current tickets, with CRUD options.
     '''
-
+    group_required = [u'Workshop Staff']
     queryset = Customer.objects.prefetch_related(
         'service_ticket').filter(has_active_repairs=True)
     template_name = 'repairs_restorals/workshop_ticket_overview.html'
     context_object_name = 'customers'
 
 
-class TicketDelete(DeleteView):
+# workshop staff only
+class TicketDelete(GroupRequiredMixin, DeleteView):
     '''
     Allows workshop staff to delete a ticket.
     '''
+    group_required = [u'Workshop Staff']
     model = ServiceTicket
     template_name = 'repairs_restorals/ticket_confirm_delete.html'
     success_url = reverse_lazy('ticket_overview')
 
 
-class WorkshopStaffUpdateImage(UpdateView):
+# workshop staff only
+class WorkshopStaffUpdateImage(GroupRequiredMixin, UpdateView):
     '''
     Allows a workshop staff member to update a specific image.
     '''
+    group_required = [u'Workshop Staff']
     model = TicketImage
     form_class = CustomerUploadImageForm
     template_name = 'repairs_restorals/update_image.html'
     success_url = reverse_lazy('ticket_overview')
 
 
-class WorkshopStaffDeleteImage(DeleteView):
+# workshop staff only
+class WorkshopStaffDeleteImage(GroupRequiredMixin, DeleteView):
     '''
-    Allows a workshop staff member to delete product images.
+    Allows a workshop staff member to delete ticket images.
     '''
+
+    group_required = [u'Workshop Staff']
     model = TicketImage
     template_name = 'shop/staff_confirm_delete.html'
     success_url = reverse_lazy('ticket_overview')
 
 
-class TaskManager(View):
+# workshop staff only
+class TaskManager(GroupRequiredMixin, View):
     '''
     Shows a list of todo items for each workshop staff member, allowing
     all CRUD functions on the same page for convenience. 
     '''
-
+    group_required = [u'Workshop Staff']
     def get(self, request, *args, **kwargs):
         # Get a staff member
         staff_member = get_object_or_404(
@@ -270,6 +289,8 @@ class TaskManager(View):
         return render(request, 'repairs_restorals/todo_list.html', context)
 
 
+# workshop staff only
+@group_required_decorator('Workshop Staff')
 def delete_or_update_item_in_todo(request, pk):
     '''
     A function that allows a list item to be deleted in the 
@@ -321,7 +342,7 @@ def delete_or_update_item_in_todo(request, pk):
     # ...and sent to the template
     return render(request, 'repairs_restorals/todo_list.html', context)
 
-
+# login required
 class PublicCustomerInvoices(LoginRequiredMixin, ListView):
     '''
     Customer can view his or her own invoices.
@@ -344,28 +365,34 @@ class PublicCustomerInvoices(LoginRequiredMixin, ListView):
         return context
 
 
-class AllCustomerInvoices(ListView):
+# workshop staff only
+class AllCustomerInvoices(GroupRequiredMixin, ListView):
     '''
-    Shows admin all the invoices in the system.
+    Shows workshop staff all the invoices in the system.
     '''
+    group_required = [u'Workshop Staff']
     model = WorkshopCustomerInvoice
     template_name = 'repairs_restorals/all_customer_invoices.html'
     context_object_name = "invoices"
 
 
-class AdminCustomerDetailView(DetailView):
+# workshop staff only
+class AdminCustomerDetailView(GroupRequiredMixin, DetailView):
     '''
     Allows a workshop staff member to see details of an invoice
     '''
+    group_required = [u'Workshop Staff']
     model = WorkshopCustomerInvoice
     template_name = 'repairs_restorals/customer_invoice_detail.html'
     context_object_name = 'invoice'
 
 
-class AdminCustomerInvoice(UpdateView):
+# workshop staff only
+class AdminCustomerInvoice(GroupRequiredMixin, UpdateView):
     '''
     Allows a workshop staff member to update a specific invoice.
     '''
+    group_required = [u'Workshop Staff']
     model = WorkshopCustomerInvoice
     form_class = CustomerInvoiceUpdateForm
     template_name = 'repairs_restorals/admin_customer_invoice.html'

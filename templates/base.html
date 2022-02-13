@@ -64,6 +64,9 @@
                   </li> <li><a class="dropdown-item" href="{% url 'staff_manage_items' %}">Manage Inventory</a></li>
                   
                 </li>
+                <li><a class="dropdown-item" href="{% url 'all_shop_customers' %}">All Registered Customers</a></li>
+                  
+                  </li>
                 </ul></li>
                 {% endif %}
                 {% if request.user|has_group:"Workshop Staff" %}
@@ -81,19 +84,12 @@
                   <li><a class="dropdown-item" href="{% url 'task_manager' %}">Task Manager</a></li>
                   
                   </li>
-                </ul></li>
-                {% endif %}
-                {% if request.user|has_group:"General Staff" %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  General Staff
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{% url 'all_shop_customers' %}">View All Customers</a></li>
                   
                   </li>
                 </ul></li>
                 {% endif %}
+                
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Accounts

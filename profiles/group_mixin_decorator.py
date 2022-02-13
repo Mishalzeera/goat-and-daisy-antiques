@@ -27,7 +27,7 @@ class GroupRequiredMixin(object):
 
 
 
-def group_required(*group_names):
+def group_required_decorator(*group_names):
     """Requires user membership in at least one of the groups passed in."""
     def in_groups(u):
         if u.is_authenticated:

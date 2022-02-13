@@ -1,13 +1,14 @@
+import re
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
 from django.core.mail import send_mail
-from profiles.group_mixin_decorator import GroupRequiredMixin, group_required
+from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
 from .models import ShopItems, ShopItemImage
 from invoices.models import ShopCustomerInvoice
 from profiles.models import Customer
-from .forms import StaffCreateItemForm, StaffImageUploadForm
+from .forms import StaffCreateItemForm, StaffImageUploadForm, StaffImageUploadFormInProduct
 
 # public
 class ShopFront(ListView):
@@ -47,6 +48,8 @@ class AllShopOrders(GroupRequiredMixin, View):
 
         return render(request, 'shop/all_shop_orders.html', context)
 
+# shop staff only
+@group_required_decorator('Shop Staff')
 def mark_invoice_complete(request, invoice_order_number):
     '''
     When shop staff have shipped an item, this functions marks the invoice
@@ -114,13 +117,47 @@ class StaffUpdateItem(GroupRequiredMixin, UpdateView):
 # shop staff only
 class StaffAddImage(GroupRequiredMixin, CreateView):
     '''
-    Allows a staff member to add images to a product.
+    Allows a staff member to add images to multiple products without leaving the page.
     '''
     group_required = ['Shop Staff']
     model = ShopItemImage
     form_class = StaffImageUploadForm
     template_name = 'shop/staff_add_image.html'
-    success_url = reverse_lazy('staff_manage_items')
+    success_url = reverse_lazy('staff_add_image')
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        messages.success(request, ("Image successfully added."))
+        return super().post(request, *args, **kwargs)
+
+# shop staff only
+@group_required_decorator('Shop Staff')
+def add_image_in_product(request, product_id):
+    '''
+    Allows staff to add images to products from product detail instances(list 
+    or detail view) - for convenience
+    '''
+    product = ShopItems.objects.get(pk=product_id)
+
+    if request.method == "GET":
+
+        initial = {'product': product}
+        form = StaffImageUploadFormInProduct(initial=initial)
+        context = {
+            'product': product,
+            'form': form,
+        }
+        return render(request, 'shop/add_image_in_product.html', context)
+    
+    if request.method == "POST":
+
+        form = StaffImageUploadFormInProduct(request.POST, request.FILES)
+
+        form.instance.product = product
+        if form.is_valid():
+            form.save()
+        
+        return redirect('staff_manage_items')
 
 # shop staff only
 class StaffUpdateImage(GroupRequiredMixin, UpdateView):

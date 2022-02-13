@@ -18,3 +18,12 @@ class StaffImageUploadForm(ModelForm):
     class Meta:
         model = ShopItemImage
         fields = ['product', 'image', ]
+
+
+class StaffImageUploadFormInProduct(ModelForm):
+    '''
+    Form that allows staff to upload inventory images from a product detail.
+    '''
+    class Meta:
+        model = ShopItemImage
+        fields = ['image', ]

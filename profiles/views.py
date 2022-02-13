@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -9,13 +10,15 @@ from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccount
 from .models import Customer, StaffMember
 
 
+# public
 class LoginAUser(LoginView):
     '''
-    A view to customize the login process.
+    A view to customize the login process if needed.
     '''
     pass
 
 
+# login required
 class CustomerProfilePage(LoginRequiredMixin, View):
     '''
     Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings.
@@ -34,6 +37,7 @@ class CustomerProfilePage(LoginRequiredMixin, View):
         return render(request, 'registration/customer_profile.html', context)
 
 
+# public
 class UserSignupPage(View):
     '''
     Returns an auth account signup page using a form which extends the built-in
@@ -65,6 +69,7 @@ class UserSignupPage(View):
         return redirect('create_profile')
 
 
+# public
 class CreateProfilePage(CreateView):
     '''
     Creates a users profile containing specifics not related to authentication.
@@ -87,12 +92,13 @@ class CreateProfilePage(CreateView):
         return super().form_valid(form)
 
 
-class StaffMemberSignupPage(View):
+# admin only
+class StaffMemberSignupPage(GroupRequiredMixin, View):
     '''
     Returns an auth account signup page using a form which extends the built-in
     Django user creation form. 
     '''
-
+    group_required = [u'Admin Only']
     def get(self, request, *args, **kwargs):
         # Send a blank form to the template
         form = UserAuthAccountCreationForm()
@@ -121,10 +127,12 @@ class StaffMemberSignupPage(View):
         return redirect('create_staff_profile')
 
 
-class CreateStaffProfilePage(CreateView):
+# admin only
+class CreateStaffProfilePage(GroupRequiredMixin, CreateView):
     '''
     Extends the built in CreateView model, creates staff profile containing specifics not related to authentication.
     '''
+    group_required = [u'Admin Only']
     model = StaffMember
     form_class = StaffMemberRegistrationForm
     template_name = "registration/create_staff_profile.html"
@@ -145,41 +153,53 @@ class CreateStaffProfilePage(CreateView):
         return super().form_valid(form)
 
 
-class AdminStaffList(ListView):
+# admin only
+class AdminStaffList(GroupRequiredMixin, ListView):
     '''
     This view allows the admin to manage all users in the database.
     '''
+    group_required = [u'Admin Only']
     queryset = StaffMember.objects.all()
     template_name = 'registration/all_staff.html'
     context_object_name = 'members'
 
 
-class AllShopCustomers(ListView):
-    queryset = Customer.objects.filter(has_active_shop_orders=True)
+# general staff
+class AllShopCustomers(GroupRequiredMixin, ListView):
+    '''
+    Lists all the customers registered in the system.
+    '''
+    group_required = [u'General Staff']
+    queryset = Customer.objects.all()
     template_name = 'shop/all_customers.html'
     context_object_name = 'customers'
 
 
-class AdminStaffUpdate(UpdateView):
+# admin only
+class AdminStaffUpdate(GroupRequiredMixin, UpdateView):
     '''
-    This view allows the admin to set broad permissions for staff members.
+    This view allows the admin to manage staff members.
     '''
+    group_required = [u'Admin Only']
     model = StaffMember
     form_class = StaffMemberRegistrationForm
     context_object_name = 'staff_member'
     template_name = "registration/admin_staff_update.html"
 
 
-class CustomerAccountUpdate(UpdateView):
+# general staff
+class CustomerAccountUpdate(GroupRequiredMixin, UpdateView):
     '''
     This view allows staff to modify customer accounts.
     '''
+    group_required = [u'General Staff']
     model = Customer
     form_class = CustomerUpdateForm
     context_object_name = 'customer'
     template_name = "registration/customer_account_update.html"
 
 
+# login required
 class PublicCustomerAccountUpdate(LoginRequiredMixin, UpdateView):
     '''
     This view allows customer to modify customer accounts.
@@ -191,20 +211,24 @@ class PublicCustomerAccountUpdate(LoginRequiredMixin, UpdateView):
     template_name = "registration/customer_account_update.html"
 
 
-class AdminOverview(View):
+# admin only
+class AdminOverview(GroupRequiredMixin, View):
     '''
     Returns a superuser overview page, ensures that the employee enrollment
     process is correctly handled - also handy access to employee permissions 
     '''
+    group_required = [u'Admin Only']
 
     def get(self, request, *args, **kwargs):
         return render(request, 'registration/admin_overview.html')
 
 
-class StaffMemberDetailView(DetailView):
+# admin only
+class StaffMemberDetailView(GroupRequiredMixin, DetailView):
     '''
     Returns a superuser-only detail view of staff members
     '''
+    group_required = [u'Admin Only']
     model = StaffMember
     template_name = 'registration/staff_member.html'
     context_object_name = 'member'

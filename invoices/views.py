@@ -5,6 +5,7 @@ from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.contrib import messages
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from shop.models import ShopItems
 from profiles.models import Customer
 from .forms import ShopCheckoutForm
@@ -20,7 +21,7 @@ import os
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-
+# public
 def view_cart(request):
     '''
     Shows the users shopping cart, with items and checkout button.
@@ -33,7 +34,7 @@ def view_cart(request):
 
     return render(request, 'invoices/shopping_cart.html', context)
 
-
+# inner function
 def timer(item_id):
     '''
     Timer for the hold function. Occurs in its own thread, which is 
@@ -42,7 +43,7 @@ def timer(item_id):
     time.sleep(settings.CUSTOMER_SESSION_EXPIRY)
     release_shop_item(item_id)
 
-
+# public
 def hold_shop_item(item_id):
     '''
     Function that starts a timer, taking a shop item off the shop
@@ -57,7 +58,7 @@ def hold_shop_item(item_id):
         timer_thread = Thread(target=timer, args=(item_id,), daemon=True)
         timer_thread.start()
    
-
+# public
 def release_shop_item(item_id):
     '''
     Releases an object back to the shop to be purchased by another customer.
@@ -68,8 +69,7 @@ def release_shop_item(item_id):
         item.is_available = True
         item.save()
 
-
-
+# public
 def add_to_cart(request, item_id):
     '''
     Adds a shop item to the session shopping cart.
@@ -92,7 +92,7 @@ def add_to_cart(request, item_id):
 
     return redirect(redirect_url)
 
-
+# public
 def remove_from_cart(request, item_id):
     '''
     Removes an item from the session shopping cart.
@@ -113,7 +113,7 @@ def remove_from_cart(request, item_id):
 
     return redirect('view_cart')
 
-
+# public
 def precheckout(request):
     '''
     Creates an invoice in the system for a shop customer, and confirms the 
@@ -179,7 +179,7 @@ def precheckout(request):
                 form.instance.order_amount = order_amount
                 form.instance.shipping_cost = shipping_cost
                 form.instance.order_total = order_total 
-                form.instance.notes = "This customer does not have an account. Purchased: "
+                form.instance.notes = "Note: This customer does not have an account."
                 form.save()
                 request.session['shop_order_number'] = form.instance.order_number
                 request.session['shop_or_workshop'] = "Shop"
@@ -203,7 +203,7 @@ def precheckout(request):
 
         return redirect('checkout')
 
-
+# public
 def checkout(request):
 
 
@@ -220,9 +220,8 @@ def checkout(request):
     }
     return render(request, 'invoices/checkout.html', context)
 
-
-
-
+# login required
+@login_required
 def workshop_checkout(request, invoice_id):
     '''
     Allows a workshop client to pay their invoices. Use the deposit amount
@@ -261,6 +260,7 @@ def workshop_checkout(request, invoice_id):
 
     return render(request, 'invoices/workshop_checkout.html', context)
 
+# public
 def success(request):
 
     if request.session['shop_order']:
@@ -278,11 +278,13 @@ def success(request):
 
     return render(request, 'invoices/success.html', context)
 
+# inner function
 def calculate_order_amount(cart):
-    # Cart comes from the JS file initialize() function. Sent from a 
+    # Cart comes from the JS file initialize() function.  
     sum = cart[0]['total']
     return sum 
 
+# public
 @require_POST
 def create_checkout_session(request):
 

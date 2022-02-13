@@ -24,7 +24,9 @@ class StripeWebhookHandlerSHOP:
     def handle_payment_intent_suceeded(self, event):
 
         print("THIS IS A SUCCESSFUL SHOP ORDER")
-        
+        # Get the invoice
+        this_invoice = ShopCustomerInvoice.objects.get(order_number=self.order_number)
+
         # We take the item/s off the inventory 
         # Create an empty shopping list
         shopping_list = []
@@ -39,14 +41,15 @@ class StripeWebhookHandlerSHOP:
         for shopitem in shopping_list:
             shopitem.is_available = False
             shopitem.save()
-            print(f"{shopitem} NO LONGER AVAILABLE")
+            # and adding the item title to the invoice notes for the shop
+            # staff
+            this_invoice.notes += shopitem.title + " - "
+            this_invoice.save()
+        
+
         
 
         # We mark the transaction as paid, so staff can ship it
-
-        this_invoice = ShopCustomerInvoice.objects.get(order_number=self.order_number)
-
-        # ...apply the datestamp
         this_invoice.paid_on = datetime.datetime.now()
         this_invoice.save()
 

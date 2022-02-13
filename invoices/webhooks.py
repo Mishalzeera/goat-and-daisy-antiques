@@ -67,7 +67,7 @@ def shop_webhook(request):
 
     event_type = event['type']
 
-    event_handler = event_map.get(event_type, handler.handle_event)
+    event_handler = event_map.get(event_type)
     
     response = event_handler(event)
     return response 

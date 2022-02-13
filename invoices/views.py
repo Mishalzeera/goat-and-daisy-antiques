@@ -152,6 +152,7 @@ def precheckout(request):
                 order_amount = order_amount,
                 shipping_cost = shipping_cost,
                 order_total = order_total,
+                notes = '',
             )
             
             new_invoice.save()
@@ -178,7 +179,7 @@ def precheckout(request):
                 form.instance.order_amount = order_amount
                 form.instance.shipping_cost = shipping_cost
                 form.instance.order_total = order_total 
-                form.instance.notes = "This customer does not have an account."
+                form.instance.notes = "This customer does not have an account. Purchased: "
                 form.save()
                 request.session['shop_order_number'] = form.instance.order_number
                 request.session['shop_or_workshop'] = "Shop"
@@ -192,7 +193,7 @@ def precheckout(request):
                         to_concatenate = str(value)
                         request.session['shopping_cart'] += to_concatenate + " "
                 
-                request.session['cart'] = {}
+                # request.session['cart'] = {}
 
 
             else:
@@ -211,8 +212,7 @@ def checkout(request):
     else:
         customer_profile = {"full_name": "Not authenticated"}
 
-    
-    request.session['cart'] = {}
+    # request.session['cart'] = {}
     form = ShopCheckoutForm()
     context = {
         'customer_profile': customer_profile,

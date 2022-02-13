@@ -4,7 +4,11 @@
 <h2>Paid - To Ship</h2>
 {% for invoice in invoices %}
 {% if not invoice.is_completed %}
+{% if invoice.paid_on %}
 <p><strong>{{ invoice }}</strong></p>
+{% if invoice.notes %}
+<p class="small">{{ invoice.notes }}</p>
+{% endif %}
 <p class="small">{{ invoice.email }}</p>
 <p class="small">{{ invoice.full_name }}</p>
 <p class="small">{{ invoice.address1 }}</p>
@@ -18,11 +22,15 @@
     <p class="text-info">Mark complete</p>
 </a>
 {% endif %}
+{% endif %}
 {% endfor %}
 <h2>Completed</h2>
 {% for invoice in invoices %}
 {% if invoice.is_completed %}
 <p><strong>{{ invoice }}</strong></p>
+{% if invoice.notes %}
+<p class="small">{{ invoice.notes }}</p>
+{% endif %}
 {% endif %}
 {% endfor %}
 

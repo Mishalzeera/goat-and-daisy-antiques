@@ -4,12 +4,13 @@
 <h1>Outstanding Customer Invoices</h1>
 {% for invoice in invoices %}
     {% if not invoice.installment_paid %}
-
+        {% if invoice.order_total %}
         <p>Title: {{ invoice }}</p>
         <p>Created On: {{ invoice.date_created }}</p>
         <a href="{% url 'workshop_checkout' invoice.id %}">
             <p>Pay Invoice</p>
         </a>
+        {% endif %}
     {% endif %}
 {% endfor %}
 

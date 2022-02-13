@@ -31,7 +31,4 @@ class ShopItemImage(models.Model):
         return str(self.product) + str(self.id)
 
 
-# class ShopOrder(models.Model):
-#     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-#     item = models.OneToOneField(ShopItems, on_delete=models.PROTECT)
-#     quantity = models.IntegerField(default=1)
+

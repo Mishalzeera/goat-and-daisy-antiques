@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
+from django.core.mail import send_mail
+from profiles.group_mixin_decorator import GroupRequiredMixin, group_required
 from .models import ShopItems, ShopItemImage
+from invoices.models import ShopCustomerInvoice
 from profiles.models import Customer
 from .forms import StaffCreateItemForm, StaffImageUploadForm
 
-
+# public
 class ShopFront(ListView):
     '''
     A view to return all the antiques for sale.
@@ -16,16 +19,46 @@ class ShopFront(ListView):
     queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
 
-
-class AllShopCustomers(ListView):
+# general staff only
+class AllShopCustomers(GroupRequiredMixin, ListView):
     '''
     A view to return all shop customers with active shop orders.
     '''
-    queryset = Customer.objects.filter(has_active_shop_orders=True)
+    group_required = [u'General Staff']
+    queryset = Customer.objects.all()
     template_name = 'shop/all_customers.html'
     context_object_name = 'customers'
 
+# shop staff only
+class AllShopOrders(GroupRequiredMixin, View):
+    '''
+    Allows shop staff to keep an eye on orders needing to be shipped and
+    the status of related payments - via a list of all current shop customer 
+    invoices. 
+    '''
+    group_required = ['Shop Staff']
 
+    def get(self, request, *args, **kwargs):
+        queryset = ShopCustomerInvoice.objects.all()
+
+        context = {
+            'invoices': queryset,
+        }
+
+        return render(request, 'shop/all_shop_orders.html', context)
+
+def mark_invoice_complete(request, invoice_order_number):
+    '''
+    When shop staff have shipped an item, this functions marks the invoice
+    as complete and sends an email to the customer.
+    '''
+    invoice = ShopCustomerInvoice.objects.get(order_number = invoice_order_number)
+    invoice.is_completed = True
+    invoice.save()
+
+    return redirect('all_shop_orders')
+
+# public
 class ShopItem(DetailView):
     ''' 
     A view to return a specific item with options to buy.
@@ -34,71 +67,78 @@ class ShopItem(DetailView):
     template_name = 'shop/product_detail.html'
     context_object_name = 'item'
 
-
-class StaffManageItems(ListView):
+# shop staff only
+class StaffManageItems(GroupRequiredMixin, ListView):
     '''
     Allows a shop staff member to have an overview of inventory with
     CRUD functionality.
     '''
+    group_required = [u'Shop Staff']
     model = ShopItems
     template_name = 'shop/staff_manage_items.html'
     queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
 
-
-class StaffAddItem(CreateView):
+# shop staff only
+class StaffAddItem(GroupRequiredMixin, CreateView):
     '''
     Allows a shop staff member to add an item to the shop inventory.
     '''
+    group_required = ['Shop Staff']
     model = ShopItems
     form_class = StaffCreateItemForm
     template_name = 'shop/staff_add_item.html'
     success_url = reverse_lazy('shop')
 
-
-class StaffDeleteItem(DeleteView):
+# shop staff only
+class StaffDeleteItem(GroupRequiredMixin, DeleteView):
     '''
     Allows a shop staff member to delete a shop item from the inventory.
     '''
+    group_required = ['Shop Staff']
     model = ShopItems
     template_name = 'shop/staff_confirm_delete.html'
     success_url = reverse_lazy('staff_manage_items')
 
-
-class StaffUpdateItem(UpdateView):
+# shop staff only
+class StaffUpdateItem(GroupRequiredMixin, UpdateView):
     '''
     Allows a shop staff member to change a particular inventory item.
     '''
+    group_required = ['Shop Staff']
     model = ShopItems
     form_class = StaffCreateItemForm
     template_name = 'shop/staff_update_item.html'
     success_url = reverse_lazy('staff_manage_items')
 
-
-class StaffAddImage(CreateView):
+# shop staff only
+class StaffAddImage(GroupRequiredMixin, CreateView):
     '''
     Allows a staff member to add images to a product.
     '''
+    group_required = ['Shop Staff']
     model = ShopItemImage
     form_class = StaffImageUploadForm
     template_name = 'shop/staff_add_image.html'
     success_url = reverse_lazy('staff_manage_items')
 
-
-class StaffUpdateImage(UpdateView):
+# shop staff only
+class StaffUpdateImage(GroupRequiredMixin, UpdateView):
     '''
     Allows a shop staff member to update a specific image.
     '''
+    group_required = ['Shop Staff']
     model = ShopItemImage
     form_class = StaffImageUploadForm
     template_name = 'shop/staff_update_image.html'
     success_url = reverse_lazy('staff_manage_items')
 
-
-class StaffDeleteImage(DeleteView):
+# shop staff only
+class StaffDeleteImage(GroupRequiredMixin, DeleteView):
     '''
     Allows a shop staff member to delete product images.
     '''
+    group_required = ['Shop Staff']
     model = ShopItemImage
     template_name = 'shop/staff_confirm_delete.html'
     success_url = reverse_lazy('staff_manage_items')

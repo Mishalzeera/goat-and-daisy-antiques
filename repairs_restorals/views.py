@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.views.generic.detail import DetailView
 from invoices.models import WorkshopCustomerInvoice
 from profiles.models import Customer, StaffMember
@@ -18,6 +20,7 @@ class Workshop(View):
         return render(request, 'repairs_restorals/workshop.html')
 
 
+@login_required
 def create_service_ticket(request):
     '''
     Allows an authenticated user to create a service ticket. If a user isn't
@@ -63,10 +66,11 @@ def create_service_ticket(request):
         return render(request, 'repairs_restorals/workshop.html')
 
 
-class CustomerAddImage(CreateView):
+class CustomerAddImage(LoginRequiredMixin, CreateView):
     '''
     Allows a customer to add images to service tickets.
     '''
+    login_url = '/profiles/login/'
     model = TicketImage
     form_class = CustomerUploadImageForm
     template_name = 'repairs_restorals/add_image.html'
@@ -84,10 +88,11 @@ class CustomerAddImage(CreateView):
         return kwargs
 
 
-class CustomerWorkbench(ListView):
+class CustomerWorkbench(LoginRequiredMixin, ListView):
     ''' 
     A view that displays the Customers current Service Tickets, previous completed projects. 
     '''
+    login_url = '/profiles/login/'
     model = ServiceTicket
     template_name = 'repairs_restorals/customer_workbench.html'
     context_object_name = 'tickets'
@@ -105,10 +110,11 @@ class CustomerWorkbench(ListView):
         return context
 
 
-class ServiceTicketDetail(DetailView):
+class ServiceTicketDetail(LoginRequiredMixin, DetailView):
     '''
     Allows a customer to view a specific service ticket.
     '''
+    login_url = '/profiles/login/'
     model = ServiceTicket
     template_name = 'repairs_restorals/service_ticket.html'
     context_object_name = 'ticket'
@@ -125,12 +131,13 @@ class ServiceTicketUpdate(UpdateView):
     success_url = reverse_lazy('ticket_overview')
 
 
-class PublicServiceTicketUpdate(UpdateView):
+class PublicServiceTicketUpdate(LoginRequiredMixin, UpdateView):
     '''
     Allows a customer to update a current service ticket, most fields restricted
     so that any fundamental changes to a project will have to involve a staff
     member.
     '''
+    login_url = '/profiles/login/'
     model = ServiceTicket
     form_class = CustomerUpdateTicketForm
     context_object_name = "customer_ticket"
@@ -315,10 +322,11 @@ def delete_or_update_item_in_todo(request, pk):
     return render(request, 'repairs_restorals/todo_list.html', context)
 
 
-class PublicCustomerInvoices(ListView):
+class PublicCustomerInvoices(LoginRequiredMixin, ListView):
     '''
     Customer can view his or her own invoices.
     '''
+    login_url = '/profiles/login/'
     model = WorkshopCustomerInvoice
     context_object_name = 'invoices'
     template_name = 'repairs_restorals/customer_invoices.html'

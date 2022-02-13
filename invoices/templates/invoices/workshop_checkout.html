@@ -61,7 +61,12 @@
 
   <fieldset>
     <legend>Payment:</legend>
-  
+    {% if zero_error %}
+    <p class="text-danger">Please contact our staff, your invoice hasn't been
+      created.
+    </p>
+    {% else %}
+    
     <div id="payment-element">
       <!--Stripe.js injects the Payment Element-->
     </div>
@@ -71,6 +76,7 @@
       <span id="button-text">Pay now</span>
     </button>
     <div id="payment-message" class="hidden"></div>
+    {% endif %}
   </fieldset>
 
 </form>

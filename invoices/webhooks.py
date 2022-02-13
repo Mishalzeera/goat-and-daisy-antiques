@@ -36,16 +36,27 @@ def shop_webhook(request):
     session_metadata = session['metadata']
     service_type = session_metadata.shop_or_workshop
     order_number = session_metadata.unique_order_number
-    
+    customer_email = session_metadata.customer_email
     # ...after checking which type of transaction
     if service_type == "Workshop":  
         
         invoice_type = session_metadata.invoice_type
-        handler = StripeWebhookHandlerWORKSHOP(request, order_number, invoice_type)
+        handler = StripeWebhookHandlerWORKSHOP(request, order_number, invoice_type, customer_email)
 
     elif service_type == "Shop":
+        # Get the shopping cart from the metadata in string format
+        meta_cart = session_metadata.shopping_cart
+    
+        # Create an list using the white spaces as delimiter
+        string_cart = meta_cart.split(" ")
+        # Getting the whitespaces out by filtering out None values
+        no_none_cart = [*filter(None, string_cart)]
+        # Converting the result into integers for the handler
+        shopping_cart = [int(item) for item in no_none_cart]
 
-        handler = StripeWebhookHandlerSHOP(request, order_number)
+        # Send all of this to the handler class  
+
+        handler = StripeWebhookHandlerSHOP(request, order_number, shopping_cart, customer_email)
     
     
 

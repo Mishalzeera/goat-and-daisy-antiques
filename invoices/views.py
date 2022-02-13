@@ -157,6 +157,18 @@ def precheckout(request):
             new_invoice.save()
             request.session['shop_order_number'] = new_invoice.order_number
             request.session['shop_or_workshop'] = "Shop"
+            request.session['customer_full_name'] = new_invoice.full_name
+            request.session['customer_email'] = new_invoice.email
+            request.session['shopping_cart'] = ''
+            cart = request.session.get('cart', {})
+
+            for item_id, item_value in cart.items():
+                for key, value in item_value.items():
+                    to_concatenate = str(value)
+                    request.session['shopping_cart'] += to_concatenate + " "
+
+            
+            # request.session['cart'] = {}
 
 
 
@@ -170,7 +182,17 @@ def precheckout(request):
                 form.save()
                 request.session['shop_order_number'] = form.instance.order_number
                 request.session['shop_or_workshop'] = "Shop"
+                request.session['customer_full_name'] = form.instance.full_name
+                request.session['customer_email'] = form.instance.email
+                request.session['shopping_cart'] = ''
+                cart = request.session.get('cart', {})
 
+                for item_id, item_value in cart.items():
+                    for key, value in item_value.items():
+                        to_concatenate = str(value)
+                        request.session['shopping_cart'] += to_concatenate + " "
+                
+                request.session['cart'] = {}
 
 
             else:
@@ -190,7 +212,7 @@ def checkout(request):
         customer_profile = {"full_name": "Not authenticated"}
 
     
-
+    request.session['cart'] = {}
     form = ShopCheckoutForm()
     context = {
         'customer_profile': customer_profile,
@@ -210,83 +232,51 @@ def workshop_checkout(request, invoice_id):
     # The relevant customer and invoice are gotten
     customer = Customer.objects.get(username=request.user)
     invoice = WorkshopCustomerInvoice.objects.get(pk=invoice_id)
+    zero_error = None
 
     # ... and sent to the template
     stripe_order_total = round(invoice.order_total * 100)
 
     if stripe_order_total <= 0:
         zero_error = "Please contact a staff member to process your invoice before payment."
-
+    
     # storing the type of service
     request.session['shop_or_workshop'] = "Workshop"
     # storing the type of invoice
     request.session['invoice_type'] = invoice.payment_type
     # storing the order number in a session variable
     request.session['workshop_order_number'] = invoice.order_number
+    # storing the name
+    request.session['customer_full_name'] = invoice.full_name
+    # storing the email address in a session variable
+    request.session['customer_email'] = customer.email
     
     context = {
         'invoice': invoice,
         'stripe_order_total': stripe_order_total,
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
         'customer': customer,
+        'zero_error': zero_error,
     }        
 
     return render(request, 'invoices/workshop_checkout.html', context)
 
-    # For WEBHOOOK
-    # if request.method == 'POST':
+def success(request):
 
-    #     payment_type = request.POST['payment_type']
+    if request.session['shop_order']:
+        order_number = request.session['shop_order']
+    elif request.session['workshop_order_number']:
+        order_number = request.session['workshop_order_number']
 
-    #     # ...apply the datestamp
-    #     invoice.paid_on = datetime.datetime.now()
+    context = {
 
-    #     # If the payment is a deposit (DEP) or supplementary payment(SP)
-    #     if payment_type == 'DEP' or payment_type == 'SP':
+        'order_number': order_number,
+        'customer_full_name': request.session['customer_full_name'],
+        'email': request.session['customer_email'],
 
-    #         # ... the payment is counted as a paid installment, but not 
-    #         # completed
-    #         invoice.installment_paid = True
-    #         invoice.save()
+    }
 
-    #     # ... else if it is an endpayment (EP) or single payment total (SPT)
-    #     elif payment_type == 'EP' or payment_type == 'SPT': 
-
-    #         # For consistency, is paid as an installment
-    #         invoice.installment_paid = True
-    #         invoice.save()
-
-    #         # All related invoices are set to 'is_completed'
-    #         related_invoices = WorkshopCustomerInvoice.objects.filter(service_ticket_id = invoice.service_ticket_id)
-
-    #         for invoice in related_invoices:
-    #             invoice.is_completed = True
-    #             invoice.save()
-
-    #     # If the payment was a deposit, an end payment invoice is created in
-    #     # the customers account
-    #     if payment_type == 'DEP':
-    #         final_invoice = WorkshopCustomerInvoice.objects.create(
-    #             service_ticket_id = invoice.service_ticket_id,
-    #             full_name=customer.full_name,
-    #             email=customer.email,
-    #             address1=customer.address1,
-    #             address2=customer.address2,
-    #             postcode=customer.postcode,
-    #             town_or_city=customer.town_or_city,
-    #             country=customer.country,
-    #             payment_type='EP',
-
-    #         )
-    #         final_invoice.save()
-        
-
-
-        
-        
-    #     messages.success(request, ("Thank you, you have paid."))
-    #     return redirect('workshop')
-        
+    return render(request, 'invoices/success.html', context)
 
 def calculate_order_amount(cart):
     # Cart comes from the JS file initialize() function. Sent from a 
@@ -303,6 +293,7 @@ def create_checkout_session(request):
             'shop_or_workshop': request.session['shop_or_workshop'],
             'unique_order_number': request.session['workshop_order_number'],
             'invoice_type': request.session['invoice_type'],
+            'customer_email': request.session['customer_email'],
 
         }
 
@@ -310,6 +301,8 @@ def create_checkout_session(request):
         metadata = {
             'shop_or_workshop': request.session['shop_or_workshop'],
             'unique_order_number': request.session['shop_order_number'],
+            'shopping_cart': request.session['shopping_cart'],
+            'customer_email': request.session['customer_email'],
         }
 
     data = json.loads(request.body)

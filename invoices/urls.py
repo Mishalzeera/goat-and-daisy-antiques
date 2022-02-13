@@ -10,5 +10,6 @@ urlpatterns = [
     path('checkout/', views.checkout, name='checkout'),
     path('workshop-checkout/<int:invoice_id>/', views.workshop_checkout, name='workshop_checkout'),
     path('checkout/create-payment-intent/', views.create_checkout_session, name='create_payment_intent'),
+    path('success/', views.success, name="success"),
     path('wh/', shop_webhook, name="webhook"),
 ]

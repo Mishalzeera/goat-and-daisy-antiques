@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Paid - To Ship</h2>
+{% for invoice in invoices %}
+{% if not invoice.is_completed %}
+<p><strong>{{ invoice }}</strong></p>
+<p class="small">{{ invoice.email }}</p>
+<p class="small">{{ invoice.full_name }}</p>
+<p class="small">{{ invoice.address1 }}</p>
+{% if invoice.address2 %}
+<p class="small">{{ invoice.address2 }}</p>
+{% endif %}
+<p class="small">{{ invoice.town_or_city }}</p>
+<p class="small">{{ invoice.postcode }}</p>
+<p class="small">{{ invoice.country }}</p>
+<a href="{% url 'mark_invoice_complete' invoice.order_number %}">
+    <p class="text-info">Mark complete</p>
+</a>
+{% endif %}
+{% endfor %}
+<h2>Completed</h2>
+{% for invoice in invoices %}
+{% if invoice.is_completed %}
+<p><strong>{{ invoice }}</strong></p>
+{% endif %}
+{% endfor %}
+
+{% endblock %}

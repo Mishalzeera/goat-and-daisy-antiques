@@ -1,15 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
+<div class="row">
+    <div class="col">
+        <p class="lead"><strong>Invoices That Need A Quote</strong></p>
+<p class="small text-muted">Enter an order amount and shipping (shipping not
+    necessary), when saved the system will automatically create an order total
+</p>
 {% for invoice in invoices %}
-{{ invoice }}
+{% if not invoice.order_total %}
+
+<p>{{ invoice }}</p>
+<a href="{% url 'admin_customer_invoice' invoice.id %}">
+    <p>Create A Quote</p>
+</a>
+{% endif %}
+
+{% endfor %}
+
+<p class="lead"><strong>Open Invoices</strong></p>
+{% for invoice in invoices %}
+{% if not invoice.is_completed%}
+
+<p>{{ invoice }}</p>
 <a href="{% url 'customer_invoice_detail' invoice.id %}">
     <p>View</p>
 </a>
 <a href="{% url 'admin_customer_invoice' invoice.id %}">
     <p>Manage</p>
 </a>
+{% endif %}
 
 {% endfor %}
+<p class="lead"><strong>Pending Installments</strong></p>
+{% for invoice in invoices %}
+{% if not invoice.is_completed %}
+{% if not invoice.installment_paid %}
+<p>{{ invoice }}</p>
+<a href="{% url 'customer_invoice_detail' invoice.id %}">
+    <p>View</p>
+</a>
+{% endif %}
+{% endif %}
+
+{% endfor %}
+    </div>
+    <div class="col">
+        <p class="lead"><strong>Completed Invoices</strong></p>
+{% for invoice in invoices %}
+{% if invoice.is_completed %}
+<p>{{ invoice }}</p>
+<a href="{% url 'customer_invoice_detail' invoice.id %}">
+    <p>View</p>
+</a>
+
+{% endif %}
+
+{% endfor %}
+    </div>
+</div>
+
+
+
 {% endblock %}

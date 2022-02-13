@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
@@ -15,11 +16,11 @@ class LoginAUser(LoginView):
     pass
 
 
-class CustomerProfilePage(View):
+class CustomerProfilePage(LoginRequiredMixin, View):
     '''
     Returns a page allowing a user some CRUD functionality over their profiles, as well as modify user settings.
     '''
-
+    login_url = "/profiles/login/"
     def get(self, request, *args, **kwargs):
         profile = User.objects.get(pk=request.user.id)
         customer = Customer.objects.get(username=request.user)
@@ -179,10 +180,11 @@ class CustomerAccountUpdate(UpdateView):
     template_name = "registration/customer_account_update.html"
 
 
-class PublicCustomerAccountUpdate(UpdateView):
+class PublicCustomerAccountUpdate(LoginRequiredMixin, UpdateView):
     '''
-    This view allows staff to modify customer accounts.
+    This view allows customer to modify customer accounts.
     '''
+    login_url = "/profiles/login/"
     model = Customer
     form_class = PublicCustomerUpdateForm
     context_object_name = 'customer'

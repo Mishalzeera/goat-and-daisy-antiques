@@ -2,9 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-
-<h1>Please confirm your order details and shipping address </h1>
-
+{% if user.is_authenticated %}
+<h1>Please confirm your order details and shipping address. </h1>
+{% else %}
+<h1>Please check your order details and enter your shipping address.</h1>
+{% endif %}
 <form action="." method="POST">
     {% csrf_token %}
 
@@ -35,6 +37,12 @@
         type="hidden"
         name="full_name"
         value="{{ customer_profile.full_name }}"
+      />
+      <p>{{ customer_profile.email }}</p>
+      <input
+        type="hidden"
+        name="email"
+        value="{{ customer_profile.email }}"
       />
       <p>{{ customer_profile.address1 }}</p>
       <input

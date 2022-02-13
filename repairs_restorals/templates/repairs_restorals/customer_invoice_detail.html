@@ -6,6 +6,9 @@
 <p>Service Ticket: {{ invoice.service_ticket }}</p>
 <p>Payment Type: {{ invoice.payment_type }}</p>
 <p>Date Created: {{ invoice.date_created }}</p>
+{% if invoice.paid_on %}
+<p>Paid on: {{ invoice.paid_on}}</p>
+{% endif %}
 <br />
 
 <br>
@@ -24,6 +27,7 @@
 {% endif %}
 <p>Order Total: {{ invoice.order_total }}</p>
 
-<p>{{ invoice.notes }}</p>
 
+<p>{{ invoice.notes }}</p>
+<small><input class="btn btn-sm btn-info" type=button value="Back" onClick="javascript:history.go(-1);"></small>
 {% endblock %}

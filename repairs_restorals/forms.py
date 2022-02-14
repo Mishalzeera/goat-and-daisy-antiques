@@ -6,10 +6,10 @@ from .models import ServiceTicket, TicketImage, TodoList, TodoItem
 
 
 class CustomerCreateServiceTicketForm(forms.ModelForm):
-    '''
+    """
     Form allowing an authenticated customer user to create a service ticket,
     entering their own titles, descriptions, links
-    '''
+    """
     # The url fields dont give any formatting hints, so help text was needed.
     link_to_desired_materials_1 = forms.URLField(required=False,
                                                  help_text="Please include http://www or https://www in your links.")
@@ -25,10 +25,10 @@ class CustomerCreateServiceTicketForm(forms.ModelForm):
 
 
 class CustomerUpdateTicketForm(forms.ModelForm):
-    '''
+    """
     Form allowing an authenticated customer user to create a service ticket,
     entering their own titles, descriptions, links
-    '''
+    """
     # The url fields dont give any formatting hints, so help text was needed.
     link_to_desired_materials_1 = forms.URLField(required=False,
                                                  help_text="Please include http://www or https://www in your links.")
@@ -44,11 +44,11 @@ class CustomerUpdateTicketForm(forms.ModelForm):
 
 
 class CustomerUploadImageForm(forms.ModelForm):
-    '''
+    """
     Form that allows a customer to upload an example image - customer selects
     from a list of current projects (a queryset sent from views.customer_add_
     image) and then upload a linked image
-    '''
+    """
 
     def __init__(self, *args, **kwargs):
 
@@ -65,25 +65,28 @@ class CustomerUploadImageForm(forms.ModelForm):
         model = TicketImage
         fields = ['service_ticket', 'image']
 
-class CustomerInvoiceUpdateForm(forms.ModelForm):
+class StaffCustomerInvoiceUpdateForm(forms.ModelForm):
+    """
+    Allows workshop staff to modify the customer invoice - adding quotes etc.
+    """
     class Meta:
         model = WorkshopCustomerInvoice
         fields = '__all__'
 
     
 class CreateTodoListForm(forms.ModelForm):
-    '''
+    """
     A form to create a Todo List.
-    '''
+    """
     class Meta:
         model = TodoList
         fields = ['subject']
 
 
 class CreateTodoListItemForm(forms.ModelForm):
-    '''
+    """
     A form to create Todo List Items.
-    '''
+    """
     class Meta:
         model = TodoItem
         fields = ['title', 'is_completed']

@@ -5,6 +5,9 @@ from shop.models import ShopItems
 
 
 def shopping_cart(request):
+    """
+    A context processor that allows access to cart site-wide.
+    """
 
     template_cart = []
     products_count = 0

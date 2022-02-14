@@ -9,9 +9,9 @@ from shop.models import ShopItems
 
 
 class BaseInvoice(models.Model):
-    '''
+    """
     Base class of invoice that Shop Customer Invoice and Workshop Customer Invoice inherit from.
-    '''
+    """
     date_created = models.DateField(auto_now_add=True)
     order_number = models.CharField(max_length=100, editable=False)
     full_name = models.CharField(max_length=100, null=True, blank=True)
@@ -52,18 +52,18 @@ class BaseInvoice(models.Model):
 
 
 class ShopCustomerInvoice(BaseInvoice):
-    '''
+    """
     This invoice is for a single payment related to shop items.
-    '''
+    """
 
     def __str__(self):
         return self.full_name + "'s Shop Order " + self.order_number
 
 
 class WorkshopCustomerInvoice(BaseInvoice):
-    '''
+    """
     This invoice is for two or more payments that are related to individual service tickets.
-    '''
+    """
     PAYMENT_CHOICES = [
         ('DEP', 'Deposit'),
         ('EP', 'End Payment'),
@@ -84,10 +84,10 @@ class WorkshopCustomerInvoice(BaseInvoice):
 
 
 class ShopLineItems(models.Model):
-    '''
+    """
     A line items class related to a Shop Customer Invoice, which is more like
     a typical sales flow - multiple items and subtotals.
-    '''
+    """
     order = models.ForeignKey(
         ShopCustomerInvoice, on_delete=models.PROTECT, related_name='line_items')
     shop_item = models.ForeignKey(ShopItems, on_delete=models.PROTECT)

@@ -9,11 +9,13 @@ import stripe
 @require_POST
 @csrf_exempt
 def shop_webhook(request):
-    
+    """
+    Takes webhooks from the Stripe API and sends it to the classes in webhook_handler.py.
+    """
     event = None
     payload = request.body
     sig_header = request.headers['STRIPE_SIGNATURE']
-    endpoint_secret = settings.STRIPE_WH_SECRET
+    endpoint_secret = settings.LOCAL_STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
 

@@ -7,6 +7,10 @@ import datetime
 import time 
 
 class StripeWebhookHandlerSHOP:
+    """
+    Shop order webhooks pass through this class, which gets the invoice, takes
+    the item off the inventory, marks the invoice as paid and adds a datestamp.
+    """
 
     def __init__(self, request, order_number, shopping_cart, customer_email):
         self.request = request 
@@ -16,15 +20,19 @@ class StripeWebhookHandlerSHOP:
         
 
     def handle_event(self, event):
-        print("THIS IS AN UNKNOWN EVENT")
+        """
+        Handles an event of undefined (in our webhook) type.
+        """
         return HttpResponse(
             content = f'Unhandled Webhook received {event["type"]}',
             status = 200
             )
         
     def handle_payment_intent_suceeded(self, event):
-
-        print("THIS IS A SUCCESSFUL SHOP ORDER")
+        """
+        Handles a successful payment webhook from Stripe.
+        """
+        
         invoice_exists = False 
         attempt = 1
         while attempt <= 5:
@@ -87,9 +95,22 @@ class StripeWebhookHandlerSHOP:
             
 
     def handle_payment_intent_payment_failed(self, event):
-        print("THIS IS A FAILED SHOP ORDER")
+        """
+        Handles an unsuccessful payment.
+        """
         # Put the item back in the inventory
-
+        shopping_list = []
+        # ..using the shopping cart ids from the webhooks function
+        # ...iterate over the items in the shopping cart
+        for item_id in self.shopping_cart:
+            # ...populate the shopping list with the purchased items
+            shopping_list.append(ShopItems.objects.get(id=item_id))
+        
+        # ...iterating over the shopping list, set each item to available
+        # ...taking them out of the shop
+        for shopitem in shopping_list:
+            shopitem.is_available = True
+            shopitem.save()
         # Set the invoice to incomplete, to avoid any accidents 
 
         this_invoice = ShopCustomerInvoice.objects.get(order_number=self.order_number)
@@ -99,7 +120,7 @@ class StripeWebhookHandlerSHOP:
         # Send an email to the customer
         send_mail(
             subject = (f"Error with order {this_invoice}."),
-            message = (f"There was an error with your payment. Please contact our staff at +1 818-656-7888 for assistance."),
+            message = (f"There was an error with your payment. Try your purchase again later, or contact our staff at +1 818-656-7888 for assistance."),
             recipient_list = [self.customer_email],
             from_email = "shop@goat-and-daisy.com",
         )
@@ -109,6 +130,11 @@ class StripeWebhookHandlerSHOP:
             )
 
 class StripeWebhookHandlerWORKSHOP:
+    """
+    Handles different webhooks that concern workshop invoices. Depending on the 
+    type of invoice, the class will instantiate new invoices for final payments
+    or mark an invoice as complete etc. 
+    """
 
     def __init__(self, request, order_number, invoice_type, customer_email):
         self.request = request 
@@ -117,15 +143,18 @@ class StripeWebhookHandlerWORKSHOP:
         self.customer_email = customer_email
 
     def handle_event(self, event):
-        print("THIS IS AN UNKNOWN WORKSHOP EVENT")
+        """
+        Handles unknown (from webhooks.py) webhooks.
+        """
         return HttpResponse(
             content = f'Unhandled Webhook received {event["type"]}',
             status = 200
             )
         
     def handle_payment_intent_suceeded(self, event):
-        print("THIS IS A SUCCESSFUL WORKSHOP ORDER")
-        print(self.customer_email)
+        """
+        Handles a successful payment webhook. 
+        """
         this_invoice = WorkshopCustomerInvoice.objects.get(order_number=self.order_number)
 
         # ...apply the datestamp
@@ -207,8 +236,19 @@ class StripeWebhookHandlerWORKSHOP:
             )
 
     def handle_payment_intent_payment_failed(self, event):
-        print("THIS IS An UNSUCCESSFUL WORKSHOP ORDER")
+        """
+        Handles a failed payment attempt.
+        """
+        # Add a note to the invoice for staff to see
         this_invoice = WorkshopCustomerInvoice.objects.get(order_number=self.order_number)
+        this_invoice.notes += "\n There was a problem with payment, contact the customer."
+        # Send the customer email confirmation 
+        send_mail(
+        subject = (f"Error with payment #{this_invoice}."),
+        message = "The payment for {this_invoice} did not go through. Please log into your Customer Workbench and try again later, or call us at +1-818-387-9797.",
+        recipient_list = [self.customer_email],
+        from_email = "workshop@goat-and-daisy.com",
+        )
         return HttpResponse(
             content = f'Webhook received {event["type"]}',
             status = 200

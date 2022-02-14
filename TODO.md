@@ -1,14 +1,16 @@
-## Profiles
 
-- client secret in URL and when/where to clear cart and success 
 
-- remember on models.py to check/change the get_absolute_url setting
+SUCCESS
 
-## Site Layout
+project urls py
 
-## Shop
+Media 
 
-## Repairs/Restorals
+DB Schemas
+
+live emails
+
+ShopItems
 
 -Make staff service ticket Create view and form
 
@@ -24,9 +26,6 @@
 
 ## Invoices
 
-- Update Cart/Remove from cart
-  -customer create order/invoice
-  -customer view order/invoice
   -shop staff create order/invoice
   -shop staff view invoices
 
@@ -37,7 +36,7 @@
 HTTPS HTTPS HTTPS
 
 Manage inventory shop staff redirect to the same page
+Shop Line Items
 
-
-
+coding garden
 

@@ -23,9 +23,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 
 # public
 def view_cart(request):
-    '''
+    """
     Shows the users shopping cart, with items and checkout button.
-    '''
+    """
     context = {
 
 
@@ -36,19 +36,19 @@ def view_cart(request):
 
 # inner function
 def timer(item_id):
-    '''
+    """
     Timer for the hold function. Occurs in its own thread, which is 
     instantiated in the toggle function. 
-    '''
+    """
     time.sleep(settings.CUSTOMER_SESSION_EXPIRY)
     release_shop_item(item_id)
 
 # public
 def hold_shop_item(item_id):
-    '''
+    """
     Function that starts a timer, taking a shop item off the shop
     for length of time specified in settings.CUSTOMER_SESSION_EXPIRY.
-    '''
+    """
     
     item = get_object_or_404(ShopItems, pk=item_id)
     if item.is_available:
@@ -60,9 +60,9 @@ def hold_shop_item(item_id):
    
 # public
 def release_shop_item(item_id):
-    '''
+    """
     Releases an object back to the shop to be purchased by another customer.
-    '''
+    """
     item = get_object_or_404(ShopItems, pk=item_id)
 
     if item.is_available == False:
@@ -71,9 +71,9 @@ def release_shop_item(item_id):
 
 # public
 def add_to_cart(request, item_id):
-    '''
+    """
     Adds a shop item to the session shopping cart.
-    '''
+    """
     item = get_object_or_404(ShopItems, pk=item_id)
     redirect_url = request.POST.get('redirect_url')
     id = item.id
@@ -94,9 +94,9 @@ def add_to_cart(request, item_id):
 
 # public
 def remove_from_cart(request, item_id):
-    '''
+    """
     Removes an item from the session shopping cart.
-    '''
+    """
         
     item = get_object_or_404(ShopItems, pk=item_id)
     id = item.id
@@ -115,10 +115,10 @@ def remove_from_cart(request, item_id):
 
 # public
 def precheckout(request):
-    '''
+    """
     Creates an invoice in the system for a shop customer, and confirms the 
     shipping address for the order. 
-    '''
+    """
     if request.method == "GET":
         if request.user.is_authenticated:
             customer_profile = get_object_or_404(Customer, username=request.user)
@@ -205,7 +205,9 @@ def precheckout(request):
 
 # public
 def checkout(request):
-
+    """
+    Checkout for a shop purchase.
+    """
 
     if request.user.is_authenticated:
         customer_profile = get_object_or_404(Customer, username=request.user)
@@ -222,10 +224,10 @@ def checkout(request):
 # login required
 @login_required
 def workshop_checkout(request, invoice_id):
-    '''
+    """
     Allows a workshop client to pay their invoices. Use the deposit amount
     to calculate the end payment amount for the newly created object.
-    '''
+    """
 
     # The relevant customer and invoice are gotten
     customer = Customer.objects.get(username=request.user)
@@ -261,7 +263,9 @@ def workshop_checkout(request, invoice_id):
 
 # public
 def success(request):
-
+    """
+    The redirect for a successful payment. 
+    """
     if request.session['shop_order']:
         order_number = request.session['shop_order']
     elif request.session['workshop_order_number']:
@@ -281,6 +285,9 @@ def success(request):
 
 # inner function
 def calculate_order_amount(cart):
+    """
+    Gets an updated total from the checkout page.
+    """
     # Cart comes from the JS file initialize() function.  
     sum = cart[0]['total']
     return sum 
@@ -288,7 +295,10 @@ def calculate_order_amount(cart):
 # public
 @require_POST
 def create_checkout_session(request):
-
+    """
+    Adapted from Stripe docs, modified with pertinent metadata for webhooks.py
+    and webhook_handler.py to use.
+    """
     # Check the type of service 
     if request.session['shop_or_workshop'] == 'Workshop':
         # create metadata dictionaries to send to Stripe

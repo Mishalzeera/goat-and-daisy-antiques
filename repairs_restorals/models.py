@@ -3,9 +3,9 @@ from profiles.models import Customer, StaffMember
 
 
 class ServiceTicket(models.Model):
-    '''
+    """
     A service order for the workshop to complete.
-    '''
+    """
     customer = models.ForeignKey(
         Customer, related_name='service_ticket', on_delete=models.CASCADE)
     workshop_staff_responsible = models.ForeignKey(
@@ -33,10 +33,10 @@ class ServiceTicket(models.Model):
 
 
 class TicketImage(models.Model):
-    '''
+    """
     An image related to a service ticket, uploaded by a customer, that shows 
     specifics about the kind of work desired.
-    '''
+    """
     service_ticket = models.ForeignKey(
         ServiceTicket, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to="workshop/images/")
@@ -46,9 +46,9 @@ class TicketImage(models.Model):
 
 
 class TodoList(models.Model):
-    '''
+    """
     A list of "todo" items related to a single staff member.
-    '''
+    """
 
     staff_member = models.ForeignKey(StaffMember, on_delete=models.CASCADE)
     subject = models.CharField(max_length=255)
@@ -58,9 +58,9 @@ class TodoList(models.Model):
 
 
 class TodoItem(models.Model):
-    '''
+    """
     An item in a "todo" list.
-    '''
+    """
     todo_list = models.ForeignKey(
         TodoList, on_delete=models.CASCADE, related_name="items")
     title = models.CharField(max_length=255)

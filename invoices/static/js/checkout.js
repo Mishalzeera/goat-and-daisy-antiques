@@ -26,7 +26,7 @@ document
 // Fetches a payment intent and captures the client secret
 async function initialize() {
   const response = await fetch(
-    "https://goat-and-daisy-antiques.herokuapp.com/invoices/checkout/create-payment-intent/",
+    "http://127.0.0.1:8000/invoices/checkout/create-payment-intent/",
     {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
@@ -53,8 +53,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url:
-        "https://goat-and-daisy-antiques.herokuapp.com/invoices/success.html/",
+      return_url: "http://127.0.0.1:8000/invoices/success.html/",
     },
   });
 

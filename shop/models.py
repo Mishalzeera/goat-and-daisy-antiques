@@ -3,9 +3,9 @@ from profiles.models import Customer
 
 
 class ShopItems(models.Model):
-    '''
+    """
     Models the items for sale in the shop. 
-    '''
+    """
     title = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=12)
@@ -19,9 +19,9 @@ class ShopItems(models.Model):
 
 
 class ShopItemImage(models.Model):
-    '''
+    """
     Photos linked to an instance of ShopItem class.
-    '''
+    """
     product = models.ForeignKey(
         ShopItems, on_delete=models.CASCADE, related_name='images')
     is_primary_image = models.BooleanField(default=False)

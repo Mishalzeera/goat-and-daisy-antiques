@@ -6,7 +6,7 @@ from .models import ShopCustomerInvoice, WorkshopCustomerInvoice
 
 @admin.register(ShopCustomerInvoice)
 class ShopCustomerInvoiceAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'is_completed']
+    list_display = ['full_name', 'is_completed', 'paid_on']
     readonly_fields = ['order_number']
 
 

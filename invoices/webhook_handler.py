@@ -4,6 +4,7 @@ from .models import ShopCustomerInvoice, WorkshopCustomerInvoice
 from profiles.models import Customer
 from shop.models import ShopItems
 import datetime
+import time 
 
 class StripeWebhookHandlerSHOP:
 
@@ -24,48 +25,66 @@ class StripeWebhookHandlerSHOP:
     def handle_payment_intent_suceeded(self, event):
 
         print("THIS IS A SUCCESSFUL SHOP ORDER")
-        # Get the invoice
-        this_invoice = ShopCustomerInvoice.objects.get(order_number=self.order_number)
+        invoice_exists = False 
+        attempt = 1
+        while attempt <= 5:
+            try:
+                # Get the invoice
+                this_invoice = ShopCustomerInvoice.objects.get(order_number=self.order_number)
+                invoice_exists = True
+                break
+            except ShopCustomerInvoice.DoesNotExist:
+                attempt += 1
+                time.sleep(1)
 
-        # We take the item/s off the inventory 
-        # Create an empty shopping list
-        shopping_list = []
-        # ..using the shopping cart ids from the webhooks function
-        # ...iterate over the items in the shopping cart
-        for item_id in self.shopping_cart:
-            # ...populate the shopping list with the purchased items
-            shopping_list.append(ShopItems.objects.get(id=item_id))
-        
-        # ...iterating over the shopping list, set each item to unavailable
-        # ...taking them out of the shop
-        for shopitem in shopping_list:
-            shopitem.is_available = False
-            shopitem.save()
-            # and adding the item title to the invoice notes for the shop
-            # staff
-            this_invoice.notes += shopitem.title + " - "
+        if invoice_exists:
+            # We take the item/s off the inventory 
+            # Create an empty shopping list
+            shopping_list = []
+            # ..using the shopping cart ids from the webhooks function
+            # ...iterate over the items in the shopping cart
+            for item_id in self.shopping_cart:
+                # ...populate the shopping list with the purchased items
+                shopping_list.append(ShopItems.objects.get(id=item_id))
+            
+            # ...iterating over the shopping list, set each item to unavailable
+            # ...taking them out of the shop
+            for shopitem in shopping_list:
+                shopitem.is_available = False
+                shopitem.save()
+                # and adding the item title to the invoice notes for the shop
+                # staff
+                this_invoice.notes += shopitem.title + " - "
+                this_invoice.save()
+            
+
+            
+
+            # We mark the transaction as paid, so staff can ship it
+            this_invoice.paid_on = datetime.datetime.now()
             this_invoice.save()
-        
 
-        
+            # We send a confirmation email to the customer 
 
-        # We mark the transaction as paid, so staff can ship it
-        this_invoice.paid_on = datetime.datetime.now()
-        this_invoice.save()
-
-        # We send a confirmation email to the customer 
-
-        send_mail(
-            subject = (f"Confirmation for {this_invoice}."),
-            message = (f"Thank you for your purchase. Our staff are putting your order together now. Please contact us at +1 818-455-9778 if you have any concerns or questions."),
-            recipient_list = [self.customer_email],
-            from_email = "shop@goat-and-daisy.com",
-        )
-
-        return HttpResponse(
-            content = f'Webhook received {event["type"]}',
-            status = 200
+            send_mail(
+                subject = (f"Confirmation for {this_invoice}."),
+                message = (f"Thank you for your purchase. Our staff are putting your order together now. Please contact us at +1 818-455-9778 if you have any concerns or questions."),
+                recipient_list = [self.customer_email],
+                from_email = "shop@goat-and-daisy.com",
             )
+
+            return HttpResponse(
+                content = f'Webhook received {event["type"]}',
+                status = 200
+                )
+
+        else: 
+            return HttpResponse(
+                content = f'No invoice found',
+                status = 400
+            )
+
+            
 
     def handle_payment_intent_payment_failed(self, event):
         print("THIS IS A FAILED SHOP ORDER")

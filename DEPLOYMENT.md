@@ -113,3 +113,32 @@ project settings, got another error.
 Installing White Noise, adding it to the middleware and pushing to Heroku
 solved the issue.
 
+## Switching to Postgres
+
+pipenv install dj_database_url
+pipenv install psycopg2-binary
+
+settings 
+import dj_database_url
+
+DATABASES = {
+
+	'default': dj_database_url.parse(config var heroku as '')
+
+	}
+
+make and run migrations 
+
+create SUPERUSER
+
+DELETE OUT THE POSTGRES SETUP and restore the old one before COMMIT
+
+if 'DATABASE_URL' in os.environ:
+
+	DATABASES = {
+		'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+	}
+
+else:
+
+THE OLD DATABASE setting

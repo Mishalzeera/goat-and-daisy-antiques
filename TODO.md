@@ -36,7 +36,7 @@
 403 page customise
 HTTPS HTTPS HTTPS
 
-
+Manage inventory shop staff redirect to the same page
 
 
 

@@ -218,6 +218,7 @@ def checkout(request):
     context = {
         'customer_profile': customer_profile,
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+        'stripe_base_url': settings.STRIPE_BASE_URL,
     }
     return render(request, 'invoices/checkout.html', context)
 
@@ -255,6 +256,7 @@ def workshop_checkout(request, invoice_id):
         'invoice': invoice,
         'stripe_order_total': stripe_order_total,
         'stripe_public_key': settings.STRIPE_PUBLIC_KEY,
+        'stripe_base_url': settings.STRIPE_BASE_URL,
         'customer': customer,
         'zero_error': zero_error,
     }        

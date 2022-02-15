@@ -105,6 +105,10 @@ if 'DATABASE_URL' in os.environ:
     DATABASES = {
     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
     }
+
+    # this variable is so that the success and payment intent urls in 
+    # checkout.js update dynamically
+    STRIPE_BASE_URL = 'https://goat-and-daisy-antiques.herokuapp.com'
 else:
 
     DATABASES = {
@@ -114,6 +118,7 @@ else:
         }
     }
 
+    STRIPE_BASE_URL = 'http://127.0.0.1'
 
 
 # Password validation

@@ -96,6 +96,8 @@
 
 {{ stripe_order_total|json_script:"id_stripe_total"}}
 {{ stripe_public_key|json_script:"id_stripe_public_key"}}
+{{ stripe_base_url|json_script:"id_stripe_base_url"}}
+
 <script src="{% static 'js/checkout.js' %}"></script>
 
 {%endblock %}

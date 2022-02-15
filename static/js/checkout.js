@@ -1,4 +1,5 @@
 // This is your test publishable API key.
+const baseUrl = document.querySelector("#id_stripe_base_url").textContent.slice(1, -1);
 const stripePublicKey = document
   .querySelector("#id_stripe_public_key")
   .textContent.slice(1, -1);
@@ -26,7 +27,7 @@ document
 // Fetches a payment intent and captures the client secret
 async function initialize() {
   const response = await fetch(
-    "https://goat-and-daisy-antiques.herokuapp.com/invoices/checkout/create-payment-intent/",
+    baseUrl + "/invoices/checkout/create-payment-intent/",
     {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-CSRFToken": csrftoken },
@@ -53,8 +54,7 @@ async function handleSubmit(e) {
     elements,
     confirmParams: {
       // Make sure to change this to your payment completion page
-      return_url:
-        "https://goat-and-daisy-antiques.herokuapp.com/invoices/success/",
+      return_url: baseUrl + "/invoices/success.html/",
     },
   });
 

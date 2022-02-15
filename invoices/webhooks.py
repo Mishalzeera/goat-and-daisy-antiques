@@ -15,7 +15,7 @@ def shop_webhook(request):
     event = None
     payload = request.body
     sig_header = request.headers['STRIPE_SIGNATURE']
-    endpoint_secret = settings.LOCAL_STRIPE_WH_SECRET
+    endpoint_secret = settings.STRIPE_WH_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
 

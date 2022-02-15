@@ -1,5 +1,8 @@
 // This is your test publishable API key.
-const baseUrl = document.querySelector("#id_stripe_base_url").textContent.slice(1, -1);
+const baseUrl = document
+  .querySelector("#id_stripe_base_url")
+  .textContent.slice(1, -1);
+console.log(baseUrl);
 const stripePublicKey = document
   .querySelector("#id_stripe_public_key")
   .textContent.slice(1, -1);

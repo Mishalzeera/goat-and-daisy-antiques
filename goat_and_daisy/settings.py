@@ -118,7 +118,7 @@ else:
         }
     }
 
-    STRIPE_BASE_URL = 'http://127.0.0.1'
+    STRIPE_BASE_URL = 'http://127.0.0.1:8000'
 
 
 # Password validation

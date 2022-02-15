@@ -116,7 +116,6 @@ else:
 
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -223,4 +222,3 @@ LOCAL_STRIPE_WH_SECRET = os.environ.get('LOCAL_STRIPE_WH_SECRET', '')
 # purchase as well as how long they have til their session expires. Used
 # in Invoices app views.
 CUSTOMER_SESSION_EXPIRY = 600
-

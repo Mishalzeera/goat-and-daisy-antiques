@@ -23,11 +23,11 @@ class BaseInvoice(models.Model):
     country = models.CharField(max_length=40, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     order_amount = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=12, decimal_places=2, default=0)
     shipping_cost = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=12, decimal_places=2, default=0)
     order_total = models.DecimalField(
-        max_digits=6, decimal_places=2, default=0)
+        max_digits=12, decimal_places=2, default=0)
     is_completed = models.BooleanField(default=False)
     paid_on = models.DateTimeField(null=True, blank=True)
 

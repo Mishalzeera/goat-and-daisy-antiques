@@ -1,5 +1,7 @@
 
+add is available to shop staff options in manage inventory
 
+make one image primary by default
 SUCCESS
 
 project urls py

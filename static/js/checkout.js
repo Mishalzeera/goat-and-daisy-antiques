@@ -1,5 +1,4 @@
 // This is your test publishable API key.
-// This is to check that static is being collected at deployment
 const stripePublicKey = document
   .querySelector("#id_stripe_public_key")
   .textContent.slice(1, -1);
@@ -55,7 +54,7 @@ async function handleSubmit(e) {
     confirmParams: {
       // Make sure to change this to your payment completion page
       return_url:
-        "https://goat-and-daisy-antiques.herokuapp.com/invoices/success.html/",
+        "https://goat-and-daisy-antiques.herokuapp.com/invoices/success/",
     },
   });
 

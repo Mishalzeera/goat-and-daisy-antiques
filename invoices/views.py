@@ -266,8 +266,8 @@ def success(request):
     """
     The redirect for a successful payment. 
     """
-    if request.session['shop_order']:
-        order_number = request.session['shop_order']
+    if request.session['shop_order_number']:
+        order_number = request.session['shop_order_number']
     elif request.session['workshop_order_number']:
         order_number = request.session['workshop_order_number']
 

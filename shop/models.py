@@ -27,8 +27,18 @@ class ShopItemImage(models.Model):
     is_primary_image = models.BooleanField(default=False)
     image = models.ImageField(upload_to='shop/images')
 
+    def _set_one_to_default(self):
+        image_set = ShopItemImage.objects.filter(product__id=self.product.id)
+        if image_set.count() == 0:
+            self.is_primary_image = True
+            
     def __str__(self) -> str:
         return str(self.product) + str(self.id)
+
+    def save(self, *args, **kwargs):
+        self._set_one_to_default()
+        
+        super().save(*args, **kwargs)
 
 
 

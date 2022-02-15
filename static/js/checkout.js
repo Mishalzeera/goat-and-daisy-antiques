@@ -1,4 +1,5 @@
 // This is your test publishable API key.
+// This is to check that static is being collected at deployment
 const stripePublicKey = document
   .querySelector("#id_stripe_public_key")
   .textContent.slice(1, -1);

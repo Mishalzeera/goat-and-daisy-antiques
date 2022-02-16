@@ -86,6 +86,7 @@ class StaffManageItems(GroupRequiredMixin, ListView):
     template_name = 'shop/staff_manage_items.html'
     queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
+    
 
 
 # shop staff only
@@ -97,7 +98,7 @@ class StaffAddItem(GroupRequiredMixin, CreateView):
     model = ShopItems
     form_class = StaffCreateItemForm
     template_name = 'shop/staff_add_item.html'
-    success_url = reverse_lazy('shop')
+    success_url = reverse_lazy('staff_manage_items')
 
 
 # shop staff only

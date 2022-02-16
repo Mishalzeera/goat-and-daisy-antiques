@@ -11,6 +11,8 @@
 
 
 {% block content %}
+
+
 <h1>Your Profile</h1>
 <p>Your username: {{ profile.username }}</p>
 {% if profile.full_name %}
@@ -40,4 +42,46 @@
 <a href="{% url 'public_customer_account_update' customer.id %}">
     <p>Change your shipping information</p>
 </a>
+<br><br>
+
+{% if shop_invoices %}
+<p class="h2">Shop Order History</p>
+{% for invoice in shop_invoices %}
+<p>Order Number: {{ invoice.order_number }}</p>
+<p>Created On: {{ invoice.date_created }}</p>
+{% if invoice.paid_on %}
+<p>Paid on: {{ invoice.paid_on }}</p>
+{% else %}
+<p>Payment Outstanding</p>
+{% endif %}
+<br>
+{% endfor %}
+{% endif %}
+
+{% if workshop_tickets %}
+<p class="h2">Workshop Service Ticket History</p>
+<a href="{% url 'customer_workbench' customer.id %}">
+    <p>Workbench</p>
+</a>
+<a href="{% url 'customer_invoices'%}">
+    <p>Manage payments</p>
+</a>
+
+{% for ticket in workshop_tickets %}
+{% if not ticket.is_completed %}
+<p>Open: {{ ticket }} </p>
+{% endif %}
+{% endfor %}
+{% for ticket in workshop_tickets %}
+{% if ticket.is_completed %}
+<p>Completed: {{ ticket }}</p>
+
+{% endif %}
+
+
+
+{% endfor %}
+{% endif %}
+
+
 {% endblock %}

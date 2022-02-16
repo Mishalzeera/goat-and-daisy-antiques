@@ -9,7 +9,8 @@ from django.contrib import messages
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
 from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
 from .models import Customer, StaffMember
-
+from invoices.models import ShopCustomerInvoice
+from repairs_restorals.models import ServiceTicket
 
 # public
 class LoginAUser(LoginView):
@@ -26,14 +27,21 @@ class CustomerProfilePage(LoginRequiredMixin, View):
     """
     login_url = "/profiles/login/"
 
+    
+
     def get(self, request, *args, **kwargs):
         profile = get_object_or_404(User, pk=request.user.id)
         customer = get_object_or_404(Customer, username=request.user)
+        shop_invoices = None
+        shop_invoices = ShopCustomerInvoice.objects.filter(email=customer.email)
+        workshop_tickets = ServiceTicket.objects.filter(customer_id=customer.id)
         
 
         context = {
             'profile': profile,
             'customer': customer,
+            'shop_invoices': shop_invoices,
+            'workshop_tickets': workshop_tickets
         }
 
         return render(request, 'registration/customer_profile.html', context)

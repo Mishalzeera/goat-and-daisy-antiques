@@ -1,5 +1,10 @@
 {% extends 'base.html' %} 
 {% load crispy_forms_tags %} 
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/workshop_bg_image_trans.css' %}">
+{% endblock %}
 
 {% block content %}
 

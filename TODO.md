@@ -1,6 +1,5 @@
 
 
-make one image primary by default
 SUCCESS
 
 project urls py
@@ -11,7 +10,6 @@ DB Schemas
 
 live emails
 
-ShopItems
 
 -Make staff service ticket Create view and form
 

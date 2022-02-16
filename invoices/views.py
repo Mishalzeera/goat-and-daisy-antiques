@@ -160,6 +160,12 @@ def precheckout(request):
             request.session['shop_or_workshop'] = "Shop"
             request.session['customer_full_name'] = new_invoice.full_name
             request.session['customer_email'] = new_invoice.email
+            request.session['customer_address1'] = request.POST.get('address1')
+            request.session['customer_address2'] = request.POST.get('address2')
+            request.session['customer_postcode'] = request.POST.get('postcode')
+            request.session['customer_town_or_city'] = request.POST.get('town_or_city')
+            request.session['customer_country'] = request.POST.get('country')
+
             request.session['shopping_cart'] = ''
             cart = request.session.get('cart', {})
 
@@ -185,6 +191,11 @@ def precheckout(request):
                 request.session['shop_or_workshop'] = "Shop"
                 request.session['customer_full_name'] = form.instance.full_name
                 request.session['customer_email'] = form.instance.email
+                request.session['customer_address1'] = form.instance.address1
+                request.session['customer_address2'] = form.instance.address2
+                request.session['customer_postcode'] = form.instance.postcode
+                request.session['customer_town_or_city'] = form.instance.town_or_city
+                request.session['customer_country'] = form.instance.country
                 request.session['shopping_cart'] = ''
                 cart = request.session.get('cart', {})
 
@@ -268,16 +279,61 @@ def success(request):
     """
     The redirect for a successful payment. 
     """
-    if request.session['shop_order_number']:
+    shopping_list = None
+    customer_address1 = None
+    customer_address2 = None
+    customer_postcode = None
+    customer_town_or_city = None
+    customer_country = None
+    message = None
+
+    if request.session['shop_or_workshop'] == "Shop":
         order_number = request.session['shop_order_number']
-    elif request.session['workshop_order_number']:
+
+        customer_address1 = request.session['customer_address1'] 
+        customer_address2 = request.session['customer_address2']
+        customer_postcode = request.session['customer_postcode'] 
+        customer_town_or_city = request.session['customer_town_or_city'] 
+        customer_country = request.session['customer_country'] 
+        message = "Here is a list of purchased items, and the address we will be shipping to: "
+        # Create an list using the white spaces as delimiter
+        string_cart = request.session['shopping_cart'].split(" ")
+        # Getting the whitespaces out by filtering out None values
+        no_none_cart = [*filter(None, string_cart)]
+        # Converting the result into integers for the handler
+        shopping_cart = [int(item) for item in no_none_cart]
+        shopping_list = []
+        # Iterate over the items in the shopping cart
+        for item_id in shopping_cart:
+            # ...populate the shopping list with the purchased items
+            shopping_list.append(ShopItems.objects.get(id=item_id))
+
+    elif request.session['shop_or_workshop'] == "Workshop":
         order_number = request.session['workshop_order_number']
+        customer = get_object_or_404(Customer, username=request.user)
+        customer_address1 = customer.address1
+        customer_address2 = customer.address2
+        customer_postcode = customer.postcode
+        customer_town_or_city = customer.town_or_city
+        customer_country = customer.country
+        message = "You have paid. These are your current shipping details, please keep them up to date."
+
+
+
 
     context = {
 
         'order_number': order_number,
         'customer_full_name': request.session['customer_full_name'],
-        'email': request.session['customer_email'],
+        'customer_email': request.session['customer_email'],
+        'customer_address1': customer_address1,
+        'customer_address2': customer_address2,
+        'customer_postcode': customer_postcode,
+        'customer_town_or_city': customer_town_or_city,
+        'customer_country': customer_country,
+        'shopping_list': shopping_list,
+        'message': message, 
+
 
     }
 

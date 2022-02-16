@@ -1,5 +1,30 @@
+/* Lato */
+
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
+/* Poppins */
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,500;0,600;0,700;1,300;1,500&display=swap");
+
+/* Bebas Neue for the logo*/
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
+
 body {
   background-color: var(--amber-100);
+  font-family: "Lato", sans-serif;
+  font-weight: 400;
+}
+
+.navbar-brand {
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 4rem;
+}
+
+.bg-light {
+  background: var(--amber-50) !important;
+}
+
+.lead {
+  font-weight: 400;
 }
 
 .flex-between-baseline {

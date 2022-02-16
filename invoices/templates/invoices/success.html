@@ -10,5 +10,24 @@
 {% endblock %}
 
 {% block content %}
-<h1>BORAT SAY SUCCESS</h1>
+<h1>Thank you for your order.</h1>
+
+        <p>Confirmation for order {{ order_number}}</p>
+        <p class="small text-muted">An email will also be sent to {{ customer_email }}</p>
+        <p class="lead">{{ message }}</p>
+        <p>{{ customer_full_name }}</p>
+        <p>{{ customer_address1}}</p>
+        {% if customer_address2 %}
+        <p>{{customer_address2 }}</p>
+        {% endif %}
+        <p>{{ customer_postcode }}</p>
+        <p>{{ customer_town_or_city }}</p>
+        <p>{{ customer_country }}</p>
+        {% if shopping_list %}
+        <p>{{shopping_list }}</p>
+        {% endif %}
+
+
+
+
 {% endblock %}

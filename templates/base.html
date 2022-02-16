@@ -121,8 +121,18 @@
       </div>
     </nav>
 
+    <section class="messages">
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-message container-fluid" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+        {% endif %}
+    </section>
+
+
     <section class="container">
-      <h1>Goat And Daisy</h1>
       {% if user.is_authenticated %}
       <div class="profile-link-flex" style="display: flex; gap: 2rem;">
         <p class="small text-muted">Welcome {{ user.username | title }}</p>
@@ -131,19 +141,15 @@
         </a>
       </div>
       {% endif %}
-          {% if messages %}
-            {% for message in messages %}
-              <div class="alert alert-warning" role="alert">
-                {{ message }}
-              </div>
-            {% endfor %}
-          {% endif %}
+          
 
           {% if request.session.cart %}
-          <a href="{% url 'view_cart' %}">
-            <p class="small text-muted">View Cart</p>
-          </a>
-          <a href="{% url 'precheckout' %}">Checkout</a>
+          <div class="cart-checkout flex-between-end flex-column">
+            <a href="{% url 'view_cart' %}">
+              <p>View Cart</p>
+            </a>
+            <a href="{% url 'precheckout' %}"><p>Checkout</p></a>
+          </div>
           {% endif %}
     </section>
     <main class="container">

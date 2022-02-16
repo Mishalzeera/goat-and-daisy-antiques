@@ -15,15 +15,29 @@ body {
 }
 
 .btn-warning {
-  background-color: var(--amber-300);
+  background-color: var(--amber-100);
+  border: unset;
+}
+
+.btn-warning:hover {
+  background-color: var(--amber-200);
+}
+
+.alert-message {
+  background-color: var(--amber-50);
+  color: inherit;
+  text-align: center;
+  margin-top: 1rem;
+  padding: 1rem 0.5rem;
 }
 
 a {
-  color: var(--green-800);
+  color: var(--sky-800);
+  font-weight: 400;
 }
 
 a:hover {
-  color: var(--green-200);
+  color: var(--sky-600);
 }
 .navbar-brand {
   font-family: "Bebas Neue", sans-serif;
@@ -37,6 +51,19 @@ a:hover {
 .lead {
   font-weight: 400;
 }
+
+.transparent-card {
+  background-color: #fffbeb8f;
+  min-width: fit-content;
+  max-width: 700px;
+  padding: 1rem;
+}
+
+.cart-checkout {
+  margin-top: 1rem;
+}
+
+/* Utilities */
 
 .flex-between-baseline {
   display: flex;

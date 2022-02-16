@@ -9,6 +9,11 @@
 {% block preload_js %}
 <script src="{% static 'js/checkout.js' %}" defer></script>
 {% endblock %} 
+
+{% block page_title %}
+| Payments 
+{% endblock %}
+
 {% block content%}
 <p class="display-5">{{ customer_profile.full_name }}</p>
 

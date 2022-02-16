@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
 {% endblock %}
 
+{% block page_title %}
+| Profiles
+{% endblock %}
+
 {% block content %}
 <h1>You have logged out.</h1>
 <p>Click <a href="{% url 'login' %}">here</a> to login.</p>

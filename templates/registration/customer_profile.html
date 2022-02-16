@@ -4,6 +4,12 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
 {% endblock %}
+
+{% block page_title %}
+| Profiles
+{% endblock %}
+
+
 {% block content %}
 <h1>Your Profile</h1>
 <p>Your username: {{ profile.username }}</p>

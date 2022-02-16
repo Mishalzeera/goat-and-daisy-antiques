@@ -5,6 +5,10 @@
 <link rel="stylesheet" href="{% static 'css/workshop_bg_image_trans.css' %}">
 {% endblock %}
 
+{% block page_title %}
+| Workshop 
+{% endblock %}
+
 {% block content %}
 <p>{{ ticket.title }}</p>
 <p>Created on: {{ ticket.date_created }}</p>

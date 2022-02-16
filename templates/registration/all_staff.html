@@ -4,6 +4,11 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
 {% endblock %}
+
+{% block page_title %}
+| Admin
+{% endblock %}
+
 {% block content %}
 {% for member in members%}
     <p class='display-6'>{{member.username | title}}</p>

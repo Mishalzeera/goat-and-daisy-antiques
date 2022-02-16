@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
 {% endblock %}
 
+{% block page_title %}
+| Payments 
+{% endblock %}
+
 {% block content %}
 {% if user.is_authenticated %}
 <h1>Please confirm your order details and shipping address. </h1>

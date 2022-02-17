@@ -1,3 +1,4 @@
+Shop Detail
 
 project urls py
 

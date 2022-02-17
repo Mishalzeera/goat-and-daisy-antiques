@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home_bg_image_trans.css' %}">
+{% endblock %}
+
+{% block page_title %}
+| Shop 
+{% endblock %}
+
+
+{% block content %}
+
+    <h1>Confirm Delete</h1>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <input type="submit" value="Confirm Delete ">
+    </form>
+    <br>
+    <small><input class="btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);"></small>
+
+{% endblock %}

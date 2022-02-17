@@ -17,31 +17,28 @@ Workshop Ticket Overview
 {% for customer in customers %}
 
 
-    <a href="{% url 'customer_account_update' pk=customer.id %}">
-        <p class="h2">{{ customer.full_name }}</p>
-    </a>
-
-    <p class="small text-muted">Click above link to edit customer profile, including repair/order status, notes and delivery information. </p>
-
-  
-    <p class="h3">Current Tickets: </p>
-
-    {% for ticket in customer.service_ticket.all %}
-    {% if not ticket.is_completed %}
+    <div class="transparent-card">
+        <a href="{% url 'customer_account_update' pk=customer.id %}">
+            <p class="h2">{{ customer.full_name }}</p>
+        </a>
+        <p class="small text-muted">Click above link to edit customer profile, including repair/order status, notes and delivery information. </p>
+        <p class="h3">Current Tickets: </p>
+        {% for ticket in customer.service_ticket.all %}
+        {% if not ticket.is_completed %}
         
-
-        <a href="{% url 'service_ticket' pk=ticket.id %}">
-            <p class="lead">{{ ticket.title }}</p>
-        </a>    
-        <a href="{% url 'update_service_ticket' pk=ticket.id %}" class="text-success">
-            <p>Update</p>
-        </a>
-        <a href="{% url 'ticket_delete' pk=ticket.id %}" class="text-danger">
-            <p>Delete</p>
-        </a>
-        <br>
-    {% endif %}
-    {% endfor %}
+            <a href="{% url 'service_ticket' pk=ticket.id %}">
+                <p class="lead">{{ ticket.title }}</p>
+            </a>
+            <a href="{% url 'update_service_ticket' pk=ticket.id %}" class="text-success">
+                <p>Update</p>
+            </a>
+            <a href="{% url 'ticket_delete' pk=ticket.id %}" class="text-danger">
+                <p>Delete</p>
+            </a>
+            <br>
+        {% endif %}
+        {% endfor %}
+    
 
         
 
@@ -65,7 +62,7 @@ Workshop Ticket Overview
 
             {% endfor%}
         
-
+        </div>
 
 {% endfor %}
 

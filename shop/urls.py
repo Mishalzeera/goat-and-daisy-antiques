@@ -7,6 +7,7 @@ urlpatterns = [
          name="all_shop_customers"),
      path('all-shop-orders/', views.AllShopOrders.as_view(), name="all_shop_orders"),
      path('mark-invoice-complete/<str:invoice_order_number>/', views.mark_invoice_complete, name="mark_invoice_complete"),
+     path('delete-invoice/<int:pk>/', views.DeleteInvoice.as_view(), name="delete_invoice" ),
     path('<int:pk>/', views.ShopItem.as_view(), name="shop_item"),
     path('staff-manage-items/', views.StaffManageItems.as_view(),
          name="staff_manage_items"),

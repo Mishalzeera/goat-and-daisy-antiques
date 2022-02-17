@@ -1,6 +1,4 @@
 
-
-
 project urls py
 
 Media 

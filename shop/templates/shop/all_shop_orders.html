@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col"><h2>Paid - To Ship</h2>
         <hr>
-        <p class="small text-muted">Please prepare the items listed below for shipping. After they are shipped, click "Mark Complete". </p>
+        <p class="small transparent-bg">Please prepare the items listed below for shipping. After they are shipped, click "Mark Complete". </p>
         {% for invoice in invoices %}
         {% if not invoice.is_completed %}
         {% if invoice.paid_on %}
@@ -49,8 +49,25 @@
         {% endfor %}</div>
 </div>
 
+<div class="row">
+    <div class="col"><h2>Possible To Delete</h2>
+        <hr>
+        <p class="small transparent-bg">These are most likely created when customers don't complete the checkout process. Please delete those. However, some may be custom/phone orders prepared by a colleague so be sure to check notes.</p>
+        {% for invoice in invoices %}
+        {% if not invoice.is_completed %}
+        {% if not invoice.is_paid %}
+        <p><strong>{{ invoice }}</strong></p>
+        {% if invoice.notes %}
+        <p class="small">{{ invoice.notes }}</p>
+        {% endif %}
+        <a href="{% url 'delete_invoice' invoice.id %}">
+            <p class="text-danger">Delete</p>
+        </a>
+        {% endif %}
+        {% endif %}
+        {% endfor %}</div>
+    </div>
 
-
-
+</div>
 
 {% endblock %}

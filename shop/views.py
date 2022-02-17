@@ -10,6 +10,7 @@ from profiles.models import Customer
 from .forms import StaffCreateItemForm, StaffImageUploadForm, StaffImageUploadFormInProduct
 
 
+
 # public
 class ShopFront(ListView):
     """
@@ -55,7 +56,7 @@ class AllShopOrders(GroupRequiredMixin, View):
 @group_required_decorator('Shop Staff')
 def mark_invoice_complete(request, invoice_order_number):
     """
-    When shop staff have shipped an item, this functions marks the invoice
+    When shop staff have shipped an item, this function marks the invoice
     as complete and sends an email to the customer.
     """
     invoice = ShopCustomerInvoice.objects.get(order_number = invoice_order_number)
@@ -64,6 +65,16 @@ def mark_invoice_complete(request, invoice_order_number):
 
     return redirect('all_shop_orders')
 
+
+# shop staff only
+
+class DeleteInvoice(GroupRequiredMixin, DeleteView):
+    """
+    To avoid clutter, this handles incomplete orders
+    """
+    group_required = [u'Shop Staff']
+    model = ShopCustomerInvoice
+    success_url = reverse_lazy('all_shop_orders')
 
 # public
 class ShopItem(DetailView):

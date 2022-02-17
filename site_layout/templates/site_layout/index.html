@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block content %}
-<h1>Home</h1>
 
 {% if request.user.is_authenticated%}
 <p class="lead">Welcome {{ request.user.username | title }}</p>

@@ -59,6 +59,11 @@ a:hover {
   padding: 1rem;
 }
 
+.transparent-bg {
+  background-color: #fffbeb8f;
+  min-width: fit-content;
+}
+
 .cart-checkout {
   margin-top: 1rem;
 }

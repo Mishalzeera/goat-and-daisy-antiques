@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import login, authenticate
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
@@ -17,9 +18,8 @@ class LoginAUser(LoginView):
     """
     A view to customize the login process if needed.
     """
-    pass
 
-
+            
 # login required
 class CustomerProfilePage(LoginRequiredMixin, View):
     """

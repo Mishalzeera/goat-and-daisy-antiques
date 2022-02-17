@@ -99,13 +99,14 @@
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     {% if user.is_authenticated %}
+                    <li><a class="dropdown-item" href="{% url 'customer_profile' pk=user.id %}">{{ user.username | title }}'s Profile</a></li>
                     <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
                     {% else %}
                     <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                     <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
                     {% endif %}
                     
-                   
+                    
                   </ul>
             </li>
             
@@ -141,7 +142,8 @@
         </a>
       </div>
       {% endif %}
-          
+
+      
 
           {% if request.session.cart %}
           <div class="cart-checkout flex-between-end flex-column">

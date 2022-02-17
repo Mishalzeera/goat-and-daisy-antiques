@@ -11,7 +11,7 @@
 
 {% block content %}
 <div class="row">
-    <div class="col">
+    <div class="col transparent-card">
         <p class="lead"><strong>Invoices That Need A Quote</strong></p>
 <p class="small text-muted">Enter an order amount and shipping (shipping not
     necessary), when saved the system will automatically create an order total
@@ -54,7 +54,7 @@
 
 {% endfor %}
     </div>
-    <div class="col">
+    <div class="col transparent-card">
         <p class="lead"><strong>Completed Invoices</strong></p>
 {% for invoice in invoices %}
 {% if invoice.is_completed %}

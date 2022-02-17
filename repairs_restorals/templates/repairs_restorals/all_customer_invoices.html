@@ -13,15 +13,15 @@
 <div class="row">
     <div class="col transparent-card">
         <p class="lead"><strong>Invoices That Need A Quote</strong></p>
-<p class="small text-muted">Enter an order amount and shipping (shipping not
-    necessary), when saved the system will automatically create an order total
+<p class="small text-muted">Follow the link. Enter an order amount (shipping not
+    necessary). When saved the system will automatically create an order total.
 </p>
 {% for invoice in invoices %}
 {% if not invoice.order_total %}
 
-<p>{{ invoice }}</p>
+<p class="lead">{{ invoice }}</p>
 <a href="{% url 'admin_customer_invoice' invoice.id %}">
-    <p>Create A Quote</p>
+    <p class="text-success">Create A Quote</p>
 </a>
 {% endif %}
 
@@ -31,12 +31,12 @@
 {% for invoice in invoices %}
 {% if not invoice.is_completed%}
 
-<p>{{ invoice }}</p>
+<p class="lead">{{ invoice }}</p>
 <a href="{% url 'customer_invoice_detail' invoice.id %}">
-    <p>View</p>
+    <p class="text-success">View</p>
 </a>
 <a href="{% url 'admin_customer_invoice' invoice.id %}">
-    <p>Manage</p>
+    <p class="text-info">Manage</p>
 </a>
 {% endif %}
 

@@ -12,11 +12,11 @@
 
 {% block content %}
 
-<h1>Todo list</h1>
+<p class="h1" style="margin-top: 10rem; margin-bottom: 5rem;text-align:center;">{{ request.user | title }}'s Todo list</p>
 <form action="." method="POST">
     {% csrf_token %}
     {{ todo_list_form | crispy }}
-    <input type="submit" value="Create A New List">
+    <input type="submit" class="btn btn-info" value="Create A New List">
 </form>
 
 
@@ -31,7 +31,7 @@
         <p class="display-5">{{list.subject}}</p>
         <form action="{% url 'manage_item' pk=list.id %}" method="GET">
             {% csrf_token %}
-            <input type="submit" name="delete_list" value="Delete List" style="font-size: 1rem; padding: 0; width: 500px;" class="text-danger">
+            <input type="submit" name="delete_list" value="Delete List" style="font-size: 1rem; padding: 0; width: 500px;" class="btn btn-danger">
         </form>
 
     </div>
@@ -52,12 +52,12 @@
                         {% if item.is_completed %}
                         <input type="submit" name="toggle_item" value="Mark Incomplete" style="font-size: .8rem; padding: 0; width: 300px;" class="text-info">
                         {% else %}
-                        <input type="submit" name="toggle_item" value="Mark As Complete" style="font-size: .8rem; padding: 0; width:300px;" class="text-success">
+                        <input type="submit" name="toggle_item" value="Mark As Complete" style="font-size: .8rem; padding: 0; width:300px;" class="btn btn-info">
                         {% endif %}
                     </form>
                     <form action="{% url 'manage_item' pk=item.id %}" method="GET">
                         {% csrf_token %}
-                        <input type="submit" name="delete_list_item" value="Del" style="font-size: .5rem; padding: 0;" class="text-danger">
+                        <input type="submit" name="delete_list_item" value="Del" style="font-size: .5rem; padding: 0;" class="btn btn-danger">
                     </form>
                 </div>
             </div>
@@ -69,7 +69,7 @@
         {% csrf_token %}
         <input type="hidden" name="todo_list_item" value="{{ list.id }}">
         <input type="text" name="title" id="title">
-        <input type="submit" value="Add A Task To This List">
+        <input type="submit" value="Add A Task To This List" class="text-info">
     </form>
 
     

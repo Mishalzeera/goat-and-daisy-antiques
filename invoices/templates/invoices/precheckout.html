@@ -16,26 +16,26 @@
 {% else %}
 <h1>Please check your order details and enter your shipping address.</h1>
 {% endif %}
-<form action="." method="POST">
+<form action="." method="POST" class="card">
     {% csrf_token %}
 
     <fieldset>
       <legend>Order Details:</legend>
       {% for item in template_cart %}
-      <div class="cart-items flex-between-baseline">
+      <div class="cart-item">
         <small>Title:</small>
         <p class="lead">{{ item.product.title }}</p>
         <small>Price:</small>
         <p class="lead">{{ item.product.price }}</p>
       </div>
       {% endfor %}
-      <div class="margin-0-center flex-between-end flex-column margin-0-center">
+      <div class="">
         <small>Order Amount:</small>
         <p class="lead">{{ order_amount }}</p>
         <small>Shipping: </small>
         <p class="lead">{{ shipping }}</p>
         <small>Order Total:</small>
-        <p class="display-6"><strong>{{ order_total }}</strong></p>
+        <p class="display-6"><strong>EU: {{ order_total }}</strong></p>
       </div>
     </fieldset>
     <fieldset>
@@ -91,7 +91,7 @@
       />
     </fieldset>
 
-    <input type="submit" value="Checkout">
+    <input type="submit" value="Checkout" class="btn btn-info" style="margin-bottom: 10rem; align-self:flex-start">
   
 </form>
 {% endblock %}

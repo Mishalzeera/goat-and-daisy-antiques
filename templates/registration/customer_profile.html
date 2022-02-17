@@ -12,76 +12,77 @@
 
 {% block content %}
 
-
-<h1>Your Profile</h1>
-<p>Your username: {{ profile.username }}</p>
-{% if profile.full_name %}
-    <p>Your Full Name: {{ profile.full_name }}</p>
-{% endif %}
-<p>Your email: {{ profile.email }}</p>
-{%if customer.address1 %}
-<p>{{ customer.address1 }}</p>
-{% endif %}
-{%if customer.address2 %}
-<p>{{ customer.address2 }}</p>
-{% endif %}
-{%if customer.postcode%}
-<p>{{ customer.postcode}}</p>
-{% endif %}
-{%if customer.town_or_city %}
-<p>{{ customer.town_or_city }}</p>
-{% endif %}
-{%if customer.country %}
-<p>{{ customer.country }}</p>
-{% endif %}
-
-
-<a href="{% url 'change_password' %}">
-    <p>Reset Your Password</p>
-</a>
-<a href="{% url 'public_customer_account_update' customer.id %}">
-    <p>Change your shipping information</p>
-</a>
-<br><br>
-
-{% if shop_invoices %}
-<p class="h2">Shop Order History</p>
-{% for invoice in shop_invoices %}
-<p>Order Number: {{ invoice.order_number }}</p>
-<p>Created On: {{ invoice.date_created }}</p>
-{% if invoice.paid_on %}
-<p>Paid on: {{ invoice.paid_on }}</p>
-{% else %}
-<p>Payment Outstanding</p>
-{% endif %}
-<br>
-{% endfor %}
-{% endif %}
-
-{% if workshop_tickets %}
-<p class="h2">Workshop Service Ticket History</p>
-<a href="{% url 'customer_workbench' customer.id %}">
-    <p>Workbench</p>
-</a>
-<a href="{% url 'customer_invoices'%}">
-    <p>Manage payments</p>
-</a>
-
-{% for ticket in workshop_tickets %}
-{% if not ticket.is_completed %}
-<p>Open: {{ ticket }} </p>
-{% endif %}
-{% endfor %}
-{% for ticket in workshop_tickets %}
-{% if ticket.is_completed %}
-<p>Completed: {{ ticket }}</p>
-
-{% endif %}
-
-
-
-{% endfor %}
-{% endif %}
-
+<div class="card">
+    <p class="h1">Your profile</p>
+    <p>Your username: {{ profile.username }}</p>
+    {% if profile.full_name %}
+        <p>Your Full Name: {{ profile.full_name }}</p>
+    {% endif %}
+    <p>Your email: {{ profile.email }}</p>
+    {%if customer.address1 %}
+    <p>Address 1: {{ customer.address1 }}</p>
+    {% endif %}
+    {%if customer.address2 %}
+    <p>Address 2: {{ customer.address2 }}</p>
+    {% endif %}
+    {%if customer.postcode%}
+    <p>Postcode: {{ customer.postcode}}</p>
+    {% endif %}
+    {%if customer.town_or_city %}
+    <p>Town Or City: {{ customer.town_or_city }}</p>
+    {% endif %}
+    {%if customer.country %}
+    <p>Country: {{ customer.country }}</p>
+    {% endif %}
+    
+    
+    <a href="{% url 'change_password' %}">
+        <p>Reset Your Password</p>
+    </a>
+    <a href="{% url 'public_customer_account_update' customer.id %}">
+        <p>Change your shipping information</p>
+    </a>
+    <br><br>
+    
+    {% if shop_invoices %}
+    <p class="h2">Shop Order History</p>
+    {% for invoice in shop_invoices %}
+    <p>Order Number: {{ invoice.order_number }}</p>
+    <p>Created On: {{ invoice.date_created }}</p>
+    {% if invoice.paid_on %}
+    <p>Paid on: {{ invoice.paid_on }}</p>
+    {% else %}
+    <p>Payment Outstanding</p>
+    {% endif %}
+    <br>
+    {% endfor %}
+    {% endif %}
+    
+    {% if workshop_tickets %}
+    <p class="h2">Workshop Service Ticket History</p>
+    <a href="{% url 'customer_workbench' customer.id %}">
+        <p class="btn btn-info">Workbench</p>
+    </a>
+    <a href="{% url 'customer_invoices'%}">
+        <p class="btn btn-info">Manage payments</p>
+    </a>
+    
+    {% for ticket in workshop_tickets %}
+    {% if not ticket.is_completed %}
+    <p>Open: {{ ticket }} </p>
+    {% endif %}
+    {% endfor %}
+    {% for ticket in workshop_tickets %}
+    {% if ticket.is_completed %}
+    <p>Completed: {{ ticket }}</p>
+    
+    {% endif %}
+    
+    
+    
+    {% endfor %}
+    {% endif %}
+    
+</div>
 
 {% endblock %}

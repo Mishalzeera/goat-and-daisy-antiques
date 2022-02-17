@@ -17,7 +17,7 @@
 {% block content%}
 <p class="display-5">{{ customer_profile.full_name }}</p>
 
-<form id="payment-form" method="POST">
+<form id="payment-form" method="POST" class="card">
   {% csrf_token %}
 
   <fieldset>
@@ -27,16 +27,16 @@
       <small>Title:</small>
       <p class="lead">{{ item.product.title }}</p>
       <small>Price:</small>
-      <p class="lead">{{ item.product.price }}</p>
+      <p class="lead ">EU {{ item.product.price }}</p>
     </div>
     {% endfor %}
     <div class="margin-0-center flex-between-end flex-column margin-0-center">
       <small>Order Amount:</small>
-      <p class="lead">{{ order_amount }}</p>
+      <p class="lead ">EU {{ order_amount }}</p>
       <small>Shipping: </small>
-      <p class="lead">{{ shipping }}</p>
+      <p class="lead ">EU {{ shipping }}</p>
       <small>Order Total:</small>
-      <p class="display-6"><strong>{{ order_total }}</strong></p>
+      <p class="display-6">EU<strong> {{ order_total }}</strong></p>
     </div>
   </fieldset>
   <fieldset>

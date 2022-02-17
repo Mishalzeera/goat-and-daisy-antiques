@@ -140,7 +140,7 @@ def precheckout(request):
         order_total = request.POST.get('order_total')
 
         if request.user.is_authenticated:
-
+            customer_profile = get_object_or_404(Customer, username=request.user)
             new_invoice = ShopCustomerInvoice.objects.create(
                 full_name= request.POST.get('full_name'),
                 email= request.POST.get('email'),
@@ -156,6 +156,8 @@ def precheckout(request):
             )
             
             new_invoice.save()
+            customer_profile.has_active_shop_orders = True
+            customer_profile.save()
             request.session['shop_order_number'] = new_invoice.order_number
             request.session['shop_or_workshop'] = "Shop"
             request.session['customer_full_name'] = new_invoice.full_name

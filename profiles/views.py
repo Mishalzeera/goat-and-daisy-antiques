@@ -30,8 +30,12 @@ class CustomerProfilePage(LoginRequiredMixin, View):
     
 
     def get(self, request, *args, **kwargs):
+        
         profile = get_object_or_404(User, pk=request.user.id)
-        customer = get_object_or_404(Customer, username=request.user)
+        try:
+            customer = Customer.objects.get(username=request.user)
+        except Customer.DoesNotExist:
+                customer = StaffMember.objects.get(username=request.user)
         shop_invoices = None
         shop_invoices = ShopCustomerInvoice.objects.filter(email=customer.email)
         workshop_tickets = ServiceTicket.objects.filter(customer_id=customer.id)

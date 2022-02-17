@@ -8,40 +8,44 @@
 {% block page_title %}
 | Workshop 
 {% endblock %}
-
+  
 {% block content %}
-<p>{{ ticket.title }}</p>
-<p>Created on: {{ ticket.date_created }}</p>
-<p>Last updated on: {{ ticket.last_updated }}</p>
-<p>{{ ticket.service_description }}</p>
 
-{% if ticket.link_to_desired_materials_1 %}
-<a href="{{ticket.link_to_desired_materials_1}}" target=_blank>{{ticket.link_to_desired_materials_1}}</a>
-{% endif %}
-
-{% if ticket.link_to_desired_materials_2 %}
-<a href="{{ticket.link_to_desired_materials_2}}" target=_blank>{{ticket.link_to_desired_materials_2}}</a>
-{% endif %}
-
-{% if ticket.link_to_desired_materials_3 %}
-<a href="{{ticket.link_to_desired_materials_3}}" target=_blank>{{ticket.link_to_desired_materials_3}}</a>
-{% endif %}
-
-{% for image in ticket.images.all %}
-<img src="{{ image.image.url }}" alt="" style="width:300px;">
-<a href="{% url 'delete_ticket_image' pk=image.id %}">
-    <span><small class="text-muted">Delete Image.</small></span>
-</a>
-<a href="{% url 'update_ticket_image' pk=image.id %}">
-    <span><small class="text-muted">Replace Image.</small></span>
-</a>
-{% endfor %}
-
-
-
-{%if ticket.is_completed %}
-<p>Ticket is completed</p>
-{% endif %}
-<br><br>
-<small><input class="btn btn-sm btn-info" type=button value="Back" onClick="javascript:history.go(-1);"></small>
+<div class="card">
+    
+    <p class="display-6">{{ ticket.title }}</p>
+    <p>Created on: {{ ticket.date_created }}</p>
+    <p>Last updated on: {{ ticket.last_updated }}</p>
+    <p class="shop-detail-description">{{ ticket.service_description }}</p>
+    
+    {% if ticket.link_to_desired_materials_1 %}
+    <a href="{{ticket.link_to_desired_materials_1}}" target=_blank>{{ticket.link_to_desired_materials_1}}</a>
+    {% endif %}
+    
+    {% if ticket.link_to_desired_materials_2 %}
+    <a href="{{ticket.link_to_desired_materials_2}}" target=_blank>{{ticket.link_to_desired_materials_2}}</a>
+    {% endif %}
+    
+    {% if ticket.link_to_desired_materials_3 %}
+    <a href="{{ticket.link_to_desired_materials_3}}" target=_blank>{{ticket.link_to_desired_materials_3}}</a>
+    {% endif %}
+    
+    {% for image in ticket.images.all %}
+    <img src="{{ image.image.url }}" alt="" style="width:300px;">
+    <a href="{% url 'delete_ticket_image' pk=image.id %}">
+        <span><small class="text-muted">Delete Image.</small></span>
+    </a>
+    <a href="{% url 'update_ticket_image' pk=image.id %}">
+        <span><small class="text-muted">Replace Image.</small></span>
+    </a>
+    {% endfor %}
+    
+    
+    
+    {%if ticket.is_completed %}
+    <p>Ticket is completed</p>
+    {% endif %}
+    <br><br>
+</div>
+<small><input class="btn btn-sm btn-info" type=button value="Back" style="margin-top: 5rem;" onClick="javascript:history.go(-1);"></small>
 {% endblock %}

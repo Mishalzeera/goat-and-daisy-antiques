@@ -12,7 +12,7 @@
 
 {% block content %}
 
-<h1>Create A Service Ticket</h1>
+<h1 style="margin-top: 10rem;">Create A Service Ticket</h1>
 <p class="small text-muted">Choose a title for your service ticket, and 
   describe in detail what services you would like. Include links to specific 
   desired materials.
@@ -21,8 +21,8 @@
 <form action="." method="POST">
   {% csrf_token %} 
   {{ form | crispy }}
-  <input type="submit" value="Create Ticket" />
+  <input type="submit" class="btn btn-info" style="margin-top:2rem; margin-bottom:2rem;" value="Create Ticket" />
 </form>
-<small><input class="btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);"></small>
+<small><input class="btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);" style="margin-bottom: 10rem;"></small>
 
 {% endblock %}

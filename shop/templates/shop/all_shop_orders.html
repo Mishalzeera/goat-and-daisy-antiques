@@ -20,19 +20,19 @@
         {% if invoice.paid_on %}
         <p><strong>{{ invoice }}</strong></p>
         {% if invoice.notes %}
-        <p class="small">{{ invoice.notes }}</p>
+        <p class="small">Notes: {{ invoice.notes }}</p>
         {% endif %}
-        <p class="small">{{ invoice.email }}</p>
-        <p class="small">{{ invoice.full_name }}</p>
-        <p class="small">{{ invoice.address1 }}</p>
+        <p class="small">Email address: {{ invoice.email }}</p>
+        <p class="small">Full Name: {{ invoice.full_name }}</p>
+        <p class="small">Address 1: {{ invoice.address1 }}</p>
         {% if invoice.address2 %}
-        <p class="small">{{ invoice.address2 }}</p>
+        <p class="small">Address 2: {{ invoice.address2 }}</p>
         {% endif %}
-        <p class="small">{{ invoice.town_or_city }}</p>
-        <p class="small">{{ invoice.postcode }}</p>
-        <p class="small">{{ invoice.country }}</p>
+        <p class="small">Town Or City: {{ invoice.town_or_city }}</p>
+        <p class="small">Postcode: {{ invoice.postcode }}</p>
+        <p class="small">Country: {{ invoice.country }}</p>
         <a href="{% url 'mark_invoice_complete' invoice.order_number %}">
-            <p class="text-info">Mark complete</p>
+            <p class="btn btn-info">Mark complete</p>
         </a>
         {% endif %}
         {% endif %}
@@ -61,7 +61,7 @@
         <p class="small">{{ invoice.notes }}</p>
         {% endif %}
         <a href="{% url 'delete_invoice' invoice.id %}">
-            <p class="text-danger">Delete</p>
+            <p class="btn btn-danger">Delete</p>
         </a>
         {% endif %}
         {% endif %}

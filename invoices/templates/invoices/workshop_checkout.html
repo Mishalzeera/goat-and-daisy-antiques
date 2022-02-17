@@ -13,10 +13,10 @@
 {% endblock %}
 
 {% block content%}
-<p class="display-5">{{ customer.full_name }}</p>
-<form action="#" method="POST" id="payment-form">
+
+<form action="#" method="POST" id="payment-form" class="card">
   {% csrf_token %}
-<p>{{ invoice.service_ticket }}</p>
+<p class="h1">{{ invoice.service_ticket }}</p>
 <p>{{ invoice.date_created }}</p>
 <p>{{ invoice.email }}</p>
 <input type="hidden" name="email" value="{{ invoice.email }}">
@@ -29,33 +29,33 @@
     here.
   </a></p>
 
-<p>{{ invoice.full_name }}</p>
+<p>Name: <strong>{{ invoice.full_name }}</strong></p>
 <input type="hidden" name="full_name" value="{{ invoice.full_name }}">
 
-<p>{{ invoice.address1 }}</p>
+<p>Address 1: <strong>{{ invoice.address1 }}</strong></p>
 <input type="hidden" name="address1" value="{{ invoice.address1 }}">
 
-<p>{{ invoice.address2 }}</p>
+<p>Address 2: <strong>{{ invoice.address2 }}</strong></p>
 <input type="hidden" name="address2" value="{{ invoice.address2 }}">
 
-<p>{{ invoice.postcode }}</p>
+<p>Postcode: <strong>{{ invoice.postcode }}</strong></p>
 <input type="hidden" name="postcode" value="{{ invoice.postcode }}">
 
-<p>{{ invoice.town_or_city }}</p>
+<p>Town Or City: <strong>{{ invoice.town_or_city }}</strong></p>
 <input type="hidden" name="town_or_city" value="{{ invoice.town_or_city }}">
 
-<p>{{ invoice.country }}</p>
+<p>Country: <strong>{{ invoice.country }}</strong></p>
 <input type="hidden" name="country" value="{{ invoice.country }}">
 
 <br>
 
-<p>{{ invoice.order_amount }}</p>
+<p>Order amount: <strong>{{ invoice.order_amount }}</strong></p>
 <input type="hidden" name="order_amount" value="{{ invoice.order_amount }}">
 
-<p>{{ invoice.shipping_cost }}</p>
+<p>Shipping cost: <strong>{{ invoice.shipping_cost }}</strong></p>
 <input type="hidden" name="shipping_cost" value="{{ invoice.shipping_cost }}">
 
-<p>{{ invoice.order_total }}</p>
+<p class="display-6">Total: EU <strong>{{ invoice.order_total }}</strong></p>
 <input type="hidden" name="order_total" value="{{ invoice.order_total }}">
 
 

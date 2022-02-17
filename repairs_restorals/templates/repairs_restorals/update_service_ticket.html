@@ -22,7 +22,7 @@
 <form action="." method="POST">
   {% csrf_token %} 
   {{ form | crispy }}
-  <input type="submit" value="Update Ticket" />
+  <input type="submit" class="btn btn-info" value="Update Ticket" />
 </form>
 <br>
 <small><input class="btn btn-sm btn-info" type=button value="Cancel And Go Back" onClick="javascript:history.go(-1);"></small>

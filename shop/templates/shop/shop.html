@@ -16,11 +16,11 @@
     
     <div class="transparent-card">
         <p class="lead"><a href="{% url 'shop_item' pk=product.id %}">{{ product.title }}</a></p>
-        <p>{{ product.description|truncatewords:15 }}</p>
+        <p class="shop-outer-description">{{ product.description|truncatewords:15 }}</p>
         <p>{{ product.price }}</p>
         {% for image in product.images.all %}
             {% if image.is_primary_image %}
-            <img src="{{ image.image.url }}" alt="" style="width:300px;">
+            <a href="{% url 'shop_item' pk=product.id %}"><img src="{{ image.image.url }}" alt="" style="width:300px;"></a>
             {% endif %}
         
         {% endfor %}

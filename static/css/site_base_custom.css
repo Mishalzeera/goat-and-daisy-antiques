@@ -11,23 +11,58 @@
 body {
   background-color: var(--amber-100);
   font-family: "Lato", sans-serif;
-  font-weight: 400;
 }
 
-.btn-warning {
-  background-color: var(--amber-100);
+main {
+  margin-top: 7rem;
+}
+
+.btn {
+  min-width: 7rem;
+}
+
+.btn-warning,
+.btn-info {
+  background-color: var(--sky-800);
+  color: var(--sky-100);
   border: unset;
 }
 
-.btn-warning:hover {
-  background-color: var(--amber-200);
+.btn-warning:hover,
+.btn-info:hover {
+  background-color: var(--sky-200);
+}
+
+.btn-danger {
+  background-color: var(--red-200);
+  color: var(--red-900);
+  border: unset;
+}
+
+.btn-danger:hover {
+  background-color: var(--red-500);
+  color: var(--red-100);
+  border: unset;
+}
+
+.text-info {
+  color: var(--sky-900) !important;
+}
+
+.text-success {
+  color: var(--green-900) !important;
+}
+
+.text-danger {
+  color: var(--red-900) !important;
 }
 
 .alert-message {
-  background-color: var(--amber-50);
+  background-color: #fffbebb6;
   color: inherit;
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 7rem;
+  margin-bottom: -7rem;
   padding: 1rem 0.5rem;
 }
 
@@ -42,18 +77,35 @@ a:hover {
 .navbar-brand {
   font-family: "Bebas Neue", sans-serif;
   font-size: 4rem;
+  padding: 0;
 }
 
 .bg-light {
-  background: var(--amber-50) !important;
+  /* background: var(--amber-50) !important; */
+  background: #fffbebb6 !important;
 }
 
 .lead {
   font-weight: 400;
 }
 
-.transparent-card {
+.text-muted {
+  color: var(--sky-900) !important;
+}
+
+.page-background {
+  width: 100vw;
+  height: 100vh;
   background-color: #fffbeb8f;
+}
+
+.card {
+  background-color: #fffbeb5d;
+  padding: 1rem;
+}
+
+.transparent-card {
+  background-color: #fffbeb5d;
   min-width: fit-content;
   max-width: 700px;
   padding: 1rem;
@@ -64,10 +116,35 @@ a:hover {
   min-width: fit-content;
 }
 
+.shop-detail-carousel {
+  margin: 0 auto;
+}
+
+.shop-detail-title-image {
+  height: 60vh;
+}
+
+.shop-detail-description {
+  max-width: 80%;
+  font-weight: 700;
+}
+
+.shop-outer-description {
+  font-weight: 700;
+}
+.display-6 {
+  font-weight: 700;
+}
+
 .shop-detail-button {
-  margin-top: 5rem;
   margin-bottom: 10rem;
   margin-left: 10rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: baseline;
+  gap: 3rem;
 }
 
 .cart-checkout {

@@ -13,14 +13,19 @@
 
 {% for customer in customers%}
 
-    <h2 class=>{{customer.full_name | title}}</h2>
+    <p class="h1" style="margin-top:1rem;">{{customer.full_name | title}}</p>
     <a href="{% url 'customer_account_update' pk=customer.id%}">
-        <p>View/Update Profile Details</p>
+        <p class="text-success">View/Update Profile Details</p>
     </a>
     {% if customer.has_active_shop_orders %}
-    <a href="#">
-        <p>View Active Shop Orders</p>
-    </a>
+    
+        <p class="text-success">Has Active Shop Orders</p>
+   
+    {% endif %}
+    {% if customer.has_active_repairs %}
+    
+        <p class="text-success">Has Active Repairs</p>
+    
     {% endif %}
     <br>
 {% endfor %}

@@ -29,7 +29,7 @@
   <body>
 
     <!-- Nav -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar fixed-top navbar-expand-md navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">Goat And Daisy</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,19 +105,29 @@
                     <li><a class="dropdown-item" href="{% url 'login' %}">Login</a></li>
                     <li><a class="dropdown-item" href="{% url 'signup' %}">Register</a></li>
                     {% endif %}
-                    
-                    
                   </ul>
             </li>
+            {% if request.session.cart %}    
+            <li class="nav-item dropdown">
+              <a class="nav-link active dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Cart ({{products_count}})
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                <li><a class="dropdown-item" href="{% url 'view_cart' %}">View Cart</a></li>
+                <li><a class="dropdown-item" href="{% url 'precheckout' %}">Checkout</a></li>
+              </ul>
+            </li>
+            {% endif %}
             
-
+            
           <!-- Extra nav block -->
             {% block extra_nav %}
             {% endblock%}
            
             
           </ul>
-          <small><input class="text-muted btn btn-sm btn-outline-light" type=button value="Previous Page" onClick="javascript:history.go(-1);"></small>
+          
         </div>
       </div>
     </nav>
@@ -133,27 +143,7 @@
     </section>
 
 
-    <section class="container">
-      {% if user.is_authenticated %}
-      <div class="profile-link-flex" style="display: flex; gap: 2rem;">
-        <p class="small text-muted">Welcome {{ user.username | title }}</p>
-        <a href="{% url 'customer_profile' pk=user.id%}">
-          <p class="small text-muted">View Profile</p>
-        </a>
-      </div>
-      {% endif %}
-
-      
-
-          {% if request.session.cart %}
-          <div class="cart-checkout flex-between-end flex-column">
-            <a href="{% url 'view_cart' %}">
-              <p>View Cart</p>
-            </a>
-            <a href="{% url 'precheckout' %}"><p>Checkout</p></a>
-          </div>
-          {% endif %}
-    </section>
+   
     <main class="container">
       
     {% block content %}

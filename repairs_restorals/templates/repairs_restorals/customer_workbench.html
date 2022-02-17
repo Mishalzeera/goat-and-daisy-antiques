@@ -10,42 +10,48 @@
 {% endblock %}
 
 {% block content %}
-
-<h1>{{request.user | title }}'s Workbench</h1>
-<a href="{% url 'create_service_ticket' %}"><p class="display-6">Create Ticket</p></a>
-<p class="small text-muted">Use above link to create a service ticket.</p>
-<a href="{% url 'customer_invoices' %}">
-    <p class="small">View/Pay Invoices</p>
-</a>
-{% if tickets %}
-
-<a href="{% url 'add_image' %}"><p class="display-6">Add Images</p></a>
-<p class="small text-muted">Use above link to add images to your tickets.</p>
-
-<h2>Current Tickets</h2>
-
-{% for ticket in tickets%}
-    {% if not ticket.is_completed %}
-    <a href="{% url 'service_ticket' pk=ticket.id %}">
-        <p class="lead">{{ ticket.title }}</p>
+<div class="card">
+    
+    <h1>{{request.user | title }}'s Workbench</h1>
+    <a href="{% url 'customer_invoices' %}">
+        <p class="lead">View/Pay Invoices</p>
     </a>
-    <a href="{% url 'public_update_service_ticket' pk=ticket.id%}">
-        <p class='text-success'>Update</p>
-    </a>
-    {% endif %}
-{% endfor %}
-
-{% if ticket.is_completed %}
-<h2>Completed Tickets</h2>
-
-{% for ticket in tickets%}
+    <a href="{% url 'create_service_ticket' %}"><p class="display-6">Create Ticket</p></a>
+    <p class="small text-muted">Use above link to create a service ticket.</p>
+    
+    {% if tickets %}
+    
+    <a href="{% url 'add_image' %}"><p class="display-6">Add Images</p></a>
+    <p class="small text-muted">Use above link to add images to your tickets.</p>
+    
+    <h2>Current Tickets</h2>
+    
+    {% for ticket in tickets%}
+        {% if not ticket.is_completed %}
+        <a href="{% url 'service_ticket' pk=ticket.id %}">
+            <p class="lead text-info">{{ ticket.title }}</p>
+        </a>
+        <a href="{% url 'public_update_service_ticket' pk=ticket.id%}">
+            <p class='text-success'>Update</p>
+        </a>
+        {% endif %}
+        <hr>
+    {% endfor %}
+    
     {% if ticket.is_completed %}
-    <a href="{% url 'service_ticket' pk=ticket.id%}">
-        <p class="small">{{ ticket.title }}</p>
-    </a>
+    <h2>Completed Tickets</h2>
+    
+    {% for ticket in tickets%}
+        {% if ticket.is_completed %}
+        <a href="{% url 'service_ticket' pk=ticket.id%}">
+            <p class="small">{{ ticket.title }}</p>
+        </a>
+        {% endif %}
+    {% endfor %}
     {% endif %}
-{% endfor %}
-{% endif %}
+    
+    {% endif %}
+</div>
 
-{% endif %}
+
 {% endblock %}

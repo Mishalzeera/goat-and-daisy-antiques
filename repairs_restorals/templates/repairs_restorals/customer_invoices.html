@@ -10,29 +10,36 @@
 {% endblock %}
 
 {% block content %}
-<h1>Outstanding Customer Invoices</h1>
-{% for invoice in invoices %}
-    {% if not invoice.installment_paid %}
-        {% if invoice.order_total %}
-        <p>Title: {{ invoice }}</p>
-        <p>Created On: {{ invoice.date_created }}</p>
-        <a href="{% url 'workshop_checkout' invoice.id %}">
-            <p>Pay Invoice</p>
-        </a>
+
+<div class="card">
+    
+    <h1>Outstanding Customer Invoices</h1>
+    {% for invoice in invoices %}
+        {% if not invoice.installment_paid %}
+            {% if invoice.order_total %}
+            <p>Title: <p class="lead">{{ invoice }}</p></p>
+            
+            <p>Created On: {{ invoice.date_created }}</p>
+            <a href="{% url 'workshop_checkout' invoice.id %}" >
+                <p style="margin-bottom: 5rem; align-self:flex-start;" class="btn btn-info">Pay Invoice</p>
+            </a>
+           
+            {% endif %}
         {% endif %}
-    {% endif %}
-{% endfor %}
-
-<hr>
-
-{% for invoice in invoices %}
-
-    {% if invoice.installment_paid %}
-        <p>{{ invoice }}</p>
-        <p>{{ invoice.paid_on }}</p>
-
-    {% endif %}
-    <p>Paid</p>
-{% endfor %}
+        
+    {% endfor %}
+    
+    <hr>
+    
+    {% for invoice in invoices %}
+    
+        {% if invoice.installment_paid %}
+            <p>{{ invoice }}</p>
+            <p>{{ invoice.paid_on }}</p>
+    
+            <p style="margin-bottom: 5rem;">Paid</p>
+        {% endif %}
+    {% endfor %}
+</div>
 
 {% endblock %}

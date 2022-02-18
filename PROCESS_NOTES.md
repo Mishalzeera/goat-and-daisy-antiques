@@ -160,26 +160,13 @@ add_image.html>
 
 ## Creating custom signal integrated with model methods
 
-Seeing the integration between model methods and signals, and running into
-circular import errors when trying to use only model methods, I decided to try
-using signals to auto-generate an invoice in the case of a Workshop Service
-Ticket being created.
+Create 'signals.py' in relevant app. In apps.py override the ready(self) method
+with 'import relevant_app.signals'.
 
-This was tricky, not least for identifying the request.user, which I did by
-referencing the Customer database with the instance.username. The main issue
-was actually that writing the WorkshopCustomerInvoice.create() directly
-caused it to loop infinitely.
+Potential issue with writing objects.create() directly causing it to loop
+infinitely.
 
-This made my database populate endlessly with new objects until I cut the
-server. Made worse by the fact that there was no data for the admin panel to
-display, which throws an error when you try and delete them.
-
-Going into the shell, creating a list with objects.all() and iterating through
-them, adding a displayable name and saving per-instance, then going into the
-admin panel and deleting them as normal worked.
-
-The solution in the signals code was to use IF an object with that name didn't
-exist (filtering service_ticket_id with instance.id) then execute the block.
+Use an if statement checking an object exists, then execute the block.
 
 ## Shopping cart, request.session, context processor
 
@@ -198,20 +185,20 @@ site, so bear that in mind.
 
 ## Threading: timer going on in the background
 
-When a store item is put in a shopping cart, it should give the customer a 
+When a store item is put in a shopping cart, it should give the customer a
 period of time where they can purchase with certainty despite maybe having to
-find a credit card or check their address. 
+find a credit card or check their address.
 
 The idea was to create a toggle "is_available" function with a timer. However,
-it wasn't that simple. Doing it that way caused the entire application to 
+it wasn't that simple. Doing it that way caused the entire application to
 freeze for the duration of the timer - bypassing the actual functionality
 I needed it to do in the first place.
 
 There was multiple reference to Celery in the Stack Overflow community. However,
-it seemed like overkill to install yet another package to accomplish just this 
+it seemed like overkill to install yet another package to accomplish just this
 one thing.
 
-Looking up "async code in Python" on the other hand, introduced me to the 
+Looking up "async code in Python" on the other hand, introduced me to the
 concept of threading. Namely, one can create a process that goes on in its own
 context, without messing up the overall flow of the code.
 
@@ -221,13 +208,13 @@ The link above is full of very thick jargon, but some of the key concepts
 made sense right away, after mucking about with another source's interpretation.
 
 Mainly, args can be sent, and this daemon thing can be set, and the Thread
-can be instantiated within the context of the function concerned. A target 
-function is defined outside the function, that target is the process that is 
+can be instantiated within the context of the function concerned. A target
+function is defined outside the function, that target is the process that is
 kept apart from the main thread flow of the program.
 
 Later on, realising that without taking the item out of the customers session
 cookie, multiple purchases might happen of the same item. A settings config
 variable CUSTOMER_SESSION_EXPIRY was created, with a integer defining how many
-seconds. The variable was then used in the add to cart view, both to set the 
-timer for the "is_available" attribute of the reserved shop item as well as 
-the general expiry date of the users session. 
+seconds. The variable was then used in the add to cart view, both to set the
+timer for the "is_available" attribute of the reserved shop item as well as
+the general expiry date of the users session.

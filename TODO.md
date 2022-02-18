@@ -1,8 +1,7 @@
-- program group add
   live emails, contact page with an email thingie
-- when service ticket created, automatic email saying assessing the work, will
-  give a quote
+
 - make the workshop staff invoice mgmt page more clear
+
 - for todo list, make it for every user
 
 Media

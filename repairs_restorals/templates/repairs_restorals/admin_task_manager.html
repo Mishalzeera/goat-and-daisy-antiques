@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
+{% endblock %}
+
+
+{% block content %}
+<div class="card">
+    {% for list in todo_lists %}
+    <p class="lead">{{ list.staff_member | title }}:</p>
+    <p class="lead"><i class="bi bi-layout-sidebar"></i> {{ list.subject }}</p>
+    
+        {% for item in list.items.all %}
+        {% if item.is_completed %}
+        <p><i class="bi bi-layout-sidebar-inset-reverse"></i> <s>{{ item }}</s></p>
+        {% else %}
+        <p><i class="bi bi-layout-sidebar-inset-reverse"></i> {{ item }}</p>
+        {% endif %}
+        {% endfor %}
+    <br><hr><br>
+    {% endfor %}
+</div>
+{% endblock %}

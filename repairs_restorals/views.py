@@ -202,13 +202,13 @@ class WorkshopStaffDeleteImage(GroupRequiredMixin, DeleteView):
     success_url = reverse_lazy('ticket_overview')
 
 
-# workshop staff only
+# general staff - would be good to make it its own app
 class TaskManager(GroupRequiredMixin, View):
     """
     Shows a list of todo items for each workshop staff member, allowing
     all CRUD functions on the same page for convenience. 
     """
-    group_required = [u'Workshop Staff']
+    group_required = [u'General Staff']
     def get(self, request, *args, **kwargs):
         # Get a staff member
         staff_member = get_object_or_404(
@@ -289,8 +289,22 @@ class TaskManager(GroupRequiredMixin, View):
         return render(request, 'repairs_restorals/todo_list.html', context)
 
 
+# Admin only
+class AdminTaskManagerOverview(GroupRequiredMixin, ListView):
+    """
+    Gives Admin a way to keep an eye on what everyone is up to. Big brother is
+    watching you. Some CRUD.
+    """
+    # model = TodoList
+    group_required = [u'Admin Only']
+    template_name = 'repairs_restorals/admin_task_manager.html'
+    queryset = TodoList.objects.prefetch_related("items").all()
+    context_object_name = 'todo_lists'
+
+
+
 # workshop staff only
-@group_required_decorator('Workshop Staff')
+@group_required_decorator('General Staff')
 def delete_or_update_item_in_todo(request, pk):
     """
     A function that allows a list item to be deleted in the 

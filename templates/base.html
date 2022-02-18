@@ -54,6 +54,8 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li><a class="dropdown-item" href="{% url 'admin_overview' %}">Staff Management</a></li>
                   <li><a class="dropdown-item" href="/admin/">Admin Panel</a></li>
+                  <li><a class="dropdown-item" href="{% url 'admin_task_manager' %}">Task Manager Overview</a></li>
+                  
                   </li>
                 </ul></li>
                 {% endif %}
@@ -68,6 +70,7 @@
                   </li> <li><a class="dropdown-item" href="{% url 'staff_manage_items' %}">Manage Inventory</a></li>
                   
                 </li>
+                <li><a class="dropdown-item" href="{% url 'task_manager' %}">Task Manager</a></li>
                 <li><a class="dropdown-item" href="{% url 'all_shop_customers' %}">All Registered Customers</a></li>
                   
                   </li>

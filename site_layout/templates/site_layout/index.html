@@ -11,9 +11,8 @@
 
 {% block content %}
 
-{% if request.user.is_authenticated%}
-<p class="lead">Welcome {{ request.user.username | title }}</p>
-{% else %}
+{% if not request.user.is_authenticated%}
+
 <a href="{% url 'login' %}">
     <p>Login</p>
 </a>

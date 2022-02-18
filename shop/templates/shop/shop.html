@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home_bg_image_trans.css' %}">
+<link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
 {% endblock %}
 
 {% block page_title %}
@@ -14,22 +14,25 @@
 
     {% if product.is_available %}
     
-    <div class="transparent-card">
-        <p class="lead"><a href="{% url 'shop_item' pk=product.id %}">{{ product.title }}</a></p>
+    <div>
+        <p class="h1"><a href="{% url 'shop_item' pk=product.id %}" style="text-decoration: none;">{{ product.title }}</a></p>
         <p class="shop-outer-description">{{ product.description|truncatewords:15 }}</p>
-        <p>{{ product.price }}</p>
+        
         {% for image in product.images.all %}
             {% if image.is_primary_image %}
             <a href="{% url 'shop_item' pk=product.id %}"><img src="{{ image.image.url }}" alt="" style="width:300px;"></a>
             {% endif %}
         
         {% endfor %}
-        <br><br><br>
+        <br>
+        <p class="shop-detail-description">EU {{ product.price }}</p>
+        <br>
         <form action="{% url 'add_to_cart' product.id %}" method=POST>
             {% csrf_token %}
             <input type="hidden" name="redirect_url" value="{{ request.path }}">
             <input type="submit" value="Add To Cart" class="btn btn-warning">
         </form>
+        <br><br>
         {% endif %}
     </div>
 

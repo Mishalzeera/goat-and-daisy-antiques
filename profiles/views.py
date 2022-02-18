@@ -13,6 +13,7 @@ from .models import Customer, StaffMember
 from invoices.models import ShopCustomerInvoice
 from repairs_restorals.models import ServiceTicket
 
+
 # public
 class LoginAUser(LoginView):
     """
@@ -105,7 +106,7 @@ class CreateProfilePage(CreateView):
     model = Customer
     template_name = "registration/create_customer_profile.html"
     fields = ['full_name', 'address1', 'address2',
-              'postcode', 'town_or_city', 'country', 'notes']
+              'postcode', 'town_or_city', 'country',]
 
     def form_valid(self, form):
         # this method is to ensure that 1. the username used to create the

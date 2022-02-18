@@ -14,7 +14,7 @@
 <form action="{% url 'create_profile' %}" method="POST">
     {% csrf_token %}  
     {{ form | crispy }}
-    <input type="submit" value="Create Profile">
+    <input type="submit" class="btn btn-info" value="Create Profile">
 </form>
 <br>
 <small><input class="btn btn-sm btn-info" type=button value="Back" onClick="javascript:history.go(-1);"></small>

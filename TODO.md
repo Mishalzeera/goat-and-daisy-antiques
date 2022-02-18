@@ -1,32 +1,23 @@
-Shop Detail
+- program group add
+  live emails, contact page with an email thingie
+- when service ticket created, automatic email saying assessing the work, will
+  give a quote
+- make the workshop staff invoice mgmt page more clear
+- for todo list, make it for every user
 
-project urls py
-
-Media 
+Media
 
 DB Schemas
-
-live emails
-
-
--Make staff service ticket Create view and form
-
-- make the workshop staff invoice mgmt page more clear
-
-- email deposit invoice to customer, if total is 0, its an email
-  saying staff is assessing the work and will give a quote and send an invoice
-  otherwise an email to customer with everything
 
 - do something about the hardcoded workshop_staff in
   CreateServiceTicket views.py
 
-- for todo list, make it for every user
 - make sure that new customers dont see Current and Completed Tickets
 
 ## Invoices
 
-  -shop staff create order/invoice
-  -shop staff view invoices
+-shop staff create order/invoice
+-shop staff view invoices
 
 - customer view invoice
 - staff view/update invoice
@@ -38,4 +29,3 @@ Manage inventory shop staff redirect to the same page
 Shop Line Items
 
 coding garden
-

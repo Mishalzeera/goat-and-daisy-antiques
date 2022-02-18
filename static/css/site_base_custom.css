@@ -107,7 +107,7 @@ a:hover {
 .transparent-card {
   background-color: #fffbeb5d;
   min-width: fit-content;
-  max-width: 700px;
+  /* max-width: 700px; */
   padding: 1rem;
 }
 
@@ -149,6 +149,10 @@ a:hover {
 
 .cart-checkout {
   margin-top: 1rem;
+}
+
+footer {
+  margin-top: 50vh;
 }
 
 /* Utilities */

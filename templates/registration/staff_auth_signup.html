@@ -11,12 +11,12 @@
 {% endblock %}
 
 {% block content %}
-<h1>Add Staff Member</h1>
+<h1>Add Staff sssMember</h1>
 
 <form action="{% url 'staff_signup' %}" method="POST">
     {% csrf_token %}  
     {{ form | crispy }}
-    <input type="submit" value="Next - Set Up Staff Permissions">
+    <input type="submit" class="btn btn-info" value="Next - Set Up Staff Permissions">
 </form>
 
 

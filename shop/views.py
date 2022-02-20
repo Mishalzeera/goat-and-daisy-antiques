@@ -10,7 +10,6 @@ from profiles.models import Customer
 from .forms import StaffCreateItemForm, StaffImageUploadForm, StaffImageUploadFormInProduct
 
 
-
 # public
 class ShopFront(ListView):
     """
@@ -59,7 +58,8 @@ def mark_invoice_complete(request, invoice_order_number):
     When shop staff have shipped an item, this function marks the invoice
     as complete and sends an email to the customer.
     """
-    invoice = ShopCustomerInvoice.objects.get(order_number = invoice_order_number)
+    invoice = ShopCustomerInvoice.objects.get(
+        order_number=invoice_order_number)
     invoice.is_completed = True
     invoice.save()
 
@@ -70,11 +70,12 @@ def mark_invoice_complete(request, invoice_order_number):
 
 class DeleteInvoice(GroupRequiredMixin, DeleteView):
     """
-    To avoid clutter, this handles incomplete orders
+    To avoid clutter, this handles incomplete orders.
     """
     group_required = [u'Shop Staff']
     model = ShopCustomerInvoice
     success_url = reverse_lazy('all_shop_orders')
+
 
 # public
 class ShopItem(DetailView):
@@ -97,7 +98,6 @@ class StaffManageItems(GroupRequiredMixin, ListView):
     template_name = 'shop/staff_manage_items.html'
     queryset = ShopItems.objects.prefetch_related('images').all()
     context_object_name = "products"
-    
 
 
 # shop staff only
@@ -157,7 +157,7 @@ class StaffAddImage(GroupRequiredMixin, CreateView):
 def add_image_in_product(request, product_id):
     """
     Allows staff to add images to products from product detail instances(list 
-    or detail view) - for convenience
+    or detail view) - for convenience.
     """
     product = ShopItems.objects.get(pk=product_id)
 
@@ -170,7 +170,7 @@ def add_image_in_product(request, product_id):
             'form': form,
         }
         return render(request, 'shop/add_image_in_product.html', context)
-    
+
     if request.method == "POST":
 
         form = StaffImageUploadFormInProduct(request.POST, request.FILES)
@@ -178,7 +178,7 @@ def add_image_in_product(request, product_id):
         form.instance.product = product
         if form.is_valid():
             form.save()
-        
+
         return redirect('staff_manage_items')
 
 
@@ -205,6 +205,7 @@ class StaffDeleteImage(GroupRequiredMixin, DeleteView):
     success_url = reverse_lazy('staff_manage_items')
 
 
+# inner function
 def set_primary_image(request, product_id, image_id, ):
     """
     Defines an image from a product set as the primary image for display 
@@ -218,9 +219,4 @@ def set_primary_image(request, product_id, image_id, ):
     image.is_primary_image = True
     image.save()
 
-
     return redirect('staff_manage_items')
-
-
-
-    

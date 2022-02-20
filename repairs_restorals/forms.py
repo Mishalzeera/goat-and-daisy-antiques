@@ -8,7 +8,7 @@ from .models import ServiceTicket, TicketImage, TodoList, TodoItem
 class CustomerCreateServiceTicketForm(forms.ModelForm):
     """
     Form allowing an authenticated customer user to create a service ticket,
-    entering their own titles, descriptions, links
+    entering their own titles, descriptions, links.
     """
     # The url fields dont give any formatting hints, so help text was needed.
     link_to_desired_materials_1 = forms.URLField(required=False,
@@ -27,7 +27,7 @@ class CustomerCreateServiceTicketForm(forms.ModelForm):
 class CustomerUpdateTicketForm(forms.ModelForm):
     """
     Form allowing an authenticated customer user to create a service ticket,
-    entering their own titles, descriptions, links
+    entering their own titles, descriptions, links.
     """
     # The url fields dont give any formatting hints, so help text was needed.
     link_to_desired_materials_1 = forms.URLField(required=False,
@@ -47,7 +47,7 @@ class CustomerUploadImageForm(forms.ModelForm):
     """
     Form that allows a customer to upload an example image - customer selects
     from a list of current projects (a queryset sent from views.customer_add_
-    image) and then upload a linked image
+    image) and then upload a linked image.
     """
 
     def __init__(self, *args, **kwargs):
@@ -65,6 +65,7 @@ class CustomerUploadImageForm(forms.ModelForm):
         model = TicketImage
         fields = ['service_ticket', 'image']
 
+
 class StaffCustomerInvoiceUpdateForm(forms.ModelForm):
     """
     Allows workshop staff to modify the customer invoice - adding quotes etc.
@@ -73,7 +74,7 @@ class StaffCustomerInvoiceUpdateForm(forms.ModelForm):
         model = WorkshopCustomerInvoice
         fields = '__all__'
 
-    
+
 class CreateTodoListForm(forms.ModelForm):
     """
     A form to create a Todo List.

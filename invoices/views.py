@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.contrib import messages
@@ -11,15 +11,15 @@ from profiles.models import Customer
 from .forms import ShopCheckoutForm
 from .models import ShopCustomerInvoice, WorkshopCustomerInvoice
 import datetime
-# from .contexts import shopping_cart
 import stripe
 import json
-import time 
+import time
 from threading import Thread, Timer
-import os 
+import os
 
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
+
 
 # public
 def view_cart(request):
@@ -34,6 +34,7 @@ def view_cart(request):
 
     return render(request, 'invoices/shopping_cart.html', context)
 
+
 # inner function
 def timer(item_id):
     """
@@ -43,21 +44,23 @@ def timer(item_id):
     time.sleep(settings.CUSTOMER_SESSION_EXPIRY)
     release_shop_item(item_id)
 
+
 # public
 def hold_shop_item(item_id):
     """
     Function that starts a timer, taking a shop item off the shop
     for length of time specified in settings.CUSTOMER_SESSION_EXPIRY.
     """
-    
+
     item = get_object_or_404(ShopItems, pk=item_id)
     if item.is_available:
-        
+
         item.is_available = False
         item.save()
         timer_thread = Thread(target=timer, args=(item_id,), daemon=True)
         timer_thread.start()
-   
+
+
 # public
 def release_shop_item(item_id):
     """
@@ -69,6 +72,7 @@ def release_shop_item(item_id):
         item.is_available = True
         item.save()
 
+
 # public
 def add_to_cart(request, item_id):
     """
@@ -78,40 +82,40 @@ def add_to_cart(request, item_id):
     redirect_url = request.POST.get('redirect_url')
     id = item.id
     cart = request.session.get('cart', {})
-    
-    
+
     cart[str(item_id)] = dict(id=item_id)
-    
-    
+
     request.session['cart'] = cart
     request.session.set_expiry(settings.CUSTOMER_SESSION_EXPIRY)
     hold_shop_item(item_id)
 
-
-    messages.success(request, (f"Successfully added {item.title} to your shopping cart."))
+    messages.success(
+        request, (f"Successfully added {item.title} to your shopping cart."))
 
     return redirect(redirect_url)
+
 
 # public
 def remove_from_cart(request, item_id):
     """
     Removes an item from the session shopping cart.
     """
-        
+
     item = get_object_or_404(ShopItems, pk=item_id)
     id = item.id
     cart = request.session.get('cart', {})
-    
-    
+
     cart.pop(str(item_id))
-    
+
     request.session['cart'] = cart
 
     release_shop_item(item_id)
 
-    messages.success(request, (f"Successfully removed {item.title} from your shopping cart."))
+    messages.success(
+        request, (f"Successfully removed {item.title} from your shopping cart."))
 
     return redirect('view_cart')
+
 
 # public
 def precheckout(request):
@@ -121,7 +125,8 @@ def precheckout(request):
     """
     if request.method == "GET":
         if request.user.is_authenticated:
-            customer_profile = get_object_or_404(Customer, username=request.user)
+            customer_profile = get_object_or_404(
+                Customer, username=request.user)
         else:
             customer_profile = {"full_name": "Not authenticated"}
 
@@ -132,7 +137,7 @@ def precheckout(request):
         }
 
         return render(request, 'invoices/precheckout.html', context)
-    
+
     if request.method == "POST":
 
         order_amount = request.POST.get('order_amount')
@@ -140,21 +145,22 @@ def precheckout(request):
         order_total = request.POST.get('order_total')
 
         if request.user.is_authenticated:
-            customer_profile = get_object_or_404(Customer, username=request.user)
+            customer_profile = get_object_or_404(
+                Customer, username=request.user)
             new_invoice = ShopCustomerInvoice.objects.create(
-                full_name= request.POST.get('full_name'),
-                email= request.POST.get('email'),
-                address1= request.POST.get('address1'),
-                address2= request.POST.get('address2'),
-                postcode= request.POST.get('postcode'),
-                town_or_city= request.POST.get('town_or_city'),
-                country= request.POST.get('country'),
-                order_amount = order_amount,
-                shipping_cost = shipping_cost,
-                order_total = order_total,
-                notes = '',
+                full_name=request.POST.get('full_name'),
+                email=request.POST.get('email'),
+                address1=request.POST.get('address1'),
+                address2=request.POST.get('address2'),
+                postcode=request.POST.get('postcode'),
+                town_or_city=request.POST.get('town_or_city'),
+                country=request.POST.get('country'),
+                order_amount=order_amount,
+                shipping_cost=shipping_cost,
+                order_total=order_total,
+                notes='',
             )
-            
+
             new_invoice.save()
             customer_profile.has_active_shop_orders = True
             customer_profile.save()
@@ -165,7 +171,8 @@ def precheckout(request):
             request.session['customer_address1'] = request.POST.get('address1')
             request.session['customer_address2'] = request.POST.get('address2')
             request.session['customer_postcode'] = request.POST.get('postcode')
-            request.session['customer_town_or_city'] = request.POST.get('town_or_city')
+            request.session['customer_town_or_city'] = request.POST.get(
+                'town_or_city')
             request.session['customer_country'] = request.POST.get('country')
 
             request.session['shopping_cart'] = ''
@@ -176,17 +183,14 @@ def precheckout(request):
                     to_concatenate = str(value)
                     request.session['shopping_cart'] += to_concatenate + " "
 
-            
             # request.session['cart'] = {}
-
-
 
         else:
             form = ShopCheckoutForm(request.POST)
             if form.is_valid():
                 form.instance.order_amount = order_amount
                 form.instance.shipping_cost = shipping_cost
-                form.instance.order_total = order_total 
+                form.instance.order_total = order_total
                 form.instance.notes = "Note: This customer does not have an account."
                 form.save()
                 request.session['shop_order_number'] = form.instance.order_number
@@ -205,16 +209,15 @@ def precheckout(request):
                     for key, value in item_value.items():
                         to_concatenate = str(value)
                         request.session['shopping_cart'] += to_concatenate + " "
-                
-                # request.session['cart'] = {}
 
+                # request.session['cart'] = {}
 
             else:
 
                 messages.error(request, ("Form not filled correctly"))
 
-
         return redirect('checkout')
+
 
 # public
 def checkout(request):
@@ -235,7 +238,7 @@ def checkout(request):
     }
     return render(request, 'invoices/checkout.html', context)
 
-# login required
+
 @login_required
 def workshop_checkout(request, invoice_id):
     """
@@ -253,7 +256,7 @@ def workshop_checkout(request, invoice_id):
 
     if stripe_order_total <= 0:
         zero_error = "Please contact a staff member to process your invoice before payment."
-    
+
     # storing the type of service
     request.session['shop_or_workshop'] = "Workshop"
     # storing the type of invoice
@@ -264,7 +267,7 @@ def workshop_checkout(request, invoice_id):
     request.session['customer_full_name'] = invoice.full_name
     # storing the email address in a session variable
     request.session['customer_email'] = customer.email
-    
+
     context = {
         'invoice': invoice,
         'stripe_order_total': stripe_order_total,
@@ -272,9 +275,10 @@ def workshop_checkout(request, invoice_id):
         'stripe_base_url': settings.STRIPE_BASE_URL,
         'customer': customer,
         'zero_error': zero_error,
-    }        
+    }
 
     return render(request, 'invoices/workshop_checkout.html', context)
+
 
 # public
 def success(request):
@@ -292,11 +296,11 @@ def success(request):
     if request.session['shop_or_workshop'] == "Shop":
         order_number = request.session['shop_order_number']
 
-        customer_address1 = request.session['customer_address1'] 
+        customer_address1 = request.session['customer_address1']
         customer_address2 = request.session['customer_address2']
-        customer_postcode = request.session['customer_postcode'] 
-        customer_town_or_city = request.session['customer_town_or_city'] 
-        customer_country = request.session['customer_country'] 
+        customer_postcode = request.session['customer_postcode']
+        customer_town_or_city = request.session['customer_town_or_city']
+        customer_country = request.session['customer_country']
         message = "Here is a list of purchased items, and the address we will be shipping to: "
         # Create an list using the white spaces as delimiter
         string_cart = request.session['shopping_cart'].split(" ")
@@ -320,9 +324,6 @@ def success(request):
         customer_country = customer.country
         message = "You have paid. These are your current shipping details, please keep them up to date."
 
-
-
-
     context = {
 
         'order_number': order_number,
@@ -334,23 +335,23 @@ def success(request):
         'customer_town_or_city': customer_town_or_city,
         'customer_country': customer_country,
         'shopping_list': shopping_list,
-        'message': message, 
-
-
+        'message': message,
     }
 
     request.session['cart'] = {}
 
     return render(request, 'invoices/success.html', context)
 
+
 # inner function
 def calculate_order_amount(cart):
     """
     Gets an updated total from the checkout page.
     """
-    # Cart comes from the JS file initialize() function.  
+    # Cart comes from the JS file initialize() function.
     sum = cart[0]['total']
-    return sum 
+    return sum
+
 
 # public
 @require_POST
@@ -359,7 +360,7 @@ def create_checkout_session(request):
     Adapted from Stripe docs, modified with pertinent metadata for webhooks.py
     and webhook_handler.py to use.
     """
-    # Check the type of service 
+    # Check the type of service
     if request.session['shop_or_workshop'] == 'Workshop':
         # create metadata dictionaries to send to Stripe
         metadata = {
@@ -370,7 +371,7 @@ def create_checkout_session(request):
 
         }
 
-    elif request.session['shop_or_workshop'] =='Shop':
+    elif request.session['shop_or_workshop'] == 'Shop':
         metadata = {
             'shop_or_workshop': request.session['shop_or_workshop'],
             'unique_order_number': request.session['shop_order_number'],
@@ -388,7 +389,7 @@ def create_checkout_session(request):
         },
         # This metadata insertion allows us to access invoice details in the
         # webhook handler
-        metadata = metadata,
+        metadata=metadata,
     )
     return JsonResponse({
         'clientSecret': intent['client_secret']

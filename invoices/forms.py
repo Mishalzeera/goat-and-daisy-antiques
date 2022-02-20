@@ -1,10 +1,15 @@
 from django import forms
 from . import models
 
+
 class ShopCheckoutForm(forms.ModelForm):
+    """
+    Checkout form for when a shop customer pays.
+    """
     class Meta:
         model = models.ShopCustomerInvoice
-        exclude = ['notes', 'is_completed', 'paid_on', 'shipping_cost', 'order_amount', 'order_total']
+        exclude = ['notes', 'is_completed', 'paid_on',
+                   'shipping_cost', 'order_amount', 'order_total']
 
     def __init__(self, *args, **kwargs):
         """
@@ -29,4 +34,3 @@ class ShopCheckoutForm(forms.ModelForm):
         }
 
         self.fields['full_name'].widget.attrs['autofocus'] = True
-

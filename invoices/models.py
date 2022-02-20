@@ -5,8 +5,6 @@ from profiles.models import Customer
 import secrets
 import datetime
 
-from shop.models import ShopItems
-
 
 class BaseInvoice(models.Model):
     """
@@ -47,7 +45,7 @@ class BaseInvoice(models.Model):
     def save(self, *args, **kwargs):
         if not self.order_number:
             self.order_number = self._generate_order_number()
-        
+
         super().save(*args, **kwargs)
 
 
@@ -73,29 +71,29 @@ class WorkshopCustomerInvoice(BaseInvoice):
     service_ticket = models.ForeignKey(ServiceTicket, on_delete=models.CASCADE)
     payment_type = models.CharField(max_length=25, choices=PAYMENT_CHOICES)
     installment_paid = models.BooleanField(default=False)
-    
+
     def save(self, *args, **kwargs):
         self._calculate_order_total()
-        
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return self.service_ticket.title + "'s" + " " + self.payment_type
 
 
-class ShopLineItems(models.Model):
-    """
-    A line items class related to a Shop Customer Invoice, which is more like
-    a typical sales flow - multiple items and subtotals.
-    """
-    order = models.ForeignKey(
-        ShopCustomerInvoice, on_delete=models.PROTECT, related_name='line_items')
-    shop_item = models.ForeignKey(ShopItems, on_delete=models.PROTECT)
-    quantity = models.IntegerField(null=False, blank=False, default=0)
-    line_item_total = models.DecimalField(
-        max_digits=6, decimal_places=2, editable=False)
+# class ShopLineItems(models.Model):
+#     """
+#     A line items class related to a Shop Customer Invoice, which is more like
+#     a typical sales flow - multiple items and subtotals.
+#     """
+#     order = models.ForeignKey(
+#         ShopCustomerInvoice, on_delete=models.PROTECT, related_name='line_items')
+#     shop_item = models.ForeignKey(ShopItems, on_delete=models.PROTECT)
+#     quantity = models.IntegerField(null=False, blank=False, default=0)
+#     line_item_total = models.DecimalField(
+#         max_digits=6, decimal_places=2, editable=False)
 
-    # When the object is saved, the total is updated
-    def save(self, *args, **kwargs):
-        self.line_item_total = self.shop_item.price * self.quantity
-        super().save(self, *args, **kwargs)
+#     # When the object is saved, the total is updated
+#     def save(self, *args, **kwargs):
+#         self.line_item_total = self.shop_item.price * self.quantity
+#         super().save(self, *args, **kwargs)

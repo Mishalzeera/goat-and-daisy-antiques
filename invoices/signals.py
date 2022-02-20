@@ -1,7 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.mail import send_mail
-from .models import WorkshopCustomerInvoice, ShopCustomerInvoice
+from .models import WorkshopCustomerInvoice
 from profiles.models import Customer
 from repairs_restorals.models import ServiceTicket
 
@@ -31,9 +31,8 @@ def generate_invoice_and_set_has_invoice(sender, instance, created, **kwargs):
         instance.save()
 
         send_mail(
-                subject = (f"Thank you, {customer.full_name}."),
-                message = (f"Thank you for creating your service ticket. Our staff is reviewing your request. An invoice for your deposit of 50% will be in your Workbench at www.goat-and-daisy.com/workshop within two weeks. Please call us at 818-657-8181 if you have any questions."),
-                recipient_list = [customer.email],
-                from_email = "workshop@goat-and-daisy.com",
-            )
-
+            subject=(f"Thank you, {customer.full_name}."),
+            message=(f"Thank you for creating your service ticket. Our staff is reviewing your request. An invoice for your deposit of 50% will be in your Workbench at www.goat-and-daisy.com/workshop within two weeks. Please call us at 818-657-8181 if you have any questions."),
+            recipient_list=[customer.email],
+            from_email="workshop@goat-and-daisy.com",
+        )

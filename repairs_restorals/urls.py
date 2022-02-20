@@ -14,7 +14,7 @@ urlpatterns = [
          views.ServiceTicketDetail.as_view(), name='service_ticket'),
     path('ticket-staff-only/<int:pk>/update/',
          views.ServiceTicketUpdate.as_view(), name="update_service_ticket"),
-     path('ticket/<int:pk>/update/',
+    path('ticket/<int:pk>/update/',
          views.PublicServiceTicketUpdate.as_view(), name="public_update_service_ticket"),
     path('ticket-overview/', views.WorkshopStaffTicketOverview.as_view(),
          name="ticket_overview"),
@@ -25,14 +25,17 @@ urlpatterns = [
     path('delete-image/<int:pk>/',
          views.WorkshopStaffDeleteImage.as_view(), name="delete_ticket_image"),
     path('task-manager/', views.TaskManager.as_view(), name="task_manager"),
-    path('manage-todo-item/<int:pk>/', views.delete_or_update_item_in_todo, name='manage_item'),
-    path('admin-task-manager', views.AdminTaskManagerOverview.as_view(), name='admin_task_manager'),
-     path('customer-invoices', views.PublicCustomerInvoices.as_view(), name='customer_invoices'),
-     path('all_customer_invoices/', views.AllCustomerInvoices.as_view(), name="all_customer_invoices"),
-     path('customer_invoice_detail/<int:pk>/', views.AdminCustomerDetailView.as_view(), name="customer_invoice_detail"),
-     path('admin-customer-invoice/<int:pk>/', views.AdminCustomerInvoice.as_view(), name='admin_customer_invoice'),
-
-
-
+    path('manage-todo-item/<int:pk>/',
+         views.delete_or_update_item_in_todo, name='manage_item'),
+    path('admin-task-manager', views.AdminTaskManagerOverview.as_view(),
+         name='admin_task_manager'),
+    path('customer-invoices', views.PublicCustomerInvoices.as_view(),
+         name='customer_invoices'),
+    path('all_customer_invoices/', views.AllCustomerInvoices.as_view(),
+         name="all_customer_invoices"),
+    path('customer_invoice_detail/<int:pk>/',
+         views.AdminCustomerDetailView.as_view(), name="customer_invoice_detail"),
+    path('admin-customer-invoice/<int:pk>/',
+         views.AdminCustomerInvoice.as_view(), name='admin_customer_invoice'),
 
 ]

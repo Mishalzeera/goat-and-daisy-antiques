@@ -10,7 +10,4 @@ from .models import ShopItemImage, ShopItems
 #     When a ShopItem is saved, if there is only one image, it will be set to
 #     default
 #     '''
-    # image_set = ShopItemImage.objects.filter(product__id=instance.id)
-
-
-        
+# image_set = ShopItemImage.objects.filter(product__id=instance.id)

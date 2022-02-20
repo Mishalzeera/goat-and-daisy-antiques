@@ -17,10 +17,10 @@ from repairs_restorals.models import ServiceTicket
 # public
 class LoginAUser(LoginView):
     """
-    A view to customize the login process if needed.
+    A view to handle django auth login.
     """
 
-            
+
 # login required
 class CustomerProfilePage(LoginRequiredMixin, View):
     """
@@ -28,19 +28,22 @@ class CustomerProfilePage(LoginRequiredMixin, View):
     """
     login_url = "/profiles/login/"
 
-    
-
     def get(self, request, *args, **kwargs):
-        
+
         profile = get_object_or_404(User, pk=request.user.id)
+
         try:
             customer = Customer.objects.get(username=request.user)
         except Customer.DoesNotExist:
-                customer = StaffMember.objects.get(username=request.user)
+            customer = StaffMember.objects.get(username=request.user)
+
         shop_invoices = None
-        shop_invoices = ShopCustomerInvoice.objects.filter(email=customer.email)
-        workshop_tickets = ServiceTicket.objects.filter(customer_id=customer.id)
-        
+
+        shop_invoices = ShopCustomerInvoice.objects.filter(
+            email=customer.email)
+
+        workshop_tickets = ServiceTicket.objects.filter(
+            customer_id=customer.id)
 
         context = {
             'profile': profile,
@@ -59,12 +62,14 @@ class ChangePassword(LoginRequiredMixin, PasswordChangeView):
     """
     success_url = reverse_lazy('password_changed')
 
+
 # redirect page
 def password_changed(request):
     """
     Displays a success message when password is changed.
     """
     return render(request, 'registration/password_changed.html')
+
 
 # public
 class UserSignupPage(View):
@@ -74,6 +79,7 @@ class UserSignupPage(View):
     """
 
     def get(self, request, *args, **kwargs):
+
         # Send an instance of the account creation form to the template
         form = UserAuthAccountCreationForm()
 
@@ -84,6 +90,7 @@ class UserSignupPage(View):
         return render(request, 'registration/signup.html', context)
 
     def post(self, request, *args, **kwargs):
+
         # Get the new account details from the request object
         username = request.POST['username']
         email = request.POST['email']
@@ -92,8 +99,10 @@ class UserSignupPage(View):
         # ...use them to create a new user and save
         newuser = User.objects.create_user(username, email, password)
         newuser.save()
+
         # Explicitly log in the user
         login(request, newuser)
+
         # Then redirect to the create profile view
         return redirect('create_profile')
 
@@ -106,15 +115,10 @@ class CreateProfilePage(CreateView):
     model = Customer
     template_name = "registration/create_customer_profile.html"
     fields = ['full_name', 'address1', 'address2',
-              'postcode', 'town_or_city', 'country',]
+              'postcode', 'town_or_city', 'country', ]
 
     def form_valid(self, form):
-        # this method is to ensure that 1. the username used to create the
-        # auth account is automatically added to the new profile, linking the
-        # two in a one-to-one relationship. No chance for the user to make
-        # a mess by using a different username at this point in the process.
-        # 2. the same email address is used as well, which requires
-        # a different process than the username.
+        # this method override is to link the User model auth object and profile
         form.instance.username = self.request.user
         user = User.objects.get(username=self.request.user)
         form.instance.email = user.email
@@ -128,7 +132,9 @@ class StaffMemberSignupPage(GroupRequiredMixin, View):
     Django user creation form. 
     """
     group_required = [u'Admin Only']
+
     def get(self, request, *args, **kwargs):
+
         # Send a blank form to the template
         form = UserAuthAccountCreationForm()
 
@@ -138,6 +144,7 @@ class StaffMemberSignupPage(GroupRequiredMixin, View):
         return render(request, 'registration/staff_auth_signup.html', context)
 
     def post(self, request, *args, **kwargs):
+
         # Get the new account details from the request object, use them to
         # create a new user.
         username = request.POST['username']
@@ -145,13 +152,13 @@ class StaffMemberSignupPage(GroupRequiredMixin, View):
         password = request.POST['password1']
 
         # The username value is passed into a session cookie
-        # which allows the admin to create the linked staff member profile
-        # page (next view)
+        # for admin to create the linked staff member profile
         request.session['username_cookie'] = username
 
         # New user is created and saved
         newuser = User.objects.create_user(username, email, password)
         newuser.save()
+
         # Then redirect to the create staff profile view
         return redirect('create_staff_profile')
 
@@ -167,12 +174,8 @@ class CreateStaffProfilePage(GroupRequiredMixin, CreateView):
     template_name = "registration/create_staff_profile.html"
 
     def form_valid(self, form):
-        # this method is to ensure that 1. the username used to create the
-        # auth account is automatically added to the new profile, linking the
-        # two in a one-to-one relationship. No chance for the admin to make
-        # a mess by using the wrong username at this point in the process.
-        # 2. this time the session cookie is used as to filter the
-        # objects.get() method.
+
+        # this method is to link the staff member profile to their auth account
         user = User.objects.get(
             username=self.request.session['username_cookie'])
 
@@ -244,7 +247,7 @@ class PublicCustomerAccountUpdate(LoginRequiredMixin, UpdateView):
 class AdminOverview(GroupRequiredMixin, View):
     """
     Returns a superuser overview page, ensures that the employee enrollment
-    process is correctly handled - also handy access to employee permissions 
+    process is correctly handled - also handy access to employee permissions. 
     """
     group_required = [u'Admin Only']
 
@@ -255,7 +258,7 @@ class AdminOverview(GroupRequiredMixin, View):
 # admin only
 class StaffMemberDetailView(GroupRequiredMixin, DetailView):
     """
-    Returns a superuser-only detail view of staff members
+    Returns a superuser-only detail view of staff members.
     """
     group_required = [u'Admin Only']
     model = StaffMember

@@ -209,6 +209,7 @@ class TaskManager(GroupRequiredMixin, View):
     all CRUD functions on the same page for convenience. 
     """
     group_required = [u'General Staff']
+
     def get(self, request, *args, **kwargs):
         # Get a staff member
         staff_member = get_object_or_404(
@@ -302,7 +303,6 @@ class AdminTaskManagerOverview(GroupRequiredMixin, ListView):
     context_object_name = 'todo_lists'
 
 
-
 # workshop staff only
 @group_required_decorator('General Staff')
 def delete_or_update_item_in_todo(request, pk):
@@ -375,7 +375,8 @@ class PublicCustomerInvoices(LoginRequiredMixin, ListView):
         context = {}
 
         # ...then add iterable context objects
-        context['invoices'] = WorkshopCustomerInvoice.objects.filter(service_ticket__customer_id=customer.id)
+        context['invoices'] = WorkshopCustomerInvoice.objects.filter(
+            service_ticket__customer_id=customer.id)
 
         return context
 
@@ -394,7 +395,7 @@ class AllCustomerInvoices(GroupRequiredMixin, ListView):
 # workshop staff only
 class AdminCustomerDetailView(GroupRequiredMixin, DetailView):
     """
-    Allows a workshop staff member to see details of an invoice
+    Allows a workshop staff member to see details of an invoice.
     """
     group_required = [u'Workshop Staff']
     model = WorkshopCustomerInvoice

@@ -1,19 +1,13 @@
-# Such a pain in the proverbial that it deserves its own MD file
-
-## The idea
+## The concept
 
 - The server side code generates an instance of PaymentIntent.
-  It gets request.data from the request object, which is turned into JSON.
+  It gets request.data from the request object passed from Stripe,
+  which is recieved as JSON.
 
-I have received errors here saying there is no 'data' attribute, but not always.
+I have received errors here saying there is no 'data' attribute, but not always - its
+a Django vs Flask thing. Flask uses request.data in this instance while Django uses request.body
 
 The instance of Payment Intent goes into a variable 'intent'.
-
-In its creation the instance has 'amount=', 'currency',
-'automatic_payment_methods='. Amount so far I have set to the request.session
-order_total.
-
-I should try a hardcoded example first.
 
 The function returns a json response of a dictionary, where a javascript
 style variable 'clientSecret' is set to the intent['client_secret']
@@ -27,8 +21,7 @@ The newer Stripe makes no mention of any extra js links than a single file.
 
 - The javascript file creates an instance of Secret using the Public Key.
 
-A const items, something hardcoded, Im guessing to test. Looks like a list of
-dictionaries, but there is just one dictionary in the list.
+A const items, something hardcoded, Im guessing to test. Single object.
 
 elements is let, with no assignments.
 
@@ -74,31 +67,30 @@ const csrftoken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   creation.
 
 - The placeholder function is used in the create payment intent function, which
-  I have routed somewhere else. I will keep it that way since its working for 
+  I have routed somewhere else. I will keep it that way since its working for
   now.
 
 ## Webhooks, CLI and troubleshooting
 
 - Moving your Django development setup to another system, laptop Gitpod etc
-can be a major pain, so best to use the Stripe CLI in the interest of saving
-time. 
+  can be a major pain, so best to use the Stripe CLI in the interest of saving
+  time.
 
 - An important issue with adapting the code from the Stripe website has been
-ensuring that wherever 'data' appears as an attribute, this should be changed
-to 'body'. Its possible this is a Flask vs Django thing. 
+  ensuring that wherever 'data' appears as an attribute, this should be changed
+  to 'body'. Its possible this is a Flask vs Django thing.
 
 - Set up the CLI, you have to navigate to the directory that the downloaded
-file is in, to use it. Easiest with CMD rather than the VS code terminal.
+  file is in, to use it. Easiest with CMD rather than the VS code terminal.
 
 - In the first one: stripe listen --forward-to localhost:8000/invoices/wh
-(thats the Url of your post only, csrf exempt webhook function)
+  (thats the Url of your post only, csrf exempt webhook function)
 
-- In a second window: stripe trigger payment_intent.succeeded (or whichever 
-event you want to trigger) - just to test basic signals
+- In a second window: stripe trigger payment_intent.succeeded (or whichever
+  event you want to trigger) - just to test basic signals
 
-- You have to log in and have the CLI listening to the correct url - then you 
-can inspect the metadata etc, work on the event handling and all that.
+- You have to log in and have the CLI listening to the correct url - then you
+  can inspect the metadata etc, work on the event handling and all that.
 
 - It doesn't just work without being set up correctly, including the webhook
-secret key and being logged in. 
-
+  secret key and being logged in.

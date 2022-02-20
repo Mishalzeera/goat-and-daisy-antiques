@@ -1,4 +1,4 @@
-'''
+"""
 from:
 https://stackoverflow.com/questions/34571880/how-to-check-in-template-if-user-belongs-to-a-group
 
@@ -11,7 +11,7 @@ In template:
     <p>User does not belong to my group</p>
 {% endif %}
 
-'''
+"""
 
 
 from django import template

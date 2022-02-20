@@ -6,10 +6,9 @@ from django.urls import reverse
 
 
 class Customer(models.Model):
-    ''' 
+    """ 
     Any  customer account created is basically an instance of this model with a one to one relationship with a User in the built in Django auth. 
-
-    '''
+    """
     username = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, editable=False)
     email = models.EmailField(unique=True, default="start@domain.dj")
@@ -32,10 +31,9 @@ class Customer(models.Model):
 
 
 class StaffMember(models.Model):
-    '''
+    """
     Every member of staff can be described by this model, which determines their permissions within the custom CMS interfaces. 
-
-    '''
+    """
 
     username = models.OneToOneField(
         User, on_delete=models.CASCADE, null=True, editable=False)
@@ -52,5 +50,3 @@ class StaffMember(models.Model):
 
     def get_absolute_url(self):
         return reverse('index')
-
-

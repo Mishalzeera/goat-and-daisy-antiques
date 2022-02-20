@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 class GroupRequiredMixin(object):
     """
-        group_required - list of strings, required param
+    Mixin which ensures only members of specified groups have access, returning a 403 error page otherwise.
     """
 
     group_required = None
@@ -26,9 +26,10 @@ class GroupRequiredMixin(object):
         return super(GroupRequiredMixin, self).dispatch(request, *args, **kwargs)
 
 
-
 def group_required_decorator(*group_names):
-    """Requires user membership in at least one of the groups passed in."""
+    """
+    Requires user membership in at least one of the groups passed in.
+    """
     def in_groups(u):
         if u.is_authenticated:
             if bool(u.groups.filter(name__in=group_names)) | u.is_superuser:

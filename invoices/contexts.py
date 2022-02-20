@@ -25,7 +25,6 @@ def shopping_cart(request):
                     'product': shop_item,
                 }
 
-
                 if not to_append in template_cart:
                     template_cart.append(to_append)
                     order_amount += float(shop_item.price)
@@ -36,8 +35,6 @@ def shopping_cart(request):
     order_total = order_amount + shipping
     stripe_total = round(order_total * 100)
 
-
-
     context = {
         'template_cart': template_cart,
         'products_count': products_count,
@@ -46,6 +43,5 @@ def shopping_cart(request):
         'order_total': order_total,
         'stripe_total': stripe_total,
     }
-
 
     return context

@@ -1,4 +1,20 @@
-  live emails, contact page with an email thingie
+style Shopping cart
+
+views shopping cart empty context
+
+shipping in contexts
+
+see if theres anything you feel lik edoing with invoices/admins
+
+invoices views has stripeApi key. check
+
+payment choices type, invoice models see Mosh
+
+check all unaccessed imports
+
+check docstring punctuation
+
+live emails, contact page with an email thingie
 
 - make the workshop staff invoice mgmt page more clear
 

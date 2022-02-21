@@ -21,7 +21,7 @@
   </p>
   
   {% for items in template_cart %}
-  <div style="display:flex; gap:1rem; align-items:baseline;">
+  <div class="cart-items-list">
     
     <p class="small">Title: 
       <p class="lead">{{ items.product.title }}</p>
@@ -29,7 +29,8 @@
     <p class="small">Price: 
       <p class="lead">EU {{ items.product.price }}</p>
     </p>
-      <a href="{% url 'remove_from_cart' items.product.id %} " class="small">Remove From Cart</a>
+      <a href="{% url 'remove_from_cart' items.product.id %} " class="btn btn-info btn-small" style="margin-bottom: 1rem; ">Remove From Cart</a>
+      
   </div>
   
   {% endfor %}

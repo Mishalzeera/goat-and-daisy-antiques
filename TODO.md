@@ -1,11 +1,12 @@
 admin chooses default workshop staff for tickets, in repairs/views, it is accessed in create service ticket
+at least document it
 
 live emails, contact page with an email thingie
 
+check that all of your user stories are satisfied and include a screenshot in the README to show what that looks like in your application.
+
 
 Media
-
-responsive margin top body
 
 DB Schemas
 
@@ -24,6 +25,5 @@ shipping in contexts
 HTTPS HTTPS HTTPS
 
 Manage inventory shop staff redirect to the same page
-Shop Line Items
 
 coding garden

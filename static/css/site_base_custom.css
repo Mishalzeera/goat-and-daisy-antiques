@@ -14,7 +14,7 @@ body {
 }
 
 main {
-  margin-top: 7rem;
+  margin-top: 10rem;
 }
 
 .btn {
@@ -30,7 +30,7 @@ main {
 
 .btn-warning:hover,
 .btn-info:hover {
-  background-color: var(--sky-200);
+  background-color: var(--sky-600);
 }
 
 .btn-success {
@@ -169,6 +169,12 @@ a:hover {
   gap: 3rem;
 }
 
+.cart-items-list {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+}
+
 .cart-checkout {
   margin-top: 1rem;
 }
@@ -207,4 +213,31 @@ footer {
 
 .margin-0-center {
   margin: 0 auto;
+}
+
+/* for mobile */
+
+@media (max-width: 500px) {
+  main {
+    margin-top: 8rem;
+  }
+
+  .navbar-brand {
+    font-size: 2rem;
+  }
+
+  .messages {
+    margin-top: 8rem;
+  }
+
+  .btn-shop {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+  }
+
+  .cart-items-list {
+    flex-direction: column;
+    gap: 0;
+    font-size: 0.8rem;
+  }
 }

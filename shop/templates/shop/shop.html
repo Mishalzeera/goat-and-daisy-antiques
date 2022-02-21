@@ -30,7 +30,7 @@
         <form action="{% url 'add_to_cart' product.id %}" method=POST>
             {% csrf_token %}
             <input type="hidden" name="redirect_url" value="{{ request.path }}">
-            <input type="submit" value="Add To Cart" class="btn btn-warning">
+            <input type="submit" value="Add To Cart" class="btn btn-warning btn-shop">
         </form>
         <br><br>
         {% endif %}

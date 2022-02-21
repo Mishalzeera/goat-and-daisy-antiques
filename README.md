@@ -73,8 +73,10 @@ USER_TESTING folder.
 The navbar is the key element that distinguishes site function by user privileges.
 
 This is the anonymous user navbar:
+![anonymous nav](static/img/anon_nav.jpg)
 
 And this is the Admin navbar:
+![admin's nav](static/img/admin_nav.jpg)
 
 ### The landing page
 
@@ -88,17 +90,27 @@ look at the site in their own time.
 A small selection of expensive and beautiful items are shown here. A short description,
 link to detailed view, price and an Add To Cart button are provided.
 
+![shop page](static/img/shop_list.jpg)
+
 In the detail view, there are more pictures and more extensive descriptions of each item.
+
+![shop detail](static/img/shop_detail.jpg)
 
 Upon registering and logging in, all users have access to a profile page.
 
+![user profile](static/img/user_profile.jpg)
+
 ### The Workshop
 
-The Workshop for an anonymous user is a simple description of services
+The Workshop for an anonymous user is a simple description of services.
 
-For a registered user, however, it is the portal to a Customer Workbench
+For a registered user, however, it is the portal to a Customer Workbench.
+
+![customer workbench](static/img/ws_user_workbench.jpg)
 
 Where one can create a Service Ticket, a key componenent of the site function.
+
+![customer service ticket](static/img/ws_user_service_ticket.jpg)
 
 Here, one can manage their outstanding Invoices, which are intertwined with their
 Service Ticket and point of contact Workshop Staff member.
@@ -106,14 +118,18 @@ Service Ticket and point of contact Workshop Staff member.
 ### Shop Staff
 
 When a user with Shop Staff group permissions logs in they have access to their
-specific workflow related pages and tools..
+specific workflow related pages and tools.
+
+![shop staff nav](static/img/sh_staff_nav.jpg)
 
 For more information please read the SITE_WALKTHROUGH or USER_TESTING docs.
 
 ### Workshop Staff
 
 When a user with Workshop Staff group permission logs in, they too have their
-specific pages and tools..
+specific pages and tools.
+
+![workshop staff nav](static/img/ws_staff_nav.jpg)
 
 SITE_WALKTHROUGH and USER_TESTING have more information on the functionality
 
@@ -122,11 +138,17 @@ SITE_WALKTHROUGH and USER_TESTING have more information on the functionality
 Shop and Workshop staff have no access to the Admin panel - they have only the
 functions granted to them by the Admin.
 
+![admin permission control](static/img/admin_perms.jpg)
+
 Admin has streamlined Staff Member creation functions, so Admin doesn't have
 to struggle with long lists of registered users.
 
+![admin staff creation](static/img/admin_staff.jpg)
+
 Admin also has an overview of General Staff task lists and progress
-(see NICE_TO_HAVE.md for more about this)...
+(see NICE_TO_HAVE.md for more about this).
+
+![admin task overview](static/img/admin_task_overview.jpg)
 
 ## Design Elements
 

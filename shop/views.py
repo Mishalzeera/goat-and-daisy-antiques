@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
-from django.core.mail import send_mail
 from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
 from .models import ShopItems, ShopItemImage
 from invoices.models import ShopCustomerInvoice

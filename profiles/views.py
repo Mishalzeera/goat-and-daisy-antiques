@@ -1,14 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
-from django.http import HttpResponseRedirect
+from django.contrib.auth import login
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
+from profiles.group_mixin_decorator import GroupRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.contrib import messages
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
-from .forms import AdminStaffManagementForm, CustomerSignupForm, UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
+from .forms import UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
 from .models import Customer, StaffMember
 from invoices.models import ShopCustomerInvoice
 from repairs_restorals.models import ServiceTicket

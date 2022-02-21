@@ -1,33 +1,16 @@
-style Shopping cart
-
-views shopping cart empty context
-
-shipping in contexts
-
-see if theres anything you feel lik edoing with invoices/admins
-
-invoices views has stripeApi key. check
-
-payment choices type, invoice models see Mosh
-
-check all unaccessed imports
-
-check docstring punctuation
+admin chooses default workshop staff for tickets, in repairs/views, it is accessed in create service ticket
 
 live emails, contact page with an email thingie
 
-make the workshop staff invoice mgmt page more clear
-
-Make more a's buttons
 
 Media
 
+responsive margin top body
+
 DB Schemas
 
-- do something about the hardcoded workshop_staff in
-  CreateServiceTicket views.py
+shipping in contexts
 
-- make sure that new customers dont see Current and Completed Tickets
 
 ## Invoices
 

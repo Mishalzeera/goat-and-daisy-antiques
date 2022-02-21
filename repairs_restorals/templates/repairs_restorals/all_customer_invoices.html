@@ -20,23 +20,21 @@
 {% if not invoice.order_total %}
 
 <p class="lead">{{ invoice }}</p>
-<a href="{% url 'admin_customer_invoice' invoice.id %}">
-    <p class="text-success">Create A Quote</p>
+<a href="{% url 'admin_customer_invoice' invoice.id %}"
+    class="btn btn-success btn-space-below">Create A Quote
 </a>
+<br>
 {% endif %}
-
 {% endfor %}
-
+<br>
 <p class="lead"><strong>Open Invoices</strong></p>
 {% for invoice in invoices %}
 {% if not invoice.is_completed%}
 
 <p class="lead">{{ invoice }}</p>
-<a href="{% url 'customer_invoice_detail' invoice.id %}">
-    <p class="text-success">View</p>
+<a href="{% url 'customer_invoice_detail' invoice.id %}" class="btn btn-info btn-space-below">View
 </a>
-<a href="{% url 'admin_customer_invoice' invoice.id %}">
-    <p class="text-info">Manage</p>
+<a href="{% url 'admin_customer_invoice' invoice.id %}" class="btn btn-success btn-space-below">Manage
 </a>
 {% endif %}
 
@@ -46,8 +44,8 @@
 {% if not invoice.is_completed %}
 {% if not invoice.installment_paid %}
 <p>{{ invoice }}</p>
-<a href="{% url 'customer_invoice_detail' invoice.id %}">
-    <p>View</p>
+<a href="{% url 'customer_invoice_detail' invoice.id %}" class="btn btn-info btn-space-below">
+    View
 </a>
 {% endif %}
 {% endif %}
@@ -59,8 +57,8 @@
 {% for invoice in invoices %}
 {% if invoice.is_completed %}
 <p>{{ invoice }}</p>
-<a href="{% url 'customer_invoice_detail' invoice.id %}">
-    <p>View</p>
+<a href="{% url 'customer_invoice_detail' invoice.id %}" class="btn btn-info btn-space-below">
+    View
 </a>
 
 {% endif %}

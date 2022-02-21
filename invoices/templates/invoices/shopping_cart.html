@@ -13,7 +13,7 @@
 {% block content %}
 
 <h1>Shopping Cart</h1>
-<div class="card">
+<div class="card card-limit-90">
   
   <p>
     You have {{products_count }} {% if products_count != '1' %} items {% else %}
@@ -23,14 +23,24 @@
   {% for items in template_cart %}
   <div style="display:flex; gap:1rem; align-items:baseline;">
     
-    <p class="lead">{{ items.product.title }}</p>
+    <p class="small">Title: 
+      <p class="lead">{{ items.product.title }}</p>
+    </p>
+    <p class="small">Price: 
+      <p class="lead">EU {{ items.product.price }}</p>
+    </p>
       <a href="{% url 'remove_from_cart' items.product.id %} " class="small">Remove From Cart</a>
   </div>
   
   {% endfor %}
-  
-  <a href="{% url 'precheckout' %}">
-    <p class="h3">Checkout</p>
+ <div style="text-align:end;">
+   
+    <p class="small">Shipping: {{ shipping }}</p>
+    <p class="small">Order Amount: {{ order_amount }}</p>
+    <hr>
+    <p class="lead">Total: EU <strong>{{ order_total }}</strong></p>
+ </div>
+  <a href="{% url 'precheckout' %}" class="btn btn-info btn-space-above" style="align-self: flex-start;">Checkout
   </a>
 </div>
 {% endblock %}

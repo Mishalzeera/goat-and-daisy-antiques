@@ -28,31 +28,32 @@
             <a href="{% url 'service_ticket' pk=ticket.id %}">
                 <p class="lead">{{ ticket.title }}</p>
             </a>
-            <a href="{% url 'update_service_ticket' pk=ticket.id %}" class="text-success">
-                <p>Update</p>
+            <a href="{% url 'update_service_ticket' pk=ticket.id %}" class="btn btn-info">
+                Update
             </a>
-            <a href="{% url 'ticket_delete' pk=ticket.id %}" class="text-danger">
-                <p>Delete</p>
+            <a href="{% url 'ticket_delete' pk=ticket.id %}" class="btn btn-danger">
+                Delete
             </a>
             <br>
         {% endif %}
+        <br>
         {% endfor %}
     
 
-        
+        <br>
 
             
             {% for ticket in customer.service_ticket.all %}
             {% if ticket.is_completed %}
-            <p class="small">Completed Ticket: </p>
+            <p class="lead">Completed Ticket: </p>
             
 
             <a href="{% url 'service_ticket' pk=ticket.id %}">
                 <p class="lead">{{ ticket.title }}</p>  
             </a>    
 
-            <a href="{% url 'ticket_delete' pk=ticket.id %}" class="text-danger">
-                <p>Delete</p>
+            <a href="{% url 'ticket_delete' pk=ticket.id %}" class="btn btn-danger">
+                Delete
             </a>
             <br>
             {% endif %}

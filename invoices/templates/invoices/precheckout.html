@@ -12,86 +12,88 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h1>Please confirm your order details and shipping address. </h1>
-{% else %}
-<h1>Please check your order details and enter your shipping address.</h1>
-{% endif %}
-<form action="." method="POST" class="card">
-    {% csrf_token %}
-
-    <fieldset>
-      <legend>Order Details:</legend>
-      {% for item in template_cart %}
-      <div class="cart-item">
-        <small>Title:</small>
-        <p class="lead">{{ item.product.title }}</p>
-        <small>Price:</small>
-        <p class="lead">{{ item.product.price }}</p>
-      </div>
-      {% endfor %}
-      <div class="">
-        <small>Order Amount:</small>
-        <p class="lead">{{ order_amount }}</p>
-        <small>Shipping: </small>
-        <p class="lead">{{ shipping }}</p>
-        <small>Order Total:</small>
-        <p class="display-6"><strong>EU: {{ order_total }}</strong></p>
-      </div>
-    </fieldset>
-    <fieldset>
-      <legend>Shipping Details:</legend>
-      {% if not user.is_authenticated %} {{form|crispy}} {% else %}
-      <p>{{ customer_profile.full_name }}</p>
-      <input
-        type="hidden"
-        name="full_name"
-        value="{{ customer_profile.full_name }}"
-      />
-      <p>{{ customer_profile.email }}</p>
-      <input
-        type="hidden"
-        name="email"
-        value="{{ customer_profile.email }}"
-      />
-      <p>{{ customer_profile.address1 }}</p>
-      <input
-        type="hidden"
-        name="address1"
-        value="{{ customer_profile.address1 }}"
-      />
-      <p>{{ customer_profile.address2 }}</p>
-      <input
-        type="hidden"
-        name="address2"
-        value="{{ customer_profile.address2 }}"
-      />
-      <p>{{ customer_profile.town_or_city }}</p>
-      <input
-        type="hidden"
-        name="town_or_city"
-        value="{{ customer_profile.town_or_city }}"
-      />
-      <p>{{ customer_profile.country }}</p>
-      <input
-        type="hidden"
-        name="country"
-        value="{{ customer_profile.country }}"
-      />
+<div class="card card-limit-90">
+  <h1>Please confirm your order details and shipping address. </h1>
+  {% else %}
+  <h1>Please check your order details and enter your shipping address.</h1>
+  {% endif %}
+  <form action="." method="POST">
+      {% csrf_token %}
   
-      <a href="{% url 'public_customer_account_update' customer_profile.id %}">
-        <p>Update your shipping information</p>
-      </a>
+      <fieldset>
+        <legend>Order Details:</legend>
+        {% for item in template_cart %}
+        <div class="cart-item">
+          <small>Title:</small>
+          <p class="lead">{{ item.product.title }}</p>
+          <small>Price:</small>
+          <p class="lead">{{ item.product.price }}</p>
+        </div>
+        {% endfor %}
+        <div class="">
+          <small>Order Amount:</small>
+          <p class="lead">{{ order_amount }}</p>
+          <small>Shipping: </small>
+          <p class="lead">{{ shipping }}</p>
+          <small>Order Total:</small>
+          <p class="display-6"><strong>EU: {{ order_total }}</strong></p>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Shipping Details:</legend>
+        {% if not user.is_authenticated %} {{form|crispy}} {% else %}
+        <p>{{ customer_profile.full_name }}</p>
+        <input
+          type="hidden"
+          name="full_name"
+          value="{{ customer_profile.full_name }}"
+        />
+        <p>{{ customer_profile.email }}</p>
+        <input
+          type="hidden"
+          name="email"
+          value="{{ customer_profile.email }}"
+        />
+        <p>{{ customer_profile.address1 }}</p>
+        <input
+          type="hidden"
+          name="address1"
+          value="{{ customer_profile.address1 }}"
+        />
+        <p>{{ customer_profile.address2 }}</p>
+        <input
+          type="hidden"
+          name="address2"
+          value="{{ customer_profile.address2 }}"
+        />
+        <p>{{ customer_profile.town_or_city }}</p>
+        <input
+          type="hidden"
+          name="town_or_city"
+          value="{{ customer_profile.town_or_city }}"
+        />
+        <p>{{ customer_profile.country }}</p>
+        <input
+          type="hidden"
+          name="country"
+          value="{{ customer_profile.country }}"
+        />
   
-      {% endif %}
-      <input type="hidden" name="order_amount" value="{{ order_amount}}" />
-      <input type="hidden" name="shipping" value="{{ shipping}}" /><input
-        type="hidden"
-        name="order_total"
-        value="{{ order_total}}"
-      />
-    </fieldset>
-
-    <input type="submit" value="Checkout" class="btn btn-info" style="margin-bottom: 10rem; align-self:flex-start">
+        <a href="{% url 'public_customer_account_update' customer_profile.id %}">
+          <p>Update your shipping information</p>
+        </a>
   
-</form>
+        {% endif %}
+        <input type="hidden" name="order_amount" value="{{ order_amount}}" />
+        <input type="hidden" name="shipping" value="{{ shipping}}" /><input
+          type="hidden"
+          name="order_total"
+          value="{{ order_total}}"
+        />
+      </fieldset>
+  
+      <input type="submit" value="Checkout" class="btn btn-info btn-space-above" style="margin-bottom: 10rem; align-self:flex-start">
+  
+  </form>
+</div>
 {% endblock %}

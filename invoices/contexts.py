@@ -12,7 +12,7 @@ def shopping_cart(request):
     template_cart = []
     products_count = 0
     order_amount = 0
-    shipping = 500
+    shipping = 0
     cart = request.session.get('cart', {})
 
     for item_id, item_value in cart.items():

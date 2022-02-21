@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 from django.http import JsonResponse
-from django.urls import reverse_lazy, reverse
-from django.views import View
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
@@ -10,11 +8,10 @@ from shop.models import ShopItems
 from profiles.models import Customer
 from .forms import ShopCheckoutForm
 from .models import ShopCustomerInvoice, WorkshopCustomerInvoice
-import datetime
 import stripe
 import json
 import time
-from threading import Thread, Timer
+from threading import Thread
 import os
 
 
@@ -26,13 +23,8 @@ def view_cart(request):
     """
     Shows the users shopping cart, with items and checkout button.
     """
-    context = {
 
-
-
-    }
-
-    return render(request, 'invoices/shopping_cart.html', context)
+    return render(request, 'invoices/shopping_cart.html')
 
 
 # inner function

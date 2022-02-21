@@ -33,6 +33,16 @@ main {
   background-color: var(--sky-200);
 }
 
+.btn-success {
+  background-color: var(--green-900);
+  color: var(--green-200);
+}
+
+.btn-success:hover {
+  background-color: var(--green-200);
+  color: var(--green-900);
+}
+
 .btn-danger {
   background-color: var(--red-200);
   color: var(--red-900);
@@ -43,6 +53,14 @@ main {
   background-color: var(--red-500);
   color: var(--red-100);
   border: unset;
+}
+
+.btn-space-above {
+  margin-top: 3rem;
+}
+
+.btn-space-below {
+  margin-bottom: 1rem;
 }
 
 .text-info {
@@ -102,6 +120,10 @@ a:hover {
 .card {
   background-color: #fffbeb5d;
   padding: 1rem;
+}
+
+.card-limit-90 {
+  max-width: 90%;
 }
 
 .transparent-card {

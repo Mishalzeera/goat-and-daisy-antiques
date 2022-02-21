@@ -12,15 +12,15 @@
 {% block content %}
 <h1>Inventory Management</h1>
 <br>
-<a href="{% url 'staff_add_item' %}">
-    <h2>Add New Item</h2>
-</a>
 <p class="small text-muted">Use this link to add new inventory items.</p>
-<br>
-<a href="{% url 'staff_add_image' %}">
-    <h2>Manage Images</h2>
+<a href="{% url 'staff_add_item' %}" class="btn btn-info">
+    Add New Item
 </a>
-    <p class="small text-muted">Use this link to add images to inventory. You can also use the links by each product to add images.</p>
+<br><br>
+<p class="small text-muted">Use this link to add images to inventory. You can also use the links by each product to add images.</p>
+<a href="{% url 'staff_add_image' %}" class="btn btn-info">
+    Manage Images
+</a>
 <br>
 {% for product in products %}
 <br>

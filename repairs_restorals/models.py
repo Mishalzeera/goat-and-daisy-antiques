@@ -23,11 +23,6 @@ class ServiceTicket(models.Model):
     def set_has_invoice_to_true(self):
         self.has_invoice = True
 
-    # def save(self, *args, **kwargs):
-    #     if not self.has_invoice:
-    #         self._generate_invoice_and_set_has_invoice()
-    #     super().save(self, *args, **kwargs)
-
     def __str__(self) -> str:
         return self.title
 

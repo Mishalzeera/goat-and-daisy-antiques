@@ -194,10 +194,16 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', '')
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
-STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
+
+# If in production, uses the right webhook secret
+if 'DATABASE_URL' in os.environ:
+    STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
+
+else: 
+    # The following var is for stripe CLI
+    STRIPE_WH_SECRET = os.environ.get('LOCAL_STRIPE_WH_SECRET', '')
 
 # The following var is for stripe CLI
-LOCAL_STRIPE_WH_SECRET = os.environ.get('LOCAL_STRIPE_WH_SECRET', '')
 
 # Shop sales and invoice settings
 

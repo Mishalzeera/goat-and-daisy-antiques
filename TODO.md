@@ -16,9 +16,9 @@ check docstring punctuation
 
 live emails, contact page with an email thingie
 
-- make the workshop staff invoice mgmt page more clear
+make the workshop staff invoice mgmt page more clear
 
-- for todo list, make it for every user
+Make more a's buttons
 
 Media
 

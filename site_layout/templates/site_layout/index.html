@@ -18,7 +18,7 @@
                 
             <p class="display-4"> <strong> Goat And Daisy </strong> </p> 
             
-            <p class="display-5">antiques and restorals.</p>
+            <p class="display-5">antiques and restorals</p>
             
         </div>
         <div class="col-lg-7">
@@ -46,5 +46,17 @@
 {% endblock %}
 {% block extra_js %}
 {{ super }}
-<script src="{% static 'js/site_custom.js' %}"></script>
+<script>
+    
+    function goatAnim() {
+        gsap.from("#goat", {
+          duration: 7,
+          opacity: 0,
+        });
+      }
+      
+      goat = document.getElementById("goatload");
+      goat.addEventListener("load", goatAnim());
+      
+</script>
 {% endblock%}

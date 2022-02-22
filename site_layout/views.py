@@ -9,3 +9,12 @@ class Index(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'site_layout/index.html')
+
+
+class ContactUs(View):
+    """
+    And a contact page.
+    """
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'site_layout/contact.html')

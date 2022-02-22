@@ -127,7 +127,7 @@ if 'DATABASE_URL' in os.environ:
     EMAIL_HOST = 'smtp.gmail.com'
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
-    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_HOST_USER')
+    DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

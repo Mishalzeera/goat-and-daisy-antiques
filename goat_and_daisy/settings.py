@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = True
+
 
 ALLOWED_HOSTS = [
     'goat-and-daisy-antiques.herokuapp.com',
@@ -128,10 +128,12 @@ if 'DATABASE_URL' in os.environ:
     EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
     EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASS')
     DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
+    DEBUG = False
 
 else:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
     DEFAULT_FROM_EMAIL = 'contact@goat_and_daisy.com'
+    DEBUG = True
 
 
 # Internationalization

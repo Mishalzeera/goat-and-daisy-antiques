@@ -1,11 +1,2 @@
-
-
-// function goatAnim() {
-//   gsap.from("#goat", {
-//     duration: 7,
-//     opacity: 0,
-//   });
-// }
-
-// goat = document.getElementById("goatload");
-// goat.addEventListener("load", goatAnim());
+// For future use - animation code is at the bottom of relevant
+// pages in script tags

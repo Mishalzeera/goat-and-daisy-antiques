@@ -31,6 +31,7 @@
     <p class="small text-muted">Use above link to edit this item.</p>
     <p>{{ product.description }}</p>
     <p>Price: {{ product.price }}</p>
+    <p>Shipping: {{ product.shipping }}</p>
     <a href="{% url 'add_image_in_product' product.id %}" class="text-info">
         <p>Add A New Image</p>
     </a>

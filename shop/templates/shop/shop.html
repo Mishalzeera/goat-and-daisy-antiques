@@ -25,7 +25,8 @@
         
         {% endfor %}
         <br>
-        <p class="shop-detail-description">EU {{ product.price }}</p>
+        <p class="shop-detail-description">Price: EU {{ product.price }}</p>
+        <p >Shipping: EU {{ product.shipping }}</p>
         <br>
         <form action="{% url 'add_to_cart' product.id %}" method=POST>
             {% csrf_token %}

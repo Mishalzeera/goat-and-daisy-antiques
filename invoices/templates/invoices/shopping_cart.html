@@ -28,8 +28,13 @@
     </p>
     <p class="small">Price: 
       <p class="lead">EU {{ items.product.price }}</p>
+     
     </p>
-      <a href="{% url 'remove_from_cart' items.product.id %} " class="btn btn-info btn-small" style="margin-bottom: 1rem; ">Remove From Cart</a>
+    <p class="small">Shipping: 
+     
+      <p class="lead">EU {{ items.product.shipping }}</p>
+    </p>
+      <a href="{% url 'remove_from_cart' items.product.id %} " class="btn btn-info btn-sm" style="margin-bottom: 1rem; ">Remove From Cart</a>
       
   </div>
   

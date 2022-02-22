@@ -8,6 +8,7 @@ class ShopItems(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     price = models.DecimalField(decimal_places=2, max_digits=12)
+    shipping = models.DecimalField(decimal_places=2, max_digits=12, default=0)
     is_available = models.BooleanField(default=True)
 
     def __str__(self) -> str:

@@ -28,6 +28,7 @@ def shopping_cart(request):
                 if not to_append in template_cart:
                     template_cart.append(to_append)
                     order_amount += float(shop_item.price)
+                    shipping += float(shop_item.shipping)
 
     for item in enumerate(template_cart):
         products_count += 1

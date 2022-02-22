@@ -8,7 +8,7 @@ class StaffCreateItemForm(ModelForm):
     """
     class Meta:
         model = ShopItems
-        fields = ['title', 'description', 'price', 'is_available']
+        fields = ['title', 'description', 'price', 'shipping', 'is_available']
 
 
 class StaffImageUploadForm(ModelForm):

@@ -120,7 +120,7 @@ def precheckout(request):
             customer_profile = get_object_or_404(
                 Customer, username=request.user)
         else:
-            customer_profile = {"full_name": "Not authenticated"}
+            customer_profile = {"full_name": "Your order:"}
 
         form = ShopCheckoutForm()
         context = {
@@ -220,7 +220,7 @@ def checkout(request):
     if request.user.is_authenticated:
         customer_profile = get_object_or_404(Customer, username=request.user)
     else:
-        customer_profile = {"full_name": "Not authenticated"}
+        customer_profile = {"full_name": "Your order:"}
 
     form = ShopCheckoutForm()
     context = {

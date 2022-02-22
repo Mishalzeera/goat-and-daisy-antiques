@@ -1,5 +1,4 @@
 {% load static %}
-<!-- The following tag source code is in "profiles>templatetags" -->
 {% load user_in_group_tag %} 
 
 <!doctype html>
@@ -15,7 +14,6 @@
     <link rel="stylesheet" href="{% static 'css/tw-colours.css' %}">
     <link rel="stylesheet" href="{% static 'css/site_base_custom.css' %}">
 
-    <!-- Extra CSS -->
     {% block extra_css %}
     {% endblock %}
 
@@ -125,7 +123,6 @@
             {% endif %}
             
             
-          <!-- Extra nav block -->
             {% block extra_nav %}
             {% endblock%}
            
@@ -155,19 +152,10 @@
 
     </main>
   
-  <footer style="display:flex; justify-content:space-around;">
-    <i class="bi bi-house footer-icon" style="margin:0 auto;"></i>
-    <i class="bi bi-instagram footer-icon" style="margin:0 auto;"></i>
-    <i class="bi bi-envelope footer-icon" style ="margin:0 auto;"></i>
-  </footer>
-  
-  
   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     {% block extra_js %}
-    
-
     {% endblock %}
  
   </body>

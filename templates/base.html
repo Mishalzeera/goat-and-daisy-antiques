@@ -18,6 +18,7 @@
     {% endblock %}
 
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="{% static 'js/site_custom.js' %}"></script>
     {% block preload_js %}
     {% endblock %}
     <title>Goat And Daisy
@@ -136,12 +137,17 @@
     <section class="messages">
       {% if messages %}
       {% for message in messages %}
-        <div class="alert alert-message container-fluid" role="alert">
-          {{ message }}
-        </div>
-      {% endfor %}
-        {% endif %}
-    </section>
+        
+            <div class="alert alert-message alert-dismissible fade show container-fluid" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              </div>
+
+        {% endfor %}
+          {% endif %}
+
+      </section>
 
 
    

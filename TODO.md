@@ -11,18 +11,11 @@ Media
 
 DB Schemas
 
-shipping in contexts 
 
 ## Invoices
 
--shop staff create order/invoice
--shop staff view invoices
-
-- customer view invoice
-- staff view/update invoice
 
 403 page customise
-HTTPS HTTPS HTTPS
 
 Manage inventory shop staff redirect to the same page
 

@@ -10,14 +10,36 @@
 {% endblock %}
 
 {% block content %}
+<section id="index-top-row">
+        <div class="row">
+        <div class="col-lg-5">
+            <p class="display-4"> Welcome to </p> 
+                
+            <p class="display-4"> <strong> Goat And Daisy </strong> </p> 
+            
+            <p class="display-5">antiques and restorals.</p>
+            
+        </div>
+        <div class="col-lg-7">
+        </div>
+    </div>
+</section>
 
-{% if not request.user.is_authenticated%}
+<!-- <section id="index-bottom-row">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="">
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloribus veritatis nihil enim quos amet, numquam aliquam modi molestiae, eveniet id unde tempore a mollitia officia ea ex non maiores, sequi inventore! Recusandae deleniti, numquam itaque voluptates id amet, magnam sit, vitae nulla exercitationem earum rerum autem labore aliquam quam eveniet?</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Deleniti, eos temporibus magnam esse harum odio repellat recusandae nesciunt odit itaque corporis ratione. Expedita, quae veritatis obcaecati error totam placeat corrupti.
+        </div>
+        <div class="col-md-4">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, repellat. Numquam, qui. Deleniti numquam quae aliquam voluptates, tenetur quidem. Optio adipisci nihil ducimus quasi quas ad, vero corporis ab, molestiae quibusdam iure recusandae quod non possimus, nesciunt atque error ea libero deserunt molestias. Qui, aperiam aut voluptatum similique quia doloribus.</p>
+        </div>
+    </div>
+</section> -->
 
-<a href="{% url 'login' %}">
-    <p>Login</p>
-</a>
-<a href="{% url 'signup' %}">
-    <p>Register</p>
-</a>
-{% endif %}
+
 {% endblock %}

@@ -135,6 +135,10 @@ a:hover {
   min-width: fit-content;
 }
 
+#index-bottom-row {
+  margin-top: 25vh;
+}
+
 .shop-detail-carousel {
   margin: 0 auto;
 }

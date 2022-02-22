@@ -16,6 +16,7 @@
     <p class="display-6">{{ ticket.title }}</p>
     <p>Created on: {{ ticket.date_created }}</p>
     <p>Last updated on: {{ ticket.last_updated }}</p>
+    <p>Handled by: {{ ticket.workshop_staff_responsible | title }}</p>
     <p class="shop-detail-description">{{ ticket.service_description }}</p>
     
     {% if ticket.link_to_desired_materials_1 %}

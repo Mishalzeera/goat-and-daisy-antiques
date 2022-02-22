@@ -42,9 +42,23 @@ class StaffMember(models.Model):
     admin_access_permission = models.BooleanField(default=False)
     notes = models.TextField(null=True, blank=True)
     admin_notes = models.TextField(null=True, blank=True)
+    default_workshop_staff = models.BooleanField(default=False)
+
+# https://stackoverflow.com/questions/1455126/unique-booleanfield-value-in-django
+
+    def save(self, *args, **kwargs):
+        if self.default_workshop_staff:
+            try:
+                temp = StaffMember.objects.get(default_workshop_staff=True)
+                if self != temp:
+                    temp.default_workshop_staff = False
+                    temp.save()
+            except StaffMember.DoesNotExist:
+                pass
+        super(StaffMember, self).save(*args, **kwargs)
 
     def __str__(self) -> str:
         return str(self.username)
 
     def get_absolute_url(self):
-        return reverse('index')
+        return reverse('all_staff')

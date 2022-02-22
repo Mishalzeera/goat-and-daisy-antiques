@@ -11,9 +11,14 @@
 
 {% block content %}
 
-<p>{{ member.full_name }}</p>
-<p>{{ member.notes }}</p>
-<p>{{ member.admin_notes }}</p>
+<p>Name: <strong>{{ member.full_name }}</strong></p>
+<p>Shop Permission: <strong>{{ member.shop_staff }}</strong></p>
+<p>Workshop Permission: <strong>{{ member.workshop_staff }}</strong></p>
+<p>Admin Permission: <strong>{{ member.admin_access_permission }}</strong></p>
+<p>Is Primary Workshop Staff: <strong>{{ member.default_workshop_staff }}</strong></p>
+
+<p><small>Notes:</small>    {{ member.notes }}</p>
+<p><small>Admin Notes:</small>    {{ member.admin_notes }}</p>
 <br>
 <small><input class="btn btn-sm btn-info" type=button value="Back" onClick="javascript:history.go(-1);"></small>
 

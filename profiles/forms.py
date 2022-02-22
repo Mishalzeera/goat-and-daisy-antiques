@@ -66,12 +66,12 @@ class StaffMemberRegistrationForm(forms.ModelForm):
         model = StaffMember
         readonly_fields = ['username']
         fields = ['full_name', 'shop_staff', 'workshop_staff',
-                  'admin_access_permission', 'notes', 'admin_notes']
+                  'admin_access_permission', 'default_workshop_staff', 'notes', 'admin_notes']
 
 
 class StaffUserManagementForm(forms.ModelForm):
     """
-    This form may be inappropriate - there may be no case use for a member registration other than by the admin, who will set the individual permissions. Placeholders also needed to be interjected, see previous class for more.
+    This form may be unnecessary - there may be no case use for a member registration other than by the admin, who will set the individual permissions. Placeholders also needed to be interjected, see previous class for more.
     """
 
     full_name = forms.CharField(initial=None, widget=forms.TextInput(

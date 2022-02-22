@@ -57,10 +57,10 @@ def create_service_ticket(request):
         # assigned here
         form.instance.customer = customer
 
-        # The Workshop Staff field, which is a fixed constant, is added here
-        #  to be updated as necessary in the admin panel
-        form.instance.workshop_staff_responsible = StaffMember.objects.get(
-            pk=8)
+        # The Workshop Staff field, which is set by admin, is added here
+       
+        form.instance.workshop_staff_responsible = StaffMember.objects.get(default_workshop_staff=True)
+        
 
         #  The form validity is checked and saved
         if form.is_valid:

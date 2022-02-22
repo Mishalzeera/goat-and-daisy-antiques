@@ -253,6 +253,7 @@ class AdminOverview(GroupRequiredMixin, View):
         return render(request, 'registration/admin_overview.html')
 
 
+
 # admin only
 class StaffMemberDetailView(GroupRequiredMixin, DetailView):
     """

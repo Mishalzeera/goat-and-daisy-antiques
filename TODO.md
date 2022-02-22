@@ -1,5 +1,12 @@
 debug = False!!
 
+Workshop staff manage invoices needs to be by customer, then ticket
+open and pending redundant?
+also a delete 
+
+message alert when creating service ticket
+
+
 live emails
 
 gmail> settings>accounts and import>Other Google account settings

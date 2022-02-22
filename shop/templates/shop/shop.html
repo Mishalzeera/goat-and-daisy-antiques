@@ -10,12 +10,15 @@
 {% endblock %}
 
 {% block content %}
+
+<p class="display-3">Our</p>
+<p class="display-2" style="margin-bottom:3rem;"><strong>Shop</strong></p>
 {% for product in products %}
 
     {% if product.is_available %}
     
     <div>
-        <p class="h1"><a href="{% url 'shop_item' pk=product.id %}" style="text-decoration: none;">{{ product.title }}</a></p>
+        <p class="h1" ><a href="{% url 'shop_item' pk=product.id %}" style="text-decoration: none;color: black;">{{ product.title }}</a></p>
         <p class="shop-outer-description">{{ product.description|truncatewords:15 }}</p>
         
         {% for image in product.images.all %}

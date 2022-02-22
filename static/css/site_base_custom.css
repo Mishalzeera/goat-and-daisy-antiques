@@ -140,7 +140,8 @@ a:hover {
 }
 
 .shop-detail-carousel {
-  margin: 0 auto;
+  width: 600px;
+  /* margin: 0 auto; */
 }
 
 .shop-detail-title-image {
@@ -148,7 +149,7 @@ a:hover {
 }
 
 .shop-detail-description {
-  max-width: 80%;
+  max-width: 90%;
   font-weight: 700;
 }
 
@@ -216,6 +217,15 @@ footer {
   margin: 0 auto;
 }
 
+/* for tablet */
+
+@media (max-width: 750px) {
+
+  .shop-detail-carousel {
+    width: 450px;
+  }
+}
+
 /* for mobile */
 
 @media (max-width: 500px) {
@@ -234,6 +244,9 @@ footer {
   .btn-shop {
     margin-top: -1rem;
     margin-bottom: 1rem;
+  }
+  .shop-detail-carousel {
+    width: 350px;
   }
 
   .cart-items-list {

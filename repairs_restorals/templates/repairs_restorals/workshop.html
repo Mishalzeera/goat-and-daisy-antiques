@@ -23,13 +23,14 @@
 <a href="{% url 'customer_invoices' %}" class="btn btn-info">View/Pay Invoices</a>
 
 {% else %}
-<section >
+<section id="wrenchload">
   <div class="row">
   <div class="col-lg-5">
       <p class="display-4"> Welcome to our</p> 
           
       <p class="display-4"> <strong> Workshop </strong> </p> 
-      
+
+      <div id="wrench"><i class="bi bi-wrench"></i></div>
       
   </div>
   <div class="col-lg-7">
@@ -52,3 +53,23 @@
 
 {% endif %}
 {% endblock %}
+
+{% block extra_js %}
+{{ super }}
+<script>
+    
+    function wrenchAnim() {
+  gsap.from("#wrench", {
+    duration: 2,
+    // x: '1vw',
+    // ease: "bounce",
+    rotation: 2,
+    opacity: 0
+  });
+}
+
+    wrenchload = document.getElementById("wrenchload");
+    wrenchload.addEventListener("load", wrenchAnim());
+
+</script>
+{% endblock%}

@@ -5,12 +5,13 @@
 <link rel="stylesheet" href="{% static 'css/home_bg_image_trans.css' %}">
 {% endblock %}
 
+
 {% block page_title %}
 | Home
 {% endblock %}
 
 {% block content %}
-<section id="index-top-row">
+<section id="goatload" >
         <div class="row">
         <div class="col-lg-5">
             <p class="display-4"> Welcome to </p> 
@@ -21,6 +22,7 @@
             
         </div>
         <div class="col-lg-7">
+            <img src="{% static 'img/goat.png'%}" alt="" id="goat">
         </div>
     </div>
 </section>
@@ -41,5 +43,8 @@
     </div>
 </section> -->
 
-
 {% endblock %}
+{% block extra_js %}
+{{ super }}
+<script src="{% static 'js/site_custom.js' %}"></script>
+{% endblock%}

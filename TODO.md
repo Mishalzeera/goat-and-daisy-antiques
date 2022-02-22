@@ -1,7 +1,3 @@
-Jumbotron
-Alert dismiss or timeout
-Or toasts
-
 
 live emails, contact page with an email thingie
 
@@ -17,6 +13,4 @@ DB Schemas
 
 403 page customise
 
-Manage inventory shop staff redirect to the same page
 
-coding garden

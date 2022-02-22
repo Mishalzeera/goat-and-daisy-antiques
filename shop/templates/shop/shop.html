@@ -10,9 +10,11 @@
 {% endblock %}
 
 {% block content %}
-
-<p class="display-3">Our</p>
-<p class="display-2" style="margin-bottom:3rem;"><strong>Shop</strong></p>
+<div id="shop-load">
+    
+    <p class="display-3" id="our">Our</p>
+    <p class="display-2" id="shop" style="margin-bottom:3rem;"><strong>Shop</strong></p>
+</div>
 {% for product in products %}
 
     {% if product.is_available %}
@@ -41,8 +43,21 @@
     </div>
 
 
-    
-
 {% endfor %}
 
 {% endblock %}
+
+{% block extra_js %}
+{{ super }}
+<script>
+    
+    function ourShop() {
+        gsap.from("#our", { opacity: 0, duration: 1, x: '-1vw' });
+        gsap.from("#shop", { opacity: 0, duration: 3, x: '-1vw' });
+      }
+
+
+    shop_event = document.getElementById("shop-load");
+    shop_event.addEventListener("load", ourShop());
+</script>
+{% endblock%}

@@ -135,6 +135,12 @@ a:hover {
   min-width: fit-content;
 }
 
+#goat {
+  width: 200px;
+  margin-left: 30vw;
+  margin-top: 10vh;
+}
+
 #index-bottom-row {
   margin-top: 25vh;
 }
@@ -181,8 +187,8 @@ a:hover {
   margin-top: 1rem;
 }
 
-footer {
-  margin-top: 50vh;
+#wrench {
+  font-size: 4rem;
 }
 
 /* Utilities */
@@ -220,7 +226,6 @@ footer {
 /* for tablet */
 
 @media (max-width: 750px) {
-
   .shop-detail-carousel {
     width: 450px;
   }
@@ -235,6 +240,12 @@ footer {
 
   .navbar-brand {
     font-size: 2rem;
+  }
+
+  #goat {
+    margin-top: 3rem;
+    width: 180px;
+    margin-left: 20vw;
   }
 
   .messages {

@@ -4,9 +4,13 @@ Workshop staff manage invoices needs to be by customer, then ticket
 open and pending redundant?
 also a delete 
 
+delete account
+
 message alert when creating service ticket
 
 cart somewhere absolute especially mobile
+
+alerts on mobile
 
 toggle availability in shop staff inventory control
 

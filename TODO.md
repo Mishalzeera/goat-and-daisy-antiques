@@ -1,6 +1,6 @@
 letters to new developers taking over
 
-nice to have a shopping log for workshop staff with the Service Ticket links
+Admin Task Manager issue
 
 
 

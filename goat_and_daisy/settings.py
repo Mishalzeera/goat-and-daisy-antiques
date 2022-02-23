@@ -216,7 +216,6 @@ else:
     # The following var is for stripe CLI
     STRIPE_WH_SECRET = os.environ.get('LOCAL_STRIPE_WH_SECRET', '')
 
-# The following var is for stripe CLI
 
 # Shop sales and invoice settings
 

@@ -104,9 +104,11 @@ Upon registering and logging in, all users have access to a profile page.
 
 The Workshop for an anonymous user is a simple description of services.
 
+![anonymous workshop](static/img/ws_anon_user.jpg)
+
 For a registered user, however, it is the portal to a Customer Workbench.
 
-![customer workbench](static/img/ws_user_workbench.jpg)
+![customer workbench](static/img/ws_reg_user.jpg)
 
 Where one can create a Service Ticket, a key componenent of the site function.
 
@@ -145,16 +147,46 @@ to struggle with long lists of registered users.
 
 ![admin staff creation](static/img/admin_staff.jpg)
 
-Admin also has an overview of General Staff task lists and progress
-(see NICE_TO_HAVE.md for more about this).
+Admin has a Task Manager that allows them to issue tasks to staff members:
+
+![admin task manager](static/img/admin_task_mgr.jpg)
+
+Admin also has an overview of all task lists and progress
 
 ![admin task overview](static/img/admin_task_overview.jpg)
 
 ## Design Elements
 
-### Wireframes
+Design for the app was done mainly around using Bootstrap to quickly make
+the functionality presentable and responsive. However, there were certain
+aesthetic choices made carefully. When the project began, there was little
+sense of the complexity of it, and midway the decision was made to favour
+back-end functionality rather than wireframing and prototyping any
+front end decisions. 
 
-### Mockups
+Since this is a full stack project, there was as much care as possible put
+into the styling - but the backend was where most of work was.
+
+### Background Images
+
+The bg images were taken by myself, with the exception of the Workshop image.
+
+They set the tone for the spirit of the enterprise. Reducing their opacity to
+25% of the original made them unobtrusively allow text and images to sit 
+on top. 
+
+### Font
+
+While Lato has been a favourite from the start, the logo was made using Bebas Neue.
+
+Many fonts including Poppins and Alegreya were tried, but they didn't fit as well
+as Lato.
+
+### GSAP Animations
+
+While it was tempting to have the goat ram its head on the left side text, the 
+animations for the site are slow, soft opacity fades. The wrench in the Workshop
+anonymous view moves a bit but won't cause anyone any real harm.
 
 ## Database Schematics
 
@@ -188,12 +220,6 @@ project and configured with WhiteNoise until the final phase of production.
 A simple functional suite of running tests that check views and urls
 would be essential for this project.
 
-An Admin Task Manager that allowed Admin to create Todo lists for 
-employees and follow those specific lists, excluding the lists that
-employees create for themselves.
-
-A refactored separation of functions between apps - especially the Task 
-Manager, since its a handy little tool. 
-
-
+A refactored separation of functions between apps - especially the Task
+Manager, since its a handy little tool.
 

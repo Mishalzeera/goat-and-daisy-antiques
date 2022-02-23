@@ -59,11 +59,12 @@ appears when someone with Shop Staff group settings is logged in.
 - Task Manager and All Registered Customers are under General Staff Permissions
   so they are shared by all employees.
 
-- Task Manager is a basic todo app that can be overseen by admin.
+- Task Manager is a basic todo app that can be overseen and contributed to
+  by admin.
 
 - All Registered Customers is CRUD management for the Customer objects.
 
-- Important: Sign out!
+- **Important**: Sign out!
 
 ## Workshop Staff
 
@@ -87,7 +88,7 @@ member with workshop group permissions.
 ## The Registered Workshop Customer II
 
 Continuing where we left off with the customer experience - imagining
-that some time has gone by. A buys artisan has looked at your request,
+that some time has gone by. A busy artisan has looked at your request,
 your supplies and your images and has given you a quote.
 
 - Sign back in as your customer with Service Tickets account.

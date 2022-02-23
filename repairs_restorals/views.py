@@ -276,23 +276,7 @@ class TaskManager(GroupRequiredMixin, View):
             if todo_item_form_instance.is_valid():
                 todo_item_form_instance.save()
 
-        # The todo list is fetched again, filtered by staff member
-        todo_list = TodoList.objects.filter(staff_member=staff_member)
-
-        # New forms are sent
-        todo_list_form = CreateTodoListForm()
-        todo_list_item_form = CreateTodoListItemForm()
-
-        # Context is filled in again
-        context = {
-            'todo_list': todo_list,
-            'todo_list_form': todo_list_form,
-            'todo_list_item_form': todo_list_item_form,
-
-        }
-
-        # ...and sent to the template
-        return render(request, 'repairs_restorals/todo_list.html', context)
+        return redirect('task_manager')
 
 
 # admin only
@@ -401,26 +385,8 @@ def delete_or_update_item_in_todo(request, pk):
         item.save()
 
     # Get the staff member by the request object
-    staff_member = get_object_or_404(
-        StaffMember, username=request.user)
 
-    # The todo list is fetched again, filtered by staff member
-    todo_list = TodoList.objects.filter(staff_member=staff_member)
-
-    # New forms are sent
-    todo_list_form = CreateTodoListForm()
-    todo_list_item_form = CreateTodoListItemForm()
-
-    # Context is filled in again
-    context = {
-        'todo_list': todo_list,
-        'todo_list_form': todo_list_form,
-        'todo_list_item_form': todo_list_item_form,
-
-    }
-
-    # ...and sent to the template
-    return render(request, 'repairs_restorals/todo_list.html', context)
+    return redirect('task_manager')
 
 
 # admin only

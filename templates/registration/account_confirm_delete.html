@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/daisy_bg_image_trans.css' %}">
+{% endblock %}
+
+{% block content %}
+<p class="display-4">Confirm delete!</p>
+
+<p class="lead">Your account and all its information will be deleted. Are you sure?</p>
+
+<form action="{% url 'delete_profile' customer_id %}" method="POST">
+{% csrf_token %}
+<input type="submit" class="btn btn-danger" value="Yes, delete my account">
+</form>
+{% endblock %}

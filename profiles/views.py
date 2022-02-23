@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.urls import reverse_lazy
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from profiles.group_mixin_decorator import GroupRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView
-from django.views.generic import View, CreateView, UpdateView, DetailView, ListView
+from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView
 from .forms import UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
 from .models import Customer, StaffMember
 from invoices.models import ShopCustomerInvoice
@@ -121,6 +123,37 @@ class CreateProfilePage(CreateView):
         user = User.objects.get(username=self.request.user)
         form.instance.email = user.email
         return super().form_valid(form)
+
+
+# logged in
+@login_required
+def pre_delete(request, customer_id):
+    """
+    Allows a user to confirm deleting their account.
+    """
+    context = {
+        'customer_id': customer_id,
+    }
+
+    return render(request, 'registration/account_confirm_delete.html', context)
+
+
+# logged in
+@login_required
+def delete_profile(request, customer_id):
+    """
+    Allows a user to delete their account.
+    """
+
+    customer_account = Customer.objects.get(pk=customer_id)
+    user_acct = User.objects.get(username=customer_account.username)
+
+    customer_account.delete()
+    user_acct.delete()
+
+    messages.success(request, ("Your account has been deleted."))
+
+    return render(request, 'site_layout/index.html')
 
 
 # admin only
@@ -251,7 +284,6 @@ class AdminOverview(GroupRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'registration/admin_overview.html')
-
 
 
 # admin only

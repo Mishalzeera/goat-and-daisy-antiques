@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
@@ -304,10 +304,11 @@ class AdminTaskCreate(GroupRequiredMixin, View):
     group_required = [u'Admin Only']
 
     def get(self, request, *args, **kwargs):
-        todo_lists = TodoList.objects.filter(admin_created=True)
+        todo_lists = TodoList.objects.filter(
+            admin_created=True).order_by('staff_member')
 
         # Create a todo list form
-        todo_list_form = AdminCreateTodoListForm({'admin_created': True})
+        todo_list_form = AdminCreateTodoListForm()
 
         # Create a todo list item form
         todo_list_item_form = CreateTodoListItemForm()
@@ -351,22 +352,7 @@ class AdminTaskCreate(GroupRequiredMixin, View):
             if todo_item_form_instance.is_valid():
                 todo_item_form_instance.save()
 
-        # The todo list is fetched again, filtered by staff member
-        todo_lists = TodoList.objects.filter(admin_created=True)
-
-        # New forms are sent
-        todo_list_form = AdminCreateTodoListForm()
-        todo_list_item_form = CreateTodoListItemForm()
-
-        # Context is filled in again
-        context = {
-            'todo_list': todo_lists,
-            'todo_list_form': todo_list_form,
-            'todo_list_item_form': todo_list_item_form,
-        }
-
-        # ...and sent to the template
-        return render(request, 'repairs_restorals/admin_todo_list.html', context)
+        return redirect('admin_task_manager')
 
 
 # Admin only
@@ -469,22 +455,23 @@ def admin_delete_or_update_item_in_todo(request, pk):
         item.save()
 
     # The todo list is fetched again, filtered by admin_created
-    todo_list = TodoList.objects.filter(admin_created=True)
+    # todo_list = TodoList.objects.filter(
+    #     admin_created=True).order_by('staff_member')
 
     # New forms are sent
-    todo_list_form = AdminCreateTodoListForm()
-    todo_list_item_form = CreateTodoListItemForm()
+    # todo_list_form = AdminCreateTodoListForm({'admin_created': True})
+    # todo_list_item_form = CreateTodoListItemForm()
 
     # Context is filled in again
-    context = {
-        'todo_list': todo_list,
-        'todo_list_form': todo_list_form,
-        'todo_list_item_form': todo_list_item_form,
+    # context = {
+    #     'todo_list': todo_list,
+    #     'todo_list_form': todo_list_form,
+    #     'todo_list_item_form': todo_list_item_form,
 
-    }
+    # }
 
     # ...and sent to the template
-    return render(request, 'repairs_restorals/admin_todo_list.html', context)
+    return redirect('admin_task_manager')
 
 
 # login required

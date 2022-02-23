@@ -136,10 +136,19 @@ Admin's toolbox is accessed via logging in with admin permissions.
 - View Staff gives some easy CRUD for those kinds of things. There are staff notes
   and admin only notes as well, for other admin users.
 
+- Task Manager allows you to create tasks for individual staff members, who will
+see your tasks in their Task Manager when they log in. It also allows you to see 
+the status of admin-issued tasks. If you want to try it out: 
+
+  - Create a few tasks and log out
+  - Log in again with the correct staff you assigned tasks to 
+  - Go to the Task Manager link in the nav dropdown
+  - Note the task you created as Admin
+  - Create a new task as Staff
+  - Note the difference in Delete functionality
+
+- Task Overview is every task in the company system and its status in a read-only
+list format.  
+
 - Links to Admin panel.
 
-- Task Manager Overview at this moment is perhaps a bit in the Kim Jong-Il style
-  of management. NICE_TO_HAVE goes into this a bit. At the moment, Admin can have
-  some idea of where employees are with certain projects. In the future, it makes
-  sense to have it so that Admin can issue todo-lists, and view only admin-issued
-  lists.

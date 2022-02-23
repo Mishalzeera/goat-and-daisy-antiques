@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from profiles.group_mixin_decorator import GroupRequiredMixin, group_required_decorator
@@ -50,7 +51,7 @@ def create_service_ticket(request):
             customer.has_active_repairs = True
             customer.save()
 
-        # An form with the POST data is instantiated
+        # A form with the POST data is instantiated
         form = CustomerCreateServiceTicketForm(request.POST)
 
         # The customer field, which isn't displayed on the template, is
@@ -58,13 +59,17 @@ def create_service_ticket(request):
         form.instance.customer = customer
 
         # The Workshop Staff field, which is set by admin, is added here
-       
-        form.instance.workshop_staff_responsible = StaffMember.objects.get(default_workshop_staff=True)
-        
+
+        form.instance.workshop_staff_responsible = StaffMember.objects.get(
+            default_workshop_staff=True)
 
         #  The form validity is checked and saved
         if form.is_valid:
             form.save()
+
+        # An alert is shown to the customer
+        messages.success(
+            request, ("Service Ticket successfully created! Please check your inbox for confirmation email."))
 
         return render(request, 'repairs_restorals/workshop.html')
 

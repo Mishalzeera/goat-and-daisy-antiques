@@ -171,6 +171,16 @@ a:hover {
   margin-left: 10rem;
 }
 
+.sticky-cart {
+  color: var(--sky-900);
+  font-size: 3rem;
+  margin-top: 8rem;
+  position: fixed;
+  width: 98vw;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .cart-item {
   display: flex;
   align-items: baseline;

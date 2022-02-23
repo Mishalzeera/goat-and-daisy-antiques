@@ -161,8 +161,11 @@
           {% endif %}
 
       </section>
-
-
+      {% if request.session.cart %}
+      <section class="sticky-cart">
+        <a href="{% url 'view_cart' %}" class="sticky-lock"><i class="bi bi-lock-fill"></i></a>
+      </section>
+      {% endif %}
    
     <main class="container">
       

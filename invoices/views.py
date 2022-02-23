@@ -82,7 +82,7 @@ def add_to_cart(request, item_id):
     hold_shop_item(item_id)
 
     messages.success(
-        request, (f"Successfully added {item.title} to your shopping cart."))
+        request, (f"Successfully added {item.title} to your shopping cart. Item is reserved for 10 minutes."))
 
     return redirect(redirect_url)
 

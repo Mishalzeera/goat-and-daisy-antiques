@@ -25,6 +25,11 @@
 <a href="{% url 'admin_customer_invoice' invoice.id %}"
     class="btn btn-success btn-space-below">Create A Quote
 </a>
+<p>
+    <a href="{% url 'delete_customer_invoice' invoice.id %}"
+        class="btn btn-danger btn-sm btn-space-below">Delete
+    </a>
+</p>
 <br>
 {% endif %}
 {% endfor %}
@@ -42,6 +47,11 @@
 </a>
 <a href="{% url 'admin_customer_invoice' invoice.id %}" class="btn btn-success btn-space-below">Manage
 </a>
+<p>
+    <a href="{% url 'delete_customer_invoice' invoice.id %}"
+        class="btn btn-danger btn-sm btn-space-below">Delete
+    </a>
+</p>
 {% endif %}
 {% endfor %}
 
@@ -58,6 +68,11 @@
 <a href="{% url 'customer_invoice_detail' invoice.id %}" class="btn btn-info btn-space-below">
     View
 </a>
+<p>
+    <a href="{% url 'delete_customer_invoice' invoice.id %}"
+        class="btn btn-danger btn-sm btn-space-below">Delete
+    </a>
+</p>
 
 {% endif %}
 

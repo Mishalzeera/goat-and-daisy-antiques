@@ -37,5 +37,7 @@ urlpatterns = [
          views.AdminCustomerDetailView.as_view(), name="customer_invoice_detail"),
     path('admin-customer-invoice/<int:pk>/',
          views.AdminCustomerInvoice.as_view(), name='admin_customer_invoice'),
+    path('delete-customer-invoice/<int:pk>/',
+         views.WorkshopStaffDeleteInvoice.as_view(), name='delete_customer_invoice'),
 
 ]

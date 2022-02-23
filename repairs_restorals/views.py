@@ -413,3 +413,15 @@ class AdminCustomerInvoice(GroupRequiredMixin, UpdateView):
     form_class = StaffCustomerInvoiceUpdateForm
     template_name = 'repairs_restorals/admin_customer_invoice.html'
     success_url = reverse_lazy('all_customer_invoices')
+
+
+# workshop staff only
+class WorkshopStaffDeleteInvoice(GroupRequiredMixin, DeleteView):
+    """
+    Allows a workshop staff member to delete ticket images.
+    """
+
+    group_required = [u'Workshop Staff']
+    model = WorkshopCustomerInvoice
+    template_name = 'shop/staff_confirm_delete.html'
+    success_url = reverse_lazy('all_customer_invoices')

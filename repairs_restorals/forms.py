@@ -84,6 +84,15 @@ class CreateTodoListForm(forms.ModelForm):
         fields = ['subject']
 
 
+class AdminCreateTodoListForm(forms.ModelForm):
+    """
+    A form for Admin to issue a Todo List.
+    """
+    class Meta:
+        model = TodoList
+        fields = ['staff_member', 'subject']
+
+
 class CreateTodoListItemForm(forms.ModelForm):
     """
     A form to create Todo List Items.

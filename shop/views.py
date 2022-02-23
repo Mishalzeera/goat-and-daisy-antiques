@@ -66,7 +66,6 @@ def mark_invoice_complete(request, invoice_order_number):
 
 
 # shop staff only
-
 class DeleteInvoice(GroupRequiredMixin, DeleteView):
     """
     To avoid clutter, this handles incomplete orders.

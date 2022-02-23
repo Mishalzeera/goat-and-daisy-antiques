@@ -9,7 +9,7 @@ from django.views.generic.detail import DetailView
 from invoices.models import WorkshopCustomerInvoice
 from profiles.models import Customer, StaffMember
 from .models import ServiceTicket, TicketImage, TodoList, TodoItem
-from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, StaffCustomerInvoiceUpdateForm, CreateTodoListForm, CreateTodoListItemForm
+from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, StaffCustomerInvoiceUpdateForm, CreateTodoListForm, CreateTodoListItemForm, AdminCreateTodoListForm
 
 
 # public
@@ -295,20 +295,95 @@ class TaskManager(GroupRequiredMixin, View):
         return render(request, 'repairs_restorals/todo_list.html', context)
 
 
+# admin only
+class AdminTaskCreate(GroupRequiredMixin, View):
+    """
+    Shows a list of todo items for each workshop staff member, allowing
+    all CRUD functions on the same page for convenience. 
+    """
+    group_required = [u'Admin Only']
+
+    def get(self, request, *args, **kwargs):
+        todo_lists = TodoList.objects.filter(admin_created=True)
+
+        # Create a todo list form
+        todo_list_form = AdminCreateTodoListForm({'admin_created': True})
+
+        # Create a todo list item form
+        todo_list_item_form = CreateTodoListItemForm()
+
+        # Put them in the context
+        context = {
+            'todo_list': todo_lists,
+            'todo_list_form': todo_list_form,
+            'todo_list_item_form': todo_list_item_form,
+
+        }
+
+        # Send them to the template
+        return render(request, 'repairs_restorals/admin_todo_list.html', context)
+
+    def post(self, request, *args, **kwargs):
+
+        # Create a list form for refreshed page
+        todo_list_form_instance = AdminCreateTodoListForm(request.POST)
+        todo_list_form_instance.instance.admin_created = True
+
+        # Check validity and save
+        if todo_list_form_instance.is_valid():
+            todo_list_form_instance.save()
+
+        # If there is a custom name sent from the template
+        if 'todo_list_item' in request.POST:
+
+            # The instance is intialised from the POST data (custom form in
+            # template - its not a model form instance, in order to be
+            # able to use the List id in the for loop. In the template.)
+            todo_item_form_instance = CreateTodoListItemForm(request.POST)
+
+            # The foreign key relationship is set for the unique instance,
+            # so that list items and lists are coherently linked
+            related_todo = TodoList.objects.get(
+                pk=request.POST['todo_list_item'])
+            todo_item_form_instance.instance.todo_list_id = related_todo.id
+
+            # The todo list item is validated and saved
+            if todo_item_form_instance.is_valid():
+                todo_item_form_instance.save()
+
+        # The todo list is fetched again, filtered by staff member
+        todo_lists = TodoList.objects.filter(admin_created=True)
+
+        # New forms are sent
+        todo_list_form = AdminCreateTodoListForm()
+        todo_list_item_form = CreateTodoListItemForm()
+
+        # Context is filled in again
+        context = {
+            'todo_list': todo_lists,
+            'todo_list_form': todo_list_form,
+            'todo_list_item_form': todo_list_item_form,
+        }
+
+        # ...and sent to the template
+        return render(request, 'repairs_restorals/admin_todo_list.html', context)
+
+
 # Admin only
 class AdminTaskManagerOverview(GroupRequiredMixin, ListView):
     """
     Gives Admin a way to keep an eye on what everyone is up to. Big brother is
-    watching you. Some CRUD.
+    watching you. 
     """
     # model = TodoList
     group_required = [u'Admin Only']
     template_name = 'repairs_restorals/admin_task_manager.html'
-    queryset = TodoList.objects.prefetch_related("items").all()
+    queryset = TodoList.objects.prefetch_related(
+        "items").all().order_by('staff_member')
     context_object_name = 'todo_lists'
 
 
-# workshop staff only
+# general staff
 @group_required_decorator('General Staff')
 def delete_or_update_item_in_todo(request, pk):
     """
@@ -360,6 +435,56 @@ def delete_or_update_item_in_todo(request, pk):
 
     # ...and sent to the template
     return render(request, 'repairs_restorals/todo_list.html', context)
+
+
+# admin only
+@group_required_decorator('Admin Only')
+def admin_delete_or_update_item_in_todo(request, pk):
+    """
+    A function that allows a list item to be deleted in the 
+    admin todo list app, bypassing "are you sure" stage.
+    """
+    # Get the item by the pk sent from the template and delete
+    if 'delete_list_item' in request.GET:
+        item = TodoItem.objects.get(pk=pk)
+        item.delete()
+
+    # Get the list by the pk sent from the template and delete
+    if 'delete_list' in request.GET:
+
+        item = TodoList.objects.get(pk=pk)
+        item.delete()
+
+    # Get the list item by the pk from the template and toggle
+    if 'toggle_item' in request.GET:
+
+        item = TodoItem.objects.get(pk=pk)
+
+        # Toggle the is_completed status
+        if item.is_completed == False:
+            item.is_completed = True
+        elif item.is_completed:
+            item.is_completed = False
+
+        item.save()
+
+    # The todo list is fetched again, filtered by admin_created
+    todo_list = TodoList.objects.filter(admin_created=True)
+
+    # New forms are sent
+    todo_list_form = AdminCreateTodoListForm()
+    todo_list_item_form = CreateTodoListItemForm()
+
+    # Context is filled in again
+    context = {
+        'todo_list': todo_list,
+        'todo_list_form': todo_list_form,
+        'todo_list_item_form': todo_list_item_form,
+
+    }
+
+    # ...and sent to the template
+    return render(request, 'repairs_restorals/admin_todo_list.html', context)
 
 
 # login required

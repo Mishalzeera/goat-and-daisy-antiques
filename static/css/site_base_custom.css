@@ -255,7 +255,7 @@ footer {
   }
 
   .navbar-brand {
-    font-size: 2rem;
+    font-size: 3rem;
   }
 
   #goat {
@@ -265,7 +265,7 @@ footer {
   }
 
   .messages {
-    margin-top: 8rem;
+    margin-top: 0;
   }
 
   .btn-shop {

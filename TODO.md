@@ -1,10 +1,6 @@
 letters to new developers taking over
-letters to new admin
-nice to have contact page
 
-cart somewhere absolute especially mobile
-
-alerts on mobile
+nice to have a shopping log for workshop staff with the Service Ticket links
 
 
 

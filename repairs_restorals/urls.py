@@ -8,7 +8,6 @@ urlpatterns = [
          views.CustomerWorkbench.as_view(), name='customer_workbench'),
     path('create-service-ticket/', views.create_service_ticket,
          name='create_service_ticket'),
-
     path('add-image/', views.CustomerAddImage.as_view(), name='add_image'),
     path('ticket/<int:pk>/',
          views.ServiceTicketDetail.as_view(), name='service_ticket'),
@@ -27,8 +26,17 @@ urlpatterns = [
     path('task-manager/', views.TaskManager.as_view(), name="task_manager"),
     path('manage-todo-item/<int:pk>/',
          views.delete_or_update_item_in_todo, name='manage_item'),
-    path('admin-task-manager', views.AdminTaskManagerOverview.as_view(),
+
+    path('admin-manage-todo-item/<int:pk>/',
+         views.admin_delete_or_update_item_in_todo, name='admin_manage_item'),
+
+
+    path('admin-task-manager/', views.AdminTaskCreate.as_view(),
          name='admin_task_manager'),
+
+    path('admin-task-overview/', views.AdminTaskManagerOverview.as_view(),
+         name='admin_task_overview'),
+
     path('customer-invoices', views.PublicCustomerInvoices.as_view(),
          name='customer_invoices'),
     path('all_customer_invoices/', views.AllCustomerInvoices.as_view(),

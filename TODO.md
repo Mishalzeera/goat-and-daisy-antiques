@@ -1,7 +1,4 @@
-debug = False!!
 
-Workshop staff manage invoices needs to be by customer, then ticket
-open and pending redundant?
 also a delete 
 
 delete account

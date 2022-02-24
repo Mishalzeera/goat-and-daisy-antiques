@@ -2,6 +2,16 @@
 
 Live site is [here](https://goat-and-daisy-antiques.herokuapp.com/).
 
+### All docs in folder Z_DOCS:
+
+Named so to keep at bottom of folder structure.
+
+-USER_TESTING
+-DB_SCHEMAS
+-DEPLOYMENT
+-FOR_NEW_ADMIN
+-FOR_NEW_DEVS
+
 ## Introduction and basic features
 
 An online antique store that provides restoral and repair services,
@@ -9,7 +19,8 @@ built using Django. The store uses custom CMS for seperate sales and repair
 departments. A visitor who wishes to buy does not need to create an account, but
 can if she so wishes. A user who wishes to have repairs or restorals done, on
 the other hand, must create an account in order to keep track of their specific
-requests, materials etc.
+requests, materials etc. It is recommended to follow **SITE_WALKTHROUGH** for 
+better understanding of the site. 
 
 ---
 
@@ -61,8 +72,8 @@ Please refer to SITE_WALKTHROUGH.md if you are approaching this site for the
 first time. It is highly recommended to get an easier idea of the workflow -
 of the Service Ticket and related payment system in particular.
 
-For a more exacting map of User Stories, please view the markdown documents in the
-USER_TESTING folder.
+For a more exacting map of User Stories, please view the markdown documents in
+Z_DOCS/USER_TESTING.
 
 ---
 

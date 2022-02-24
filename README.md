@@ -2,16 +2,6 @@
 
 Live site is [here](https://goat-and-daisy-antiques.herokuapp.com/).
 
-### All docs in folder Z_DOCS:
-
-Named so to keep at bottom of folder structure.
-
--USER_TESTING
--DB_SCHEMAS
--DEPLOYMENT
--FOR_NEW_ADMIN
--FOR_NEW_DEVS
-
 ## Introduction and basic features
 
 An online antique store that provides restoral and repair services,
@@ -73,7 +63,8 @@ first time. It is highly recommended to get an easier idea of the workflow -
 of the Service Ticket and related payment system in particular.
 
 For a more exacting map of User Stories, please view the markdown documents in
-Z_DOCS/USER_TESTING.
+Z_DOCS/USER_TESTING. Other than SITE_WALKTHROUGH, all other docs are in 
+Z_DOCS)
 
 ---
 

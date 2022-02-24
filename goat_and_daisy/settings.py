@@ -9,7 +9,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 
-
 ALLOWED_HOSTS = [
     'goat-and-daisy-antiques.herokuapp.com',
     '127.0.0.1',
@@ -212,7 +211,7 @@ STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
 if 'DATABASE_URL' in os.environ:
     STRIPE_WH_SECRET = os.environ.get('STRIPE_WH_SECRET', '')
 
-else: 
+else:
     # The following var is for stripe CLI
     STRIPE_WH_SECRET = os.environ.get('LOCAL_STRIPE_WH_SECRET', '')
 

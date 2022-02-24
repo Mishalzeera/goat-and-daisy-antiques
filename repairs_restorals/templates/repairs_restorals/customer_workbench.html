@@ -13,9 +13,6 @@
 <div class="card">
     
     <h1>{{request.user | title }}'s Workbench</h1>
-    <a href="{% url 'customer_invoices' %}">
-        <p class="lead">View/Pay Invoices</p>
-    </a>
     <a href="{% url 'create_service_ticket' %}"><p class="display-6">Create Ticket</p></a>
     <p class="small text-muted">Use above link to create a service ticket.</p>
     

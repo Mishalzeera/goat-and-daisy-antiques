@@ -34,7 +34,7 @@ depending on their roles. Shop staff manage inventory and handle
 shippings/orders etc. Workshop staff review Service Ticket requests,
 create quotes and issue invoices.
 
-Admin create staff profiles, manage their permissions and oversee their
+Admin create staff profiles, manage their permissions and oversee/issue their
 todo-lists.
 
 ### The Shop
@@ -81,6 +81,8 @@ And this is the Admin navbar:
 ### The landing page
 
 Navigating to the site gives a sense of simplicity by keeping the space uncluttered.
+
+![home page](static/img/home.jpg)
 
 The user isn't overwhelmed by options or sales pitches, but is generously invited to
 look at the site in their own time.

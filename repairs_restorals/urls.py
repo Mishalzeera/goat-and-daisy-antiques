@@ -26,19 +26,17 @@ urlpatterns = [
     path('task-manager/', views.TaskManager.as_view(), name="task_manager"),
     path('manage-todo-item/<int:pk>/',
          views.delete_or_update_item_in_todo, name='manage_item'),
-
     path('admin-manage-todo-item/<int:pk>/',
          views.admin_delete_or_update_item_in_todo, name='admin_manage_item'),
-
-
     path('admin-task-manager/', views.AdminTaskCreate.as_view(),
          name='admin_task_manager'),
-
     path('admin-task-overview/', views.AdminTaskManagerOverview.as_view(),
          name='admin_task_overview'),
-
     path('customer-invoices', views.PublicCustomerInvoices.as_view(),
          name='customer_invoices'),
+    path('customer-select/', views.workshop_customer_select, name='customer_select'),
+    path('create-invoice/', views.workshop_create_invoice,
+         name="workshop_create_invoice"),
     path('all_customer_invoices/', views.AllCustomerInvoices.as_view(),
          name="all_customer_invoices"),
     path('customer_invoice_detail/<int:pk>/',

@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+
+{%block extra_css %}
+<link rel="stylesheet" href="{% static 'css/workshop_bg_image_trans.css' %}" />
+{% endblock %} 
+
+
+{% block page_title %} 
+| Workshop 
+{% endblock %} 
+
+
+{% block content%}
+
+<p class="h1">Choose A Customer</p>
+<p class="text-muted">
+  If customer doesn't have an account, you can create a provisional one for the project.
+</p>
+<form action="." method="POST">
+  {% csrf_token %}
+
+  <select
+    id="customer"
+    name="customer"
+    style="background-color: var(--sky-900); color: var(--sky-200); padding: .2rem; display:block;"
+  >
+    {% for customer in customers %}
+    <option value="{{ customer.id}}">{{ customer.full_name }}</option>
+    {% endfor %}
+  </select>
+
+
+  <input type="submit" class="btn btn-info btn-space-above" value="Choose customer" />
+</form>
+
+{% endblock %}

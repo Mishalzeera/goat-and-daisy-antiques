@@ -1,0 +1,39 @@
+{% extends 'base.html' %} 
+{% load crispy_forms_tags %} 
+{% load static %} 
+
+
+{%block extra_css %}
+<link rel="stylesheet" href="{% static 'css/workshop_bg_image_trans.css' %}" />
+{% endblock %} 
+
+
+{% block page_title %} 
+| Workshop 
+{% endblock %} 
+
+
+{% block content%}
+
+<p class="h1">Create An Invoice For {{ customer | title }}</p>
+<p class="text-muted">
+  Ensure that a Service Ticket exists and that the correct one
+  is selected below.
+</p>
+<form action="{% url 'workshop_create_invoice' %}" method="POST">
+  {% csrf_token %}
+  {{ form | crispy }}
+
+  <input type="hidden" name="customer" value="{{ customer.id }}">
+  <input type="hidden" name="full_name" value="{{ customer.full_name }}">
+  <input type="hidden" name="email" value="{{ customer.email }}">
+  <input type="hidden" name="address1" value="{{ customer.address1 }}">
+  <input type="hidden" name="address2" value="{{ customer.address2 }}">
+  <input type="hidden" name="postcode" value="{{ customer.postcode }}">
+  <input type="hidden" name="town_or_city" value="{{ customer.town_or_city }}">
+  <input type="hidden" name="country" value="{{ customer.country }}">
+
+  <input type="submit" class="btn btn-info" value="Create Invoice" />
+</form>
+
+{% endblock %}

@@ -6,7 +6,7 @@ Live site is [here](https://goat-and-daisy-antiques.herokuapp.com/).
 
 An online antique store that provides restoral and repair services,
 built using Django. The store uses custom CMS for seperate sales and repair
-departments. A user who wishes to buy does not need to create an account, but
+departments. A visitor who wishes to buy does not need to create an account, but
 can if she so wishes. A user who wishes to have repairs or restorals done, on
 the other hand, must create an account in order to keep track of their specific
 requests, materials etc.
@@ -117,12 +117,25 @@ Where one can create a Service Ticket, a key componenent of the site function.
 Here, one can manage their outstanding Invoices, which are intertwined with their
 Service Ticket and point of contact Workshop Staff member.
 
+### General Staff
+
+At the time of staff member registration, all staff are added to the General
+Staff group, which gives them access to these tools:
+
+**Task Manager** - a To-do list type app which has lists created by the staff member
+as well as by Admin.
+
+**View All Customers** - an overview of all registered Customers in the database
+with some update functionality.
+
 ### Shop Staff
 
 When a user with Shop Staff group permissions logs in they have access to their
 specific workflow related pages and tools.
 
 ![shop staff nav](static/img/sh_staff_nav.jpg)
+
+Shop Staff have an orders management page and an inventory management portal.
 
 For more information please read the SITE_WALKTHROUGH or USER_TESTING docs.
 
@@ -132,6 +145,9 @@ When a user with Workshop Staff group permission logs in, they too have their
 specific pages and tools.
 
 ![workshop staff nav](static/img/ws_staff_nav.jpg)
+
+Workshop Staff have a Service Tickets overview and an invoice creation/management
+portal.
 
 SITE_WALKTHROUGH and USER_TESTING have more information on the functionality
 
@@ -162,7 +178,7 @@ the functionality presentable and responsive. However, there were certain
 aesthetic choices made carefully. When the project began, there was little
 sense of the complexity of it, and midway the decision was made to favour
 back-end functionality rather than wireframing and prototyping any
-front end decisions. 
+front end decisions.
 
 Since this is a full stack project, there was as much care as possible put
 into the styling - but the backend was where most of work was.
@@ -172,8 +188,8 @@ into the styling - but the backend was where most of work was.
 The bg images were taken by myself, with the exception of the Workshop image.
 
 They set the tone for the spirit of the enterprise. Reducing their opacity to
-25% of the original made them unobtrusively allow text and images to sit 
-on top. 
+25% of the original made them unobtrusively allow text and images to sit
+on top.
 
 ### Font
 
@@ -184,7 +200,7 @@ as Lato.
 
 ### GSAP Animations
 
-While it was tempting to have the goat ram its head on the left side text, the 
+While it was tempting to have the goat ram its head on the left side text, the
 animations for the site are slow, soft opacity fades. The wrench in the Workshop
 anonymous view moves a bit but won't cause anyone any real harm.
 
@@ -222,4 +238,3 @@ would be essential for this project.
 
 A refactored separation of functions between apps - especially the Task
 Manager, since its a handy little tool.
-

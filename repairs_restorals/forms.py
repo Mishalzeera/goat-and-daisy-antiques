@@ -75,6 +75,42 @@ class StaffCustomerInvoiceUpdateForm(forms.ModelForm):
         fields = '__all__'
 
 
+class WorkshopSelectCustomerForm(forms.ModelForm):
+    """
+    For a workshop staff member to issue an invoice.
+    """
+
+    def __init__(self, customer_id, *args, **kwargs):
+
+        # Ensures only the service tickets belonging to the current user are
+        # displayed as options in the form dropdown box
+        super(WorkshopSelectCustomerForm, self).__init__(*args, **kwargs)
+        customer = get_object_or_404(Customer, pk=customer_id)
+        self.fields['service_ticket'].queryset = ServiceTicket.objects.filter(
+            customer=customer).filter(is_completed=False)
+
+    class Meta:
+        model = WorkshopCustomerInvoice
+        fields = [
+            'service_ticket',
+            'payment_type',
+            'order_amount',
+            'shipping_cost',
+            'order_total',
+            'notes',
+        ]
+
+
+class WorkshopCreateInvoiceForm(forms.ModelForm):
+    """
+    For a workshop staff member to issue an invoice.
+    """
+
+    class Meta:
+        model = WorkshopCustomerInvoice
+        fields = '__all__'
+
+
 class CreateTodoListForm(forms.ModelForm):
     """
     A form to create a Todo List.

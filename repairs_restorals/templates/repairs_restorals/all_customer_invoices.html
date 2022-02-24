@@ -10,6 +10,9 @@
 {% endblock %}
 
 {% block content %}
+<a href="{% url 'customer_select' %}" class="btn btn-info btn-space-below">Create Invoice</a>
+<span class="text-muted small"> Use the 'Create Invoice' button to create a custom invoice for a customer. </span>
+<br><br>
 <div class="row">
     <div class="col transparent-card">
         <p class="lead"><strong>Invoices That Need A Quote</strong></p>

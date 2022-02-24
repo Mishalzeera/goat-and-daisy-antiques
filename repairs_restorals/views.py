@@ -1,3 +1,4 @@
+from tokenize import group
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
@@ -9,7 +10,7 @@ from django.views.generic.detail import DetailView
 from invoices.models import WorkshopCustomerInvoice
 from profiles.models import Customer, StaffMember
 from .models import ServiceTicket, TicketImage, TodoList, TodoItem
-from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, StaffCustomerInvoiceUpdateForm, CreateTodoListForm, CreateTodoListItemForm, AdminCreateTodoListForm
+from .forms import CustomerCreateServiceTicketForm, CustomerUploadImageForm, CustomerUpdateTicketForm, StaffCustomerInvoiceUpdateForm, CreateTodoListForm, CreateTodoListItemForm, AdminCreateTodoListForm, WorkshopCreateInvoiceForm, WorkshopSelectCustomerForm
 
 
 # public
@@ -499,6 +500,62 @@ class AdminCustomerInvoice(GroupRequiredMixin, UpdateView):
 
 
 # workshop staff only
+group_required_decorator('Workshop Staff')
+
+
+def workshop_customer_select(request):
+    """ 
+    Workshop staff can choose a customer to create an invoice for.
+    """
+    if request.method == "GET":
+        # in future if too many customers, filter by has_active_repairs
+        # which would add an extra step to the workflow
+
+        # get all customers for a select box in template
+        customers = Customer.objects.all()
+
+        context = {
+            'customers': customers,
+        }
+
+        return render(request, 'repairs_restorals/customer_select.html', context)
+
+    if request.method == "POST":
+        # navigates to a form with a customer object in the same submit field
+        customer_id_str = request.POST.get('customer')
+        customer_id = int(customer_id_str)
+        customer = Customer.objects.get(pk=customer_id)
+        form = WorkshopSelectCustomerForm(customer_id=customer_id)
+        context = {
+            'customer': customer,
+            'form': form,
+        }
+        return render(request, 'repairs_restorals/create_invoice.html', context)
+
+
+# workshop staff only
+@group_required_decorator('Workshop Staff')
+def workshop_create_invoice(request):
+    """
+    Continues the process of issuing an invoice for a specific customer
+    """
+    if request.method == "POST":
+        form = WorkshopCreateInvoiceForm(request.POST)
+        form.instance.customer = request.POST.get('customer')
+        form.instance.full_name = request.POST.get('full_name')
+        form.instance.email = request.POST.get('email')
+        form.instance.address1 = request.POST.get('address1')
+        form.instance.address2 = request.POST.get('address2')
+        form.instance.postcode = request.POST.get('postcode')
+        form.instance.town_or_city = request.POST.get('town_or_city')
+        form.instance.country = request.POST.get('country')
+
+        if form.is_valid:
+            form.save()
+
+        return redirect('all_customer_invoices')
+
+
 class WorkshopStaffDeleteInvoice(GroupRequiredMixin, DeleteView):
     """
     Allows a workshop staff member to delete ticket images.

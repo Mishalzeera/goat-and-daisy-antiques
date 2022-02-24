@@ -6,15 +6,15 @@ Live site is [here](https://goat-and-daisy-antiques.herokuapp.com/).
 
 An online antique store that provides restoral and repair services,
 built using Django. The store uses custom CMS for seperate sales and repair
-departments. 
+departments.
 
 A visitor who wishes to buy does not need to create an account, but
 can if she so wishes. A user who wishes to have repairs or restorals done, on
 the other hand, must create an account in order to keep track of their specific
-requests, materials etc. 
+requests, materials etc.
 
-It is recommended to follow **SITE_WALKTHROUGH** for 
-better understanding of the site. 
+It is recommended to follow **SITE_WALKTHROUGH** for
+better understanding of the site.
 
 ---
 
@@ -27,9 +27,9 @@ customer.
 
 As a workshop customer, however, creating an account is essential. This allows
 a customer to access a 'workbench' where they can create service tickets, add
-images for many reasons, links to materials etc. 
+images for many reasons, links to materials etc.
 
-The payment flow is also determined by registered user's choices and Workshop 
+The payment flow is also determined by registered user's choices and Workshop
 Staff.
 
 ### The Staff Member
@@ -37,9 +37,9 @@ Staff.
 The small staff (not including Admin) at G&D are split into two camps.
 Those to do with the shop and those to do with the repairs and restorals.
 They have limited permissions to interact with the site functionality
-depending on their roles. 
+depending on their roles.
 
-Shop staff manage inventory and handle shippings/orders etc. 
+Shop staff manage inventory and handle shippings/orders etc.
 
 Workshop staff review Service Ticket requests, create quotes and issue invoices.
 
@@ -50,7 +50,7 @@ todo-lists.
 
 A small online store that sells antique furniture and curiousities. The small
 size of the inventory makes it more of a boutique. Customers can buy things
-without creating an account. 
+without creating an account.
 
 Creating an account allows the customer to save delivery information etc.
 
@@ -59,9 +59,9 @@ Creating an account allows the customer to save delivery information etc.
 The workshop is designed for close collaboration with the staff and customers.
 There is also a mutual accountability between staff and customers. Customers
 are obligated to create an account, which allows the staff to refer to
-style guides that the customer supplies. 
+style guides that the customer supplies.
 
-The idea is not to replace an in-person experience, but to provide the 
+The idea is not to replace an in-person experience, but to provide the
 customer with a more interactive collaboration and have more peace of mind.
 
 ---
@@ -73,7 +73,7 @@ first time. It is highly recommended to get an easier idea of the workflow -
 of the Service Ticket and related payment system in particular.
 
 For a more exacting map of User Stories, please view the markdown documents in
-Z_DOCS/USER_TESTING. Other than SITE_WALKTHROUGH, all other docs are in 
+Z_DOCS/USER_TESTING. Other than SITE_WALKTHROUGH, all other docs are in
 Z_DOCS)
 
 ---
@@ -139,8 +139,12 @@ Staff group, which gives them access to these tools:
 **Task Manager** - a To-do list type app which has lists created by the staff member
 as well as by Admin.
 
+![todo](static/img/todo.jpg)
+
 **View All Customers** - an overview of all registered Customers in the database
 with some update functionality.
+
+![all customers](static/img/all_customers.jpg)
 
 ### Shop Staff
 
@@ -189,10 +193,10 @@ Admin also has an overview of all task lists and progress
 
 Design for the app was done mainly around using Bootstrap to quickly make
 the functionality presentable and responsive. However, there were certain
-aesthetic choices made carefully. 
+aesthetic choices made carefully.
 
-When the project began, there was little sense of the complexity of it, 
-and midway the decision was made to favour back-end functionality rather 
+When the project began, there was little sense of the complexity of it,
+and midway the decision was made to favour back-end functionality rather
 than wireframing and prototyping any front end decisions.
 
 Since this is a full stack project, there was as much care as possible put

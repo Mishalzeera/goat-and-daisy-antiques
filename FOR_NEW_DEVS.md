@@ -8,6 +8,18 @@ md files in the file explorer.
 
 However you might like to have some basic things to look out for.
 
+## Site Walkthrough
+
+You may find it helpful to follow the SITE_WALKTHROUGH.md file step by step to
+become familiar with the workflow of the site. Some things may not make sense
+until you see an action through.
+
+## Pipenv
+
+When working with this application in the terminal, please type pipenv shell
+before doing anything. To install any packages, use 'pipenv install' instead
+of 'pip/pip3 install'.
+
 ## Prod vs Dev migrations
 
 When you are working locally on this site, don't forget that the database you
@@ -23,7 +35,26 @@ Then comment out the if statement regarding DATABASES. Now when you run
 migrations, the database being migrated will be your Production one.
 
 Please remember to erase the sensitive DATABASE setting and uncomment-out
-the if DATABASE code before handling any version control.
+the if DATABASE code before using any version control.
+
+## In Devmode testing webhooks..
+
+Using the Stripe Cli is much easier when working locally - simply download the
+Cli from the Stripe website, open a fresh terminal, cd into the directory where
+you have saved the file.
+
+Then type .\stripe login, follow the steps for logging in.
+
+Then type .\stripe listen --forward-to 'your webhook url including all local
+prefixes' For instance, for me it has been http//:127.0.0.1:8000/invoices/wh/
+
+Once thats working, you can run all your webhook functions.
+
+If you run out of shop items to test, run 'pipenv shell', then 'python3 manage.py
+shell'. In the shell, type 'from shop.models import ShopItems', then assign a
+variable (eg 'items') to ShopItems.objects.all(). Iterate through the list,
+setting each iteration to True and saving each iteration. You may need to do this
+quite often to troubleshoot Stripe related issues in general.
 
 ## Testing
 
@@ -47,24 +78,6 @@ Unfortunately, the only workable option within the time constraint was using
 a method that basically wipes the whole request session at the end of the time
 period. You won't be logged in and anything in your session will be reverted
 to null.
-
-## Admin Task Manager
-
-The task manager sometimes does not behave as it should.
-
-When the red warning Required is showing in the main form, it will work ok
-on its first use.
-
-If the page loads and the red Required is missing, then it won't create new lists
-or show the queryset.
-
-Something to look into.
-
-## Site Walkthrough
-
-You may find it helpful to follow the SITE_WALKTHROUGH.md file step by step to
-become familiar with the workflow of the site. Some things may not make sense
-until you see an action through.
 
 ## Process Notes
 

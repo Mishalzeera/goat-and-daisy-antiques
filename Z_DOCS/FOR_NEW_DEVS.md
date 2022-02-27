@@ -61,6 +61,12 @@ quite often to troubleshoot Stripe related issues in general.
 Testing badly needs to be written for this app. If a few tests can be written
 here and there it should be done before too long.
 
+## Unpaid Shop Invoices showing in Customer Profile
+
+At the moment this is managed by a signal in invoices which collects all
+customer invoices that have not been paid and deletes them. Having a signal
+sent by cart activity would be good to implement as well. 
+
 ## ShopItems
 
 The ShopItems model, if F2'd into ShopItem, does not smoothly translate. Due

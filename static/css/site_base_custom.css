@@ -175,7 +175,7 @@ a:hover {
   font-size: 3rem;
   margin-top: 8rem;
   position: fixed;
-  margin-left: 96vw;
+  margin-left: 90vw;
   display: flex;
   justify-content: flex-end;
 }
@@ -241,6 +241,9 @@ footer {
 /* for tablet */
 
 @media (max-width: 750px) {
+  .sticky-cart {
+    margin-left: 85vw;
+  }
   .shop-detail-carousel {
     width: 450px;
   }

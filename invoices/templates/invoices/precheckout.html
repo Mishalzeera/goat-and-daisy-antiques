@@ -62,7 +62,10 @@
           name="address1"
           value="{{ customer_profile.address1 }}"
         />
+        {% if customer_profile.address2 %}
         <p>{{ customer_profile.address2 }}</p>
+        {% endif %}
+        
         <input
           type="hidden"
           name="address2"

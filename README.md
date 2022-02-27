@@ -85,10 +85,11 @@ Z_DOCS)
 The navbar is the key element that distinguishes site function by user privileges.
 
 This is the anonymous user navbar:
+
 ![anonymous nav](static/img/anon_nav.jpg)
 
-
 And this is the Admin navbar:
+
 ![admin's nav](static/img/admin_nav.jpg)
 
 ### The landing page

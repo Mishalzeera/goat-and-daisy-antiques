@@ -8,7 +8,7 @@ from profiles.group_mixin_decorator import GroupRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView, PasswordChangeView
 from django.views.generic import View, CreateView, UpdateView, DetailView, ListView, DeleteView
-from .forms import UserAuthAccountCreationForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
+from .forms import UserAuthAccountCreationForm, CustomerSignupForm, StaffMemberRegistrationForm, CustomerUpdateForm, PublicCustomerUpdateForm
 from .models import Customer, StaffMember
 from invoices.models import ShopCustomerInvoice
 from repairs_restorals.models import ServiceTicket
@@ -114,8 +114,8 @@ class CreateProfilePage(CreateView):
     """
     model = Customer
     template_name = "registration/create_customer_profile.html"
-    fields = ['full_name', 'address1', 'address2',
-              'postcode', 'town_or_city', 'country', ]
+    form_class = CustomerSignupForm
+
 
     def form_valid(self, form):
         # this method override is to link the User model auth object and profile

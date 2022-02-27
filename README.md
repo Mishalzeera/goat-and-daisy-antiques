@@ -234,17 +234,22 @@ Please refer to DEPLOYMENT.md for information on Heroku deployment.
 
 ## Technologies used
 
-[Django](https://www.djangoproject.com/) was used as the core of the project - instead of using [Django
-Rest Framework](https://www.django-rest-framework.org/) or [AllAuth](https://django-allauth.readthedocs.io/en/latest/), the built-in Django equivalents were used.
+[Django](https://www.djangoproject.com/) was used as the core of the project - 
+instead of using [Django Rest Framework](https://www.django-rest-framework.org/) or 
+[AllAuth](https://django-allauth.readthedocs.io/en/latest/), the built-in Django 
+equivalents were used.
 
-For deployment, [WhiteNoise](http://whitenoise.evans.io/en/stable/) was used to host media and static files in
-the early stages. [Gunicorn](https://gunicorn.org/) and [django-heroku](https://pypi.org/project/django-heroku/) were installed early in the
-project and configured with WhiteNoise until the final phase of production.
+For deployment, [WhiteNoise](http://whitenoise.evans.io/en/stable/) was used to host media 
+and static files in the early stages. [Gunicorn](https://gunicorn.org/) and [django-heroku](https://pypi.org/project/django-heroku/)
+were installed early in the project and configured with WhiteNoise until the final phase of production.
 
-[Bootstrap5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and its associated [Crispy Forms Pack](https://github.com/django-crispy-forms/crispy-bootstrap5) were used from the start.
+[Bootstrap5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) and its associated 
+[Crispy Forms Pack](https://github.com/django-crispy-forms/crispy-bootstrap5) were used from the start.
 [Bootstrap Icons](https://icons.getbootstrap.com/) were added, but used sparingly.
 
-[Psycopg2](https://pypi.org/project/psycopg2/), [dj_database_url](https://pypi.org/project/dj-database-url/), [django_cors_headers](https://pypi.org/project/django-cors-headers/), [stripe](), [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) and
+[Psycopg2](https://pypi.org/project/psycopg2/), [dj_database_url](https://pypi.org/project/dj-database-url/), 
+[django_cors_headers](https://pypi.org/project/django-cors-headers/), [stripe](), 
+[boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) and
 [django-storages](https://django-storages.readthedocs.io/en/latest/) were all added towards the end point.
 
 [AWS](https://aws.amazon.com/free/) S3 was used in the end for static and media files.
@@ -259,4 +264,5 @@ would be essential for this project.
 A refactored separation of functions between apps - especially the Task
 Manager, since its a handy little tool.
 
-A better way of managing unfulfilled shop invoices, created when the user abandons the checkout process at the payment point. At the moment, handled by a signal when user logs in.
+A better way of managing unfulfilled shop invoices, created when the user abandons the 
+checkout process at the payment point. At the moment, handled by a signal when user logs in.

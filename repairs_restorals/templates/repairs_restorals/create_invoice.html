@@ -20,6 +20,11 @@
   Ensure that a Service Ticket exists and that the correct one
   is selected below.
 </p>
+
+<p class="text-muted">
+  A deposit should always be 50% of an agreed upon total, for custom payment
+  installments please choose Supplementary Payment and make a record in the notes.
+</p>
 <form action="{% url 'workshop_create_invoice' %}" method="POST">
   {% csrf_token %}
   {{ form | crispy }}

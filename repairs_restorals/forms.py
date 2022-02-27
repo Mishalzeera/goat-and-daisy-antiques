@@ -72,7 +72,7 @@ class StaffCustomerInvoiceUpdateForm(forms.ModelForm):
     """
     class Meta:
         model = WorkshopCustomerInvoice
-        fields = '__all__'
+        exclude = ['order_total']
 
 
 class WorkshopSelectCustomerForm(forms.ModelForm):
@@ -96,7 +96,6 @@ class WorkshopSelectCustomerForm(forms.ModelForm):
             'payment_type',
             'order_amount',
             'shipping_cost',
-            'order_total',
             'notes',
         ]
 
@@ -108,7 +107,7 @@ class WorkshopCreateInvoiceForm(forms.ModelForm):
 
     class Meta:
         model = WorkshopCustomerInvoice
-        fields = '__all__'
+        exclude = ['order_total']
 
 
 class CreateTodoListForm(forms.ModelForm):

@@ -96,7 +96,6 @@ a:hover {
 }
 
 .bg-light {
-  /* background: var(--amber-50) !important; */
   background: #fffbebb6 !important;
 }
 
@@ -176,7 +175,7 @@ a:hover {
   font-size: 3rem;
   margin-top: 8rem;
   position: fixed;
-  width: 98vw;
+  margin-left: 96vw;
   display: flex;
   justify-content: flex-end;
 }

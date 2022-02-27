@@ -74,6 +74,12 @@
           name="town_or_city"
           value="{{ customer_profile.town_or_city }}"
         />
+        <p>{{ customer_profile.postcode }}</p>
+        <input
+          type="hidden"
+          name="postcode"
+          value="{{ customer_profile.postcode }}"
+        />
         <p>{{ customer_profile.country }}</p>
         <input
           type="hidden"

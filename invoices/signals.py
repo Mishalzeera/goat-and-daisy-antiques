@@ -1,7 +1,8 @@
 from django.db.models.signals import post_save
+from django.contrib.auth.signals import user_logged_in
 from django.dispatch import receiver
 from django.core.mail import send_mail
-from .models import WorkshopCustomerInvoice
+from .models import WorkshopCustomerInvoice, ShopCustomerInvoice
 from profiles.models import Customer
 from repairs_restorals.models import ServiceTicket
 
@@ -36,3 +37,15 @@ def generate_invoice_and_set_has_invoice(sender, instance, created, **kwargs):
             recipient_list=[customer.email],
             from_email="workshop@goat-and-daisy.com",
         )
+
+@receiver(user_logged_in)
+def clear_unfulfilled_orders_on_login(sender, user, **kwargs):
+    """
+    When user logs in, any orders abandoned at precheckout stage (which creates
+    an invoice, completed by the webhook handler) are erased. Good to have
+    a signal sent by cart activity as well.
+    """
+    incomplete_invoices = ShopCustomerInvoice.objects.filter(email=user.email).filter(paid_on = None)
+    for invoice in incomplete_invoices:
+        invoice.delete()
+

@@ -139,6 +139,7 @@ def precheckout(request):
         if request.user.is_authenticated:
             customer_profile = get_object_or_404(
                 Customer, username=request.user)
+            
             new_invoice = ShopCustomerInvoice.objects.create(
                 full_name=request.POST.get('full_name'),
                 email=request.POST.get('email'),
@@ -175,7 +176,6 @@ def precheckout(request):
                     to_concatenate = str(value)
                     request.session['shopping_cart'] += to_concatenate + " "
 
-            # request.session['cart'] = {}
 
         else:
             form = ShopCheckoutForm(request.POST)
@@ -287,7 +287,6 @@ def success(request):
 
     if request.session['shop_or_workshop'] == "Shop":
         order_number = request.session['shop_order_number']
-
         customer_address1 = request.session['customer_address1']
         customer_address2 = request.session['customer_address2']
         customer_postcode = request.session['customer_postcode']
@@ -316,6 +315,7 @@ def success(request):
         customer_country = customer.country
         message = "You have paid. These are your current shipping details, please keep them up to date."
 
+    
     context = {
 
         'order_number': order_number,
@@ -331,6 +331,7 @@ def success(request):
     }
 
     request.session['cart'] = {}
+    
 
     return render(request, 'invoices/success.html', context)
 

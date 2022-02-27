@@ -44,7 +44,7 @@ Suggested steps to follow:
 Shop Staff have their own workflow settings, shown in the dropdown that
 appears when someone with Shop Staff group settings is logged in.
 
-- Sign in with "shop_staff" password "goat_daisy"
+- Sign in with provided **shop** credentials.
 
 - View Shop Orders allows staff to keep track of items that have been
   sold, especially whether or not they have been shipped. You will see
@@ -71,7 +71,7 @@ appears when someone with Shop Staff group settings is logged in.
 Workshop staff access their functionality by signing in as a staff
 member with workshop group permissions.
 
-- Sign in with "workshop_staff" password "goat_daisy". In the dropdown:
+- Sign in with provided **workshop** credentials. In the dropdown:
 
 - View Customers and Tickets lets you keep track of each customers details
   while keeping their Service Tickets handy. There is some CRUD available.
@@ -137,18 +137,17 @@ Admin's toolbox is accessed via logging in with admin permissions.
   and admin only notes as well, for other admin users.
 
 - Task Manager allows you to create tasks for individual staff members, who will
-see your tasks in their Task Manager when they log in. It also allows you to see 
-the status of admin-issued tasks. If you want to try it out: 
+  see your tasks in their Task Manager when they log in. It also allows you to see
+  the status of admin-issued tasks. If you want to try it out:
 
   - Create a few tasks and log out
-  - Log in again with the correct staff you assigned tasks to 
+  - Log in again with the correct staff you assigned tasks to
   - Go to the Task Manager link in the nav dropdown
   - Note the task you created as Admin
   - Create a new task as Staff
   - Note the difference in Delete functionality
 
 - Task Overview is every task in the company system and its status in a read-only
-list format.  
+  list format.
 
 - Links to Admin panel.
-
